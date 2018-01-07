@@ -6,7 +6,8 @@ import PlacesAutocomplete from 'react-places-autocomplete'
 class SearchPlacesContainer extends Component {
   static propTypes = {
     placeholder: PropTypes.string,
-
+    placeValue: PropTypes.string.isRequired,
+    onChangePlace: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -15,8 +16,7 @@ class SearchPlacesContainer extends Component {
 
   state = {
     isLoadingGoogleMaps: true,
-    showDefaultSearch: false,
-    placeText: ''
+    showDefaultSearch: false
   };
 
   componentDidMount() {
@@ -26,10 +26,10 @@ class SearchPlacesContainer extends Component {
   }
 
   showDefaultSearch = () => this.state.showDefaultSearch;
-  showLoadingPlacesAutocomplete = () => !this.showDefaultSearch() && this.state.isLoadingGoogleMaps;
-  showPlacesAutocomplete = () => !this.showDefaultSearch() && !this.state.isLoadingGoogleMaps;
 
-  handleChangePlacesInput = placeText => this.setState({ placeText });
+  showLoadingPlacesAutocomplete = () => !this.showDefaultSearch() && this.state.isLoadingGoogleMaps;
+
+  showPlacesAutocomplete = () => !this.showDefaultSearch() && !this.state.isLoadingGoogleMaps;
 
   render() {
     return (
@@ -43,8 +43,8 @@ class SearchPlacesContainer extends Component {
         {this.showPlacesAutocomplete() &&
           <PlacesAutocomplete
             inputProps={{
-              value: this.state.placeText,
-              onChange: this.handleChangePlacesInput,
+              value: this.props.placeValue,
+              onChange: this.props.onChangePlace,
               placeholder: this.props.placeholder
             }}
           />

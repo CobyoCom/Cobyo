@@ -1,15 +1,26 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import Button from '../components/Button/Button';
+import {createEvent} from './createActions';
 import SearchPlacesContainer from '../create/SearchPlacesContainer';
 
 class CreateForm extends Component {
+  static propTypes = {
+    createEvent: PropTypes.func.isRequired
+  };
+
+  state = {
+    placeValue: ''
+  };
 
   handleSubmit = e => {
     e.preventDefault();
-
-    // TODO
+    const {placeValue} = this.state;
+    this.props.createEvent({placeValue});
   };
+
+  handleChangePlace = (placeValue) => this.setState({ placeValue });
 
   render() {
     return (
@@ -17,8 +28,10 @@ class CreateForm extends Component {
         className="CreateForm"
         onSubmit={this.handleSubmit}
       >
-        <SearchPlacesContainer/>
-
+        <SearchPlacesContainer
+          placeValue={this.state.placeValue}
+          onChangePlace={this.handleChangePlace}
+        />
         <Button
           type="submit"
         >
@@ -29,10 +42,11 @@ class CreateForm extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-
-});
+const mapDispatchToProps = {
+  createEvent
+};
 
 export default connect(
-  mapStateToProps
+  null,
+  mapDispatchToProps
 )(CreateForm);

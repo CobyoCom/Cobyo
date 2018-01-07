@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-
+import FacebookLoginButton from './login/FacebookLoginButton';
 class App extends Component {
+
   render() {
     return (
       <div className="App">
-        Hello World
+        <FacebookLoginButton/>
       </div>
     );
   }

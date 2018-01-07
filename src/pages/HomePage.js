@@ -9,9 +9,11 @@ class HomePage extends Component {
     return (
       <div className="HomePage">
 
-        {this.props.facebookToken ||
+        {this.props.facebookToken ? (
+          <Link to="/create">Create</Link>
+        ) : (
           <Link to="/login">Login</Link>
-        }
+        )}
       </div>
     );
   }

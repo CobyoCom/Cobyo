@@ -1,2 +1,2 @@
 # Cobyo
-Friend Locator App
+

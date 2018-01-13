@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {selectFacebookToken} from '../reducers/globalSelectors';
+import {selectFacebookToken} from '../login/loginSelectors';
 
 class HomePage extends Component {
 

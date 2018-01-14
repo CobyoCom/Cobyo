@@ -6,10 +6,11 @@ import {
   Route
 } from 'react-router-dom';
 import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
 import CreatePage from './pages/CreatePage';
+import EventPage from './pages/EventPage';
 
 const store = configureStore();
+const extractParams = props => props.match.params;
 
 class App extends Component {
   render() {
@@ -18,8 +19,8 @@ class App extends Component {
         <Router>
           <div>
             <Route exact path="/" render={props => <HomePage {...props} />} />
-            <Route exact path="/login" render={props => <LoginPage {...props} />} />
-            <Route exact path="/create" render={props => <CreatePage {...props} />} />
+            <Route exact path="/events" render={props => <CreatePage {...props} />} />
+            <Route path="/events/:eventId" render={props => <EventPage {...props} {...extractParams(props)} />} />
           </div>
         </Router>
       </Provider>

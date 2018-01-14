@@ -12,4 +12,4 @@ class CreatePage extends Component {
   }
 }
 
-export default CreateForm;
+export default CreatePage;

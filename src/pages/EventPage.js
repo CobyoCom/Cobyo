@@ -8,7 +8,7 @@ import EventLoginForm from '../event/LoginForm/EventLoginForm';
 
 class EventPage extends Component {
   static propTypes = {
-    eventId: PropTypes.number.isRequired,
+    eventId: PropTypes.string.isRequired,
     fetchEvent: PropTypes.func.isRequired,
     loginEvent: PropTypes.func.isRequired,
     placeId: PropTypes.string,

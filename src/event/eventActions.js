@@ -1,6 +1,7 @@
 import axios from 'axios';
+import {API_KEY} from '../helpers/googlemaps';
 import {formatDateForDatabase} from '../helpers/moment';
-import {selectEventId} from './eventSelectors';
+import {selectEventId, selectPlaceId} from './eventSelectors';
 
 export const types = {
   fetchEventRequest: 'FETCH_EVENT_REQUEST',
@@ -70,9 +71,12 @@ export const loginEvent = (userName) => async (dispatch, getState) => {
 
   const state = getState();
   const eventId = selectEventId(state);
+  const placeId = selectPlaceId(state);
 
   // First fetch user's current location, then login
   const {coordinates, lastUpdatedTime} = await dispatch(fetchLocation());
+
+  dispatch(fetchEstimatedArrivalTime(coordinates, placeId));
 
   try {
     const response = await axios.post(`/api/events/${eventId}`, {
@@ -95,7 +99,7 @@ export const fetchLocation = () => (dispatch) => new Promise((resolve, reject) =
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const {coords: {latitude, longitude}, timestamp} = position;
-        const coordinates = {latitude, longitude};
+        const coordinates = `${latitude},${longitude}`;
         const lastUpdatedTime = formatDateForDatabase(timestamp);
         dispatch(fetchLocationSuccess(coordinates, lastUpdatedTime));
         resolve({coordinates, lastUpdatedTime});
@@ -110,3 +114,20 @@ export const fetchLocation = () => (dispatch) => new Promise((resolve, reject) =
     reject();
   }
 });
+
+const fetchEstimatedArrivalTime = (originCoordinates, destinationPlaceId) => async () => {
+  const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${originCoordinates}&destinations=place_id:${destinationPlaceId}&key=${API_KEY}`;
+  try {
+    const response = await axios.get(url);
+    // TODO: Fix
+    if (response && response.rows && response.rows.length) {
+      const {elements} = response.rows[0];
+      if (elements && elements.length) {
+        console.log(elements[0]);
+      }
+    }
+
+  } catch(error) {
+
+  }
+};

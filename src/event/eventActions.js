@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {formatDateForDatabase} from '../helpers/moment';
 import {selectEventId} from './eventSelectors';
 
 export const types = {
@@ -71,13 +72,13 @@ export const loginEvent = (userName) => async (dispatch, getState) => {
   const eventId = selectEventId(state);
 
   // First fetch user's current location, then login
-  const {coordinates, timestamp} = await dispatch(fetchLocation());
+  const {coordinates, lastUpdatedTime} = await dispatch(fetchLocation());
 
   try {
     const response = await axios.post(`/api/events/${eventId}`, {
       userName,
-      //coordinates,
-      //timestamp
+      estimatedArrivalTime: '2018-01-14 21:33',
+      lastUpdatedTime
     });
     const data = await response.data;
     dispatch(loginEventSuccess(data));
@@ -95,8 +96,9 @@ export const fetchLocation = () => (dispatch) => new Promise((resolve, reject) =
       (position) => {
         const {coords: {latitude, longitude}, timestamp} = position;
         const coordinates = {latitude, longitude};
-        dispatch(fetchLocationSuccess(coordinates, timestamp));
-        resolve({coordinates, timestamp});
+        const lastUpdatedTime = formatDateForDatabase(timestamp);
+        dispatch(fetchLocationSuccess(coordinates, lastUpdatedTime));
+        resolve({coordinates, lastUpdatedTime});
       },
       () => {
         dispatch(fetchLocationFailure());

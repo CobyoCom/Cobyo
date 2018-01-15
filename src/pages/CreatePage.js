@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import moment from 'moment';
+import {formatDateForDatabase} from '../helpers/moment';
 import {createEvent} from '../create/createActions';
 import NavBar from '../navigation/NavBar/NavBar';
 import CreateEventForm from '../create/EventForm/CreateEventForm';
@@ -10,7 +10,7 @@ class CreatePage extends Component {
   state = {
     placeValue: '',
     placeId: null,
-    eventTime: moment().format('YYYY-MM-DD HH:mm')
+    eventTime: formatDateForDatabase()
   };
 
   handleSubmit = e => {

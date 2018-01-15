@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux';
-import loginReducer, {moduleName as loginModuleName} from '../login/loginReducer';
+import eventReducer, {moduleName as eventModuleName} from '../event/eventReducer';
+
 export default combineReducers({
-  [loginModuleName]: loginReducer
+  [eventModuleName]: eventReducer
 });

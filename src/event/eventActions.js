@@ -1,6 +1,9 @@
 import axios from 'axios';
+import {selectEventId} from './eventSelectors';
 
 export const types = {
+  fetchEventRequest: 'FETCH_EVENT_REQUEST',
+  fetchEventSuccess: 'FETCH_EVENT_SUCCESS',
   loginEventRequest: 'LOGIN_EVENT_REQUEST',
   loginEventSuccess: 'LOGIN_EVENT_SUCCESS',
   loginEventFailure: 'LOGIN_EVENT_FAILURE',
@@ -8,6 +11,16 @@ export const types = {
   fetchLocationSuccess: 'FETCH_LOCATION_SUCCESS',
   fetchLocationFailure: 'FETCH_LOCATION_FAILURE'
 };
+
+const fetchEventRequest = (eventId) => ({
+  type: types.fetchEventRequest,
+  payload: {eventId}
+});
+
+const fetchEventSuccess = (placeId, eventTime) => ({
+  type: types.fetchEventSuccess,
+  payload: {placeId, eventTime}
+});
 
 const loginEventRequest = () => ({
   type: types.loginEventRequest
@@ -35,25 +48,42 @@ const fetchLocationFailure = () => ({
   type: types.fetchLocationFailure
 });
 
+export const fetchEvent = (eventId) => async (dispatch) => {
+  dispatch(fetchEventRequest(eventId));
+
+  try {
+    const response = await axios.get(`/api/events/${eventId}`);
+    if (response && response.data) {
+      const {placeId, eventTime} = response.data;
+      dispatch(fetchEventSuccess(placeId, eventTime));
+    }
+  } catch(error) {
+    console.log(error);
+    return Promise.reject();
+  }
+};
+
 // Login thunk
-export const loginEvent = (userName) => (dispatch) => {
+export const loginEvent = (userName) => async (dispatch, getState) => {
   dispatch(loginEventRequest());
 
+  const state = getState();
+  const eventId = selectEventId(state);
+
   // First fetch user's current location, then login
-  dispatch(fetchLocation()).then((coordinates, timestamp) =>
-    axios.post('/api/', { // TODO
+  const {coordinates, timestamp} = await dispatch(fetchLocation());
+
+  try {
+    const response = await axios.post(`/api/events/${eventId}`, {
       userName,
-      coordinates,
-      timestamp
-    })
-      .then((response) => {
-        // Expect list of users and their respective ETA's
-        dispatch(loginEventSuccess());
-      })
-      .catch((error) => {
-        dispatch(loginEventFailure());
-      })
-  );
+      //coordinates,
+      //timestamp
+    });
+    const data = await response.data;
+    dispatch(loginEventSuccess(data));
+  } catch(error) {
+    dispatch(loginEventFailure());
+  }
 };
 
 // Fetch user's current location
@@ -66,7 +96,7 @@ export const fetchLocation = () => (dispatch) => new Promise((resolve, reject) =
         const {coords: {latitude, longitude}, timestamp} = position;
         const coordinates = {latitude, longitude};
         dispatch(fetchLocationSuccess(coordinates, timestamp));
-        resolve(coordinates, timestamp);
+        resolve({coordinates, timestamp});
       },
       () => {
         dispatch(fetchLocationFailure());

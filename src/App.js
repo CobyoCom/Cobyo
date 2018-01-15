@@ -3,11 +3,13 @@ import { Provider } from 'react-redux';
 import configureStore from './reducers/configureStore';
 import {
   BrowserRouter as Router,
-  Route
+  Route,
+  Switch
 } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import CreatePage from './pages/CreatePage';
 import EventPage from './pages/EventPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 const store = configureStore();
 const extractParams = props => props.match.params;
@@ -17,11 +19,12 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <div>
+          <Switch>
             <Route exact path="/" render={props => <HomePage {...props} />} />
             <Route exact path="/events" render={props => <CreatePage {...props} />} />
             <Route path="/events/:eventId" render={props => <EventPage {...props} {...extractParams(props)} />} />
-          </div>
+            <Route component={NotFoundPage} />
+          </Switch>
         </Router>
       </Provider>
     );

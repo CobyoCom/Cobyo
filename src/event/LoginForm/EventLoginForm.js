@@ -1,12 +1,16 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import PropTypes from 'prop-types';
+import './EventLoginForm.css';
 
 const EventLoginForm = props => (
   <form
     className="EventLoginForm"
     onSubmit={props.onSubmit}
   >
-    <input ref={props.onRef}/>
+    <input
+      className="EventLoginForm-input"
+      ref={props.onRef}
+    />
   </form>
 );
 

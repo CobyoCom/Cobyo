@@ -7,7 +7,8 @@ class SearchPlacesContainer extends Component {
   static propTypes = {
     placeholder: PropTypes.string,
     placeValue: PropTypes.string.isRequired,
-    onChangePlace: PropTypes.func.isRequired
+    onChangePlace: PropTypes.func.isRequired,
+    onSelectPlace: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -19,10 +20,13 @@ class SearchPlacesContainer extends Component {
     showDefaultSearch: false
   };
 
-  componentDidMount() {
-    init()
-      .then(() => this.setState({isLoadingGoogleMaps: false}))
-      .catch(() => this.setState({showDefaultSearch: true}));
+  async componentDidMount() {
+    try {
+      await init();
+      this.setState({isLoadingGoogleMaps: false})
+    } catch(error) {
+      this.setState({showDefaultSearch: true});
+    }
   }
 
   showDefaultSearch = () => this.state.showDefaultSearch;
@@ -35,9 +39,7 @@ class SearchPlacesContainer extends Component {
     return (
       <div className="PlaceAutocomplete-wrapper">
         {this.showDefaultSearch() &&
-          <input
-            placeholder={this.props.placeholder}
-          />
+          <input placeholder={this.props.placeholder} />
         }
         {this.showLoadingPlacesAutocomplete() && <div>Loading</div>}
         {this.showPlacesAutocomplete() &&
@@ -47,6 +49,7 @@ class SearchPlacesContainer extends Component {
               onChange: this.props.onChangePlace,
               placeholder: this.props.placeholder
             }}
+            onSelect={this.props.onSelectPlace}
           />
         }
       </div>

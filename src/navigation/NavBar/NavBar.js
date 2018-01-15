@@ -6,7 +6,7 @@ import './NavBar.css';
 const NavBar = props => (
   <div className="NavBar">
     <Tab iconId="Home" link="/"/>
-    <Tab iconId="Create" link="/create"/>
+    <Tab iconId="Events" link="/events"/>
     <Tab iconId={3} />
     <Tab iconId={4} />
   </div>

@@ -4,7 +4,8 @@ import configureStore from './reducers/configureStore';
 import {
   BrowserRouter as Router,
   Route,
-  Switch
+  Switch,
+  Redirect
 } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import CreatePage from './pages/CreatePage';
@@ -22,7 +23,8 @@ class App extends Component {
           <Switch>
             <Route exact path="/" render={props => <HomePage {...props} />} />
             <Route exact path="/events" render={props => <CreatePage {...props} />} />
-            <Route path="/events/:eventId" render={props => <EventPage {...props} {...extractParams(props)} />} />
+            <Route path="/events/:eventId" render={props => <Redirect to={`/${extractParams(props).eventId}`} />} />
+            <Route path="/:eventId" render={props => <EventPage {...props} {...extractParams(props)} />} />
             <Route component={NotFoundPage} />
           </Switch>
         </Router>

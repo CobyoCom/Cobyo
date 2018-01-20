@@ -1,5 +1,5 @@
+/*global google*/
 import axios from 'axios';
-import {API_KEY} from '../helpers/googlemaps';
 import {formatDateForDatabase} from '../helpers/moment';
 import {selectEventId, selectPlaceId} from './eventSelectors';
 
@@ -60,7 +60,6 @@ export const fetchEvent = (eventId) => async (dispatch) => {
       dispatch(fetchEventSuccess(placeId, eventTime));
     }
   } catch(error) {
-    console.log(error);
     return Promise.reject();
   }
 };
@@ -99,7 +98,7 @@ export const fetchLocation = () => (dispatch) => new Promise((resolve, reject) =
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const {coords: {latitude, longitude}, timestamp} = position;
-        const coordinates = `${latitude},${longitude}`;
+        const coordinates = {latitude, longitude};
         const lastUpdatedTime = formatDateForDatabase(timestamp);
         dispatch(fetchLocationSuccess(coordinates, lastUpdatedTime));
         resolve({coordinates, lastUpdatedTime});
@@ -115,19 +114,14 @@ export const fetchLocation = () => (dispatch) => new Promise((resolve, reject) =
   }
 });
 
-const fetchEstimatedArrivalTime = (originCoordinates, destinationPlaceId) => async () => {
-  const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${originCoordinates}&destinations=place_id:${destinationPlaceId}&key=${API_KEY}`;
-  try {
-    const response = await axios.get(url);
-    // TODO: Fix
-    if (response && response.rows && response.rows.length) {
-      const {elements} = response.rows[0];
-      if (elements && elements.length) {
-        console.log(elements[0]);
-      }
-    }
-
-  } catch(error) {
-
-  }
-};
+const fetchEstimatedArrivalTime = ({latitude, longitude}, destinationPlaceId) => () =>
+  new google.maps.DistanceMatrixService().getDistanceMatrix({
+    origins: [new google.maps.LatLng(latitude, longitude)],
+    destinations: [{'placeId': destinationPlaceId}],
+    travelMode: 'DRIVING',
+    unitSystem: google.maps.UnitSystem.METRIC,
+    avoidHighways: false,
+    avoidTolls: false
+  }, (response, status) => {
+    console.log(response, status);
+  });

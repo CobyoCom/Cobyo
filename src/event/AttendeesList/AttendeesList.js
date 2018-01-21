@@ -5,6 +5,12 @@ import './AttendeesList.css';
 
 const AttendeesList = props => (
   <table className="AttendeesList">
+    <AttendeesListItemContainer
+      key={props.userName}
+      userName={props.userName}
+      estimatedArrivalTime={props.myETA}
+      lastUpdatedTime={props.myLUT}
+    />
     {props.attendees.map(attendee =>
       <AttendeesListItemContainer key={attendee.userName} {...attendee} />
     )}
@@ -12,7 +18,8 @@ const AttendeesList = props => (
 );
 
 AttendeesList.propTypes = {
-  attendees: PropTypes.array
+  attendees: PropTypes.array,
+  userName: PropTypes.string
 };
 
 AttendeesList.defaultProps = {

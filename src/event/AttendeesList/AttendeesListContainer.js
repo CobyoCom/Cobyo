@@ -1,17 +1,32 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {selectEventAttendees} from '../eventSelectors';
+import {selectEventAttendees, selectMyETA, selectMyLUT, selectUserName} from '../eventSelectors';
+import {getAttendees} from '../eventActions';
 import AttendeesList from './AttendeesList';
 
 class AttendeesListContainer extends Component {
   static propTypes = {
-    attendees: PropTypes.array
+    attendees: PropTypes.array,
+    myETA: PropTypes.string,
+    getAttendees: PropTypes.func.isRequired
   };
 
   static defaultProps = {
     attendees: []
   };
+
+  componentDidMount() {
+    if (this.props.myETA) {
+      this.props.getAttendees();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.myETA !== nextProps.myETA) {
+      this.props.getAttendees();
+    }
+  }
 
   render() {
     return (
@@ -21,9 +36,17 @@ class AttendeesListContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  attendees: selectEventAttendees(state)
+  attendees: selectEventAttendees(state),
+  userName: selectUserName(state),
+  myETA: selectMyETA(state),
+  myLUT: selectMyLUT(state)
 });
 
+const mapDispatchToProps = {
+  getAttendees
+};
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(AttendeesListContainer);

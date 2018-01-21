@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import moment from 'moment';
-import {fetchEvent, loginEvent} from '../event/eventActions';
+import {fetchEvent, loginEvent, fetchMyETA} from '../event/eventActions';
 import {selectPlaceId, selectEventTime, selectIsLoggedIn} from '../event/eventSelectors';
 import NavBar from '../navigation/NavBar/NavBar';
 import EventLoginForm from '../event/LoginForm/EventLoginForm';
@@ -32,13 +32,20 @@ class EventPage extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.placeId !== nextProps.placeId) {
+      this.props.fetchMyETA(nextProps.placeId);
+    }
+  }
+
   getEventDate = () => moment(this.props.eventTime).format('dddd, MMMM DDDo');
 
   getEventTime = () => moment(this.props.eventTime).format('[at] h:mm a');
 
   handleSubmitLoginForm = (e) =>
-    e.preventDefault() ||
-    this.props.loginEvent(this.login.value);
+    e.preventDefault() || (
+      !!this.login.value && this.props.loginEvent(this.login.value)
+    );
 
   handleRefLoginForm = ref => this.login = ref;
 
@@ -47,19 +54,17 @@ class EventPage extends Component {
       <div className="EventPage">
         <h3>
           {this.getEventDate()}
-          </h3>
+        </h3>
         <h3>
           {this.getEventTime()}
-          </h3>
+        </h3>
         {!this.props.isLoggedIn &&
           <EventLoginForm
             onSubmit={this.handleSubmitLoginForm}
             onRef={this.handleRefLoginForm}
           />
         }
-        {this.props.isLoggedIn &&
-          <AttendeesListContainer/>
-        }
+        {this.props.isLoggedIn && <AttendeesListContainer/>}
         <NavBar/>
       </div>
     );
@@ -74,7 +79,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   fetchEvent,
-  loginEvent
+  loginEvent,
+  fetchMyETA
 };
 
 export default connect(

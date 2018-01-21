@@ -1,14 +1,15 @@
 /*global google*/
 import axios from 'axios';
 import {formatDateForDatabase, addTime} from '../helpers/moment';
-import {selectEventId, selectPlaceId} from './eventSelectors';
+import {selectEventId, selectMyETA, selectMyLUT, selectUserName} from './eventSelectors';
 
 export const types = {
   fetchEventRequest: 'FETCH_EVENT_REQUEST',
   fetchEventSuccess: 'FETCH_EVENT_SUCCESS',
-  loginEventRequest: 'LOGIN_EVENT_REQUEST',
-  loginEventSuccess: 'LOGIN_EVENT_SUCCESS',
-  loginEventFailure: 'LOGIN_EVENT_FAILURE',
+  loginEvent: 'LOGIN_EVENT',
+  fetchETASuccess: 'FETCH_ETA_SUCCESS',
+  getAttendeesSuccess: 'GET_ATTENDEES_SUCCESS',
+  getAttendeesFailure: 'GET_ATTENDEES_FAILURE',
   fetchLocationRequest: 'FETCH_LOCATION_REQUEST',
   fetchLocationSuccess: 'FETCH_LOCATION_SUCCESS',
   fetchLocationFailure: 'FETCH_LOCATION_FAILURE'
@@ -24,17 +25,24 @@ const fetchEventSuccess = (placeId, eventTime) => ({
   payload: {placeId, eventTime}
 });
 
-const loginEventRequest = () => ({
-  type: types.loginEventRequest
+export const loginEvent = (userName) => ({
+  type: types.loginEvent,
+  payload: {userName}
 });
 
-const loginEventSuccess = ({placeId, eventTime, users: attendees}) => ({
-  type: types.loginEventSuccess,
-  payload: {placeId, eventTime, attendees}
+export const fetchMyETASuccess = (myETA, myLUT) => ({
+  type: types.fetchETASuccess,
+  payload: {myETA, myLUT}
 });
 
-const loginEventFailure = () => ({
-  type: types.loginEventFailure
+
+const getAttendeesSuccess = (data) => ({
+  type: types.getAttendeesSuccess,
+  payload: {attendees: data}
+});
+
+const getAttendeesFailure = () => ({
+  type: types.getAttendeesFailure
 });
 
 const fetchLocationRequest = () => ({
@@ -64,40 +72,8 @@ export const fetchEvent = (eventId) => async (dispatch) => {
   }
 };
 
-// Login thunk
-export const loginEvent = (userName) => async (dispatch, getState) => {
-  dispatch(loginEventRequest());
-
-  const state = getState();
-  const eventId = selectEventId(state);
-  const placeId = selectPlaceId(state);
-
-  // First fetch user's current location, then login
-  const {coordinates, lastUpdatedTime} = await dispatch(fetchLocation());
-  let estimatedArrivalTime;
-
-  try {
-    const seconds = await dispatch(fetchEstimatedArrivalTime(coordinates, placeId));
-    estimatedArrivalTime = addTime(seconds).format('YYYY-MM-DD HH:mm');
-  } catch(error) {
-
-  }
-
-  try {
-    const response = await axios.post(`/api/events/${eventId}`, {
-      userName,
-      estimatedArrivalTime,
-      lastUpdatedTime
-    });
-    const data = await response.data;
-    dispatch(loginEventSuccess(data));
-  } catch(error) {
-    dispatch(loginEventFailure());
-  }
-};
-
 // Fetch user's current location
-export const fetchLocation = () => (dispatch) => new Promise((resolve, reject) => {
+const fetchLocation = () => (dispatch) => new Promise((resolve, reject) => {
   dispatch(fetchLocationRequest());
 
   if (navigator.geolocation) {
@@ -105,9 +81,9 @@ export const fetchLocation = () => (dispatch) => new Promise((resolve, reject) =
       (position) => {
         const {coords: {latitude, longitude}, timestamp} = position;
         const coordinates = {latitude, longitude};
-        const lastUpdatedTime = formatDateForDatabase(timestamp);
-        dispatch(fetchLocationSuccess(coordinates, lastUpdatedTime));
-        return resolve({coordinates, lastUpdatedTime});
+        const myLUT = formatDateForDatabase(timestamp);
+        dispatch(fetchLocationSuccess(coordinates, myLUT));
+        return resolve({coordinates, myLUT});
       },
       () => {
         dispatch(fetchLocationFailure());
@@ -120,19 +96,42 @@ export const fetchLocation = () => (dispatch) => new Promise((resolve, reject) =
   }
 });
 
-const fetchEstimatedArrivalTime = ({latitude, longitude}, destinationPlaceId) => () => new Promise((resolve, reject) => {
-  new google.maps.DistanceMatrixService().getDistanceMatrix({
-    origins: [new google.maps.LatLng(latitude, longitude)],
-    destinations: [{'placeId': destinationPlaceId}],
-    travelMode: 'DRIVING',
-    unitSystem: google.maps.UnitSystem.METRIC,
-    avoidHighways: false,
-    avoidTolls: false
-  }, (response, status) => {
-    if (status === 'OK' && response && response.rows && response.rows.length) {
-      const seconds = response.rows[0].elements[0].duration.value;
-      return resolve(seconds);
-    }
-    return reject();
-  });
+export const fetchMyETA = (destinationPlaceId) => (dispatch) => new Promise(async (resolve, reject) => {
+  try {
+    const {coordinates: {latitude, longitude}, myLUT} = await dispatch(fetchLocation());
+
+    new google.maps.DistanceMatrixService().getDistanceMatrix({
+      origins: [new google.maps.LatLng(latitude, longitude)],
+      destinations: [{'placeId': destinationPlaceId}],
+      travelMode: 'WALKING',
+      unitSystem: google.maps.UnitSystem.METRIC,
+      avoidHighways: false,
+      avoidTolls: false
+    }, (response, status) => {
+      if (status === 'OK' && response && response.rows && response.rows.length) {
+        const seconds = response.rows[0].elements[0].duration.value;
+        const myETA = addTime(seconds).format('YYYY-MM-DD HH:mm');
+
+        dispatch(fetchMyETASuccess(myETA, myLUT));
+      }
+    });
+  } catch(error) {
+
+  }
 });
+
+export const getAttendees = () => async (dispatch, getState) => {
+  const state = getState();
+
+  try {
+    const response = await axios.post(`/api/events/${selectEventId(state)}`, {
+      userName: selectUserName(state),
+      estimatedArrivalTime: selectMyETA(state),
+      lastUpdatedTime: selectMyLUT(state)
+    });
+    const data = await response.data;
+    dispatch(getAttendeesSuccess(data));
+  } catch(error) {
+    dispatch(getAttendeesFailure());
+  }
+};

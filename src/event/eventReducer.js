@@ -7,18 +7,10 @@ const initialState = {
   placeId: null,
   eventTime: null,
   isLoggedIn: false,
-  attendees: [
-    {
-      userName: "Alex",
-      estimatedArrivalTime: "2018-01-20 17:26",
-      lastUpdatedTime: "2018-01-20 17:17"
-    },
-    {
-      userName: "Josh",
-      estimatedArrivalTime: "2018-01-13 18:25",
-      lastUpdatedTime: "2018-01-13 17:30"
-    }
-  ]
+  attendees: [],
+  userName: null,
+  myETA: null,
+  myLUT: null
 };
 
 export default function(state = initialState, {type, payload}) {
@@ -31,9 +23,17 @@ export default function(state = initialState, {type, payload}) {
       const {placeId, eventTime} = payload;
       return {...state, placeId, eventTime};
     }
-    case types.loginEventSuccess: {
-      const {placeId, eventTime, attendees} = payload;
-      return {...state, placeId, eventTime, attendees, isLoggedIn: true};
+    case types.loginEvent: {
+      const {userName} = payload;
+      return {...state, userName, isLoggedIn: true};
+    }
+    case types.fetchETASuccess: {
+      const {myETA, myLUT} = payload;
+      return {...state, myETA, myLUT};
+    }
+    case types.getAttendeesSuccess: {
+      const {attendees} = payload;
+      return {...state, attendees}
     }
     default:
       return state;

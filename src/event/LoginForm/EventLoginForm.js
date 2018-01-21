@@ -11,6 +11,7 @@ const EventLoginForm = props => (
       className="EventLoginForm-input"
       ref={props.onRef}
     />
+    <button type="submit">Enter</button>
   </form>
 );
 

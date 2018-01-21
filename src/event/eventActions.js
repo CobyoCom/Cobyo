@@ -113,10 +113,14 @@ export const fetchMyETA = (destinationPlaceId) => (dispatch) => new Promise(asyn
         const myETA = addTime(seconds).format('YYYY-MM-DD HH:mm');
 
         dispatch(fetchMyETASuccess(myETA, myLUT));
+        resolve();
+        return;
       }
+      reject();
     });
   } catch(error) {
-
+    console.warn('Dont ever play yourself', error);
+    reject();
   }
 });
 

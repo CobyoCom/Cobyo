@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import moment from 'moment';
-import {fetchEvent, loginEvent, fetchMyETA} from '../event/eventActions';
+import {fetchEvent, loginEvent, fetchMyETA, getAttendees} from '../event/eventActions';
 import {selectPlaceId, selectEventTime, selectIsLoggedIn} from '../event/eventSelectors';
 import NavBar from '../navigation/NavBar/NavBar';
 import EventLoginForm from '../event/LoginForm/EventLoginForm';
@@ -49,9 +49,19 @@ class EventPage extends Component {
 
   handleRefLoginForm = ref => this.login = ref;
 
+  handleRefresh = async () => {
+    try {
+      await this.props.fetchMyETA(this.props.placeId);
+      this.props.getAttendees();
+    } catch(error) {
+      console.warn('Refresh failed');
+    }
+  };
+
   render() {
     return (
       <div className="EventPage">
+        <button onClick={this.handleRefresh}>Refresh</button>
         <h3>
           {this.getEventDate()}
         </h3>
@@ -80,7 +90,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   fetchEvent,
   loginEvent,
-  fetchMyETA
+  fetchMyETA,
+  getAttendees
 };
 
 export default connect(

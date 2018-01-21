@@ -1,0 +1,9 @@
+.AttendeesListItem {
+  border: 1px solid black;
+}
+
+.AttendeesListItem-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

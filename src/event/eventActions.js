@@ -1,6 +1,6 @@
 /*global google*/
 import axios from 'axios';
-import {formatDateForDatabase} from '../helpers/moment';
+import {formatDateForDatabase, addTime} from '../helpers/moment';
 import {selectEventId, selectPlaceId} from './eventSelectors';
 
 export const types = {
@@ -28,9 +28,9 @@ const loginEventRequest = () => ({
   type: types.loginEventRequest
 });
 
-const loginEventSuccess = ({placeText}) => ({
+const loginEventSuccess = ({placeId, eventTime, users: attendees}) => ({
   type: types.loginEventSuccess,
-  payload: {placeText}
+  payload: {placeId, eventTime, attendees}
 });
 
 const loginEventFailure = () => ({
@@ -74,13 +74,19 @@ export const loginEvent = (userName) => async (dispatch, getState) => {
 
   // First fetch user's current location, then login
   const {coordinates, lastUpdatedTime} = await dispatch(fetchLocation());
+  let estimatedArrivalTime;
 
-  dispatch(fetchEstimatedArrivalTime(coordinates, placeId));
+  try {
+    const seconds = await dispatch(fetchEstimatedArrivalTime(coordinates, placeId));
+    estimatedArrivalTime = addTime(seconds).format('YYYY-MM-DD HH:mm');
+  } catch(error) {
+
+  }
 
   try {
     const response = await axios.post(`/api/events/${eventId}`, {
       userName,
-      estimatedArrivalTime: '2018-01-14 21:33',
+      estimatedArrivalTime,
       lastUpdatedTime
     });
     const data = await response.data;
@@ -101,20 +107,20 @@ export const fetchLocation = () => (dispatch) => new Promise((resolve, reject) =
         const coordinates = {latitude, longitude};
         const lastUpdatedTime = formatDateForDatabase(timestamp);
         dispatch(fetchLocationSuccess(coordinates, lastUpdatedTime));
-        resolve({coordinates, lastUpdatedTime});
+        return resolve({coordinates, lastUpdatedTime});
       },
       () => {
         dispatch(fetchLocationFailure());
-        reject();
+        return reject();
       }
     );
   } else {
     dispatch(fetchLocationFailure());
-    reject();
+    return reject();
   }
 });
 
-const fetchEstimatedArrivalTime = ({latitude, longitude}, destinationPlaceId) => () =>
+const fetchEstimatedArrivalTime = ({latitude, longitude}, destinationPlaceId) => () => new Promise((resolve, reject) => {
   new google.maps.DistanceMatrixService().getDistanceMatrix({
     origins: [new google.maps.LatLng(latitude, longitude)],
     destinations: [{'placeId': destinationPlaceId}],
@@ -123,5 +129,10 @@ const fetchEstimatedArrivalTime = ({latitude, longitude}, destinationPlaceId) =>
     avoidHighways: false,
     avoidTolls: false
   }, (response, status) => {
-    console.log(response, status);
+    if (status === 'OK' && response && response.rows && response.rows.length) {
+      const seconds = response.rows[0].elements[0].duration.value;
+      return resolve(seconds);
+    }
+    return reject();
   });
+});

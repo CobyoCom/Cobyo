@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import moment from 'moment';
 import {fetchEvent, loginEvent} from '../event/eventActions';
-import {selectPlaceId, selectEventTime} from '../event/eventSelectors';
+import {selectPlaceId, selectEventTime, selectIsLoggedIn} from '../event/eventSelectors';
 import NavBar from '../navigation/NavBar/NavBar';
 import EventLoginForm from '../event/LoginForm/EventLoginForm';
+import AttendeesListContainer from '../event/AttendeesList/AttendeesListContainer';
 
 class EventPage extends Component {
   static propTypes = {
@@ -12,12 +14,14 @@ class EventPage extends Component {
     fetchEvent: PropTypes.func.isRequired,
     loginEvent: PropTypes.func.isRequired,
     placeId: PropTypes.string,
-    eventTime: PropTypes.string
+    eventTime: PropTypes.string,
+    isLoggedIn: PropTypes.bool
   };
 
   static defaultProps = {
     placeId: null,
-    eventTime: null
+    eventTime: null,
+    isLoggedIn: false
   };
 
   async componentDidMount() {
@@ -28,6 +32,10 @@ class EventPage extends Component {
     }
   }
 
+  getEventDate = () => moment(this.props.eventTime).format('dddd, MMMM DDDo');
+
+  getEventTime = () => moment(this.props.eventTime).format('[at] h:mm a');
+
   handleSubmitLoginForm = (e) =>
     e.preventDefault() ||
     this.props.loginEvent(this.login.value);
@@ -37,12 +45,21 @@ class EventPage extends Component {
   render() {
     return (
       <div className="EventPage">
-        <h1>{this.props.placeId}</h1>
-        <h3>{this.props.eventTime}</h3>
-        <EventLoginForm
-          onSubmit={this.handleSubmitLoginForm}
-          onRef={this.handleRefLoginForm}
-        />
+        <h3>
+          {this.getEventDate()}
+          </h3>
+        <h3>
+          {this.getEventTime()}
+          </h3>
+        {!this.props.isLoggedIn &&
+          <EventLoginForm
+            onSubmit={this.handleSubmitLoginForm}
+            onRef={this.handleRefLoginForm}
+          />
+        }
+        {this.props.isLoggedIn &&
+          <AttendeesListContainer/>
+        }
         <NavBar/>
       </div>
     );
@@ -51,7 +68,8 @@ class EventPage extends Component {
 
 const mapStateToProps = state => ({
   placeId: selectPlaceId(state),
-  eventTime: selectEventTime(state)
+  eventTime: selectEventTime(state),
+  isLoggedIn: selectIsLoggedIn(state)
 });
 
 const mapDispatchToProps = {

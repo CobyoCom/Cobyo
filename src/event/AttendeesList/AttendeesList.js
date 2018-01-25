@@ -4,7 +4,7 @@ import AttendeesListItemContainer from '../AttendeesListItem/AttendeesListItemCo
 import './AttendeesList.css';
 
 const AttendeesList = props => (
-  <table className="AttendeesList">
+  <div className="AttendeesList">
     <AttendeesListItemContainer
       key={props.userName}
       userName={props.userName}
@@ -14,7 +14,7 @@ const AttendeesList = props => (
     {props.attendees.map(attendee =>
       <AttendeesListItemContainer key={attendee.userName} {...attendee} />
     )}
-  </table>
+  </div>
 );
 
 AttendeesList.propTypes = {

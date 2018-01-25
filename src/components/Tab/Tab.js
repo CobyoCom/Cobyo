@@ -12,7 +12,7 @@ const Tab = props => (
 );
 
 Tab.propTypes = {
-  iconId: PropTypes.number.isRequired,
+  iconId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   link: PropTypes.string
 };
 

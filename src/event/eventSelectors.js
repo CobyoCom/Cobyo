@@ -1,4 +1,3 @@
-import {createSelector} from 'reselect';
 import {moduleName} from './eventReducer';
 
 const selectEvent = state => state[moduleName];

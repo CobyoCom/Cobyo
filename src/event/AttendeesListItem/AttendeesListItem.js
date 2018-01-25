@@ -15,7 +15,7 @@ const formatArrivalTime = estimatedArrivalTime => {
 };
 
 const AttendeesListItem = props => (
-  <tr
+  <div
     className="AttendeesListItem"
     onClick={props.onClick}
   >
@@ -30,7 +30,7 @@ const AttendeesListItem = props => (
         {moment().to(props.lastUpdatedTime)}
       </div>
     }
-  </tr>
+  </div>
 );
 
 AttendeesListItem.propTypes = {

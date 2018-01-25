@@ -4,9 +4,9 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 import {fetchEvent, loginEvent, fetchMyETA, getAttendees} from '../event/eventActions';
 import {selectPlaceId, selectEventTime, selectIsLoggedIn} from '../event/eventSelectors';
-import NavBar from '../navigation/NavBar/NavBar';
 import EventLoginForm from '../event/LoginForm/EventLoginForm';
 import AttendeesListContainer from '../event/AttendeesList/AttendeesListContainer';
+import NavBar from '../navigation/NavBar/NavBar';
 
 class EventPage extends Component {
   static propTypes = {

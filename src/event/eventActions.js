@@ -1,5 +1,6 @@
 /*global google*/
 import axios from 'axios';
+import {getErrorMessage} from '../helpers/googlemaps';
 import {formatDateForDatabase, addTime} from '../helpers/moment';
 import {selectEventId, selectMyETA, selectMyLUT, selectUserName} from './eventSelectors';
 
@@ -8,6 +9,7 @@ export const types = {
   fetchEventSuccess: 'FETCH_EVENT_SUCCESS',
   loginEvent: 'LOGIN_EVENT',
   fetchETASuccess: 'FETCH_ETA_SUCCESS',
+  fetchETAFailure: 'FETCH_ETA_FALIURE',
   getAttendeesSuccess: 'GET_ATTENDEES_SUCCESS',
   getAttendeesFailure: 'GET_ATTENDEES_FAILURE',
   fetchLocationRequest: 'FETCH_LOCATION_REQUEST',
@@ -33,6 +35,11 @@ export const loginEvent = (userName) => ({
 export const fetchMyETASuccess = (myETA, myLUT) => ({
   type: types.fetchETASuccess,
   payload: {myETA, myLUT}
+});
+
+export const fetchMyETAFailure = (errorMessage) => ({
+  type: types.fetchETAFailure,
+  payload: {errorMessage}
 });
 
 
@@ -68,7 +75,7 @@ export const fetchEvent = (eventId) => async (dispatch) => {
       dispatch(fetchEventSuccess(placeId, eventTime));
     }
   } catch(error) {
-    return Promise.reject();
+    return Promise.reject(error);
   }
 };
 
@@ -108,19 +115,31 @@ export const fetchMyETA = (destinationPlaceId) => (dispatch) => new Promise(asyn
       avoidHighways: false,
       avoidTolls: false
     }, (response, status) => {
-      if (status === 'OK' && response && response.rows && response.rows.length) {
-        const seconds = response.rows[0].elements[0].duration.value;
-        const myETA = addTime(seconds).format('YYYY-MM-DD HH:mm');
+      if (status === 'OK' &&
+          response && response.rows &&
+          response.rows.length &&
+          response.rows[0].elements &&
+          response.rows[0].elements.length
+      ) {
+        const {duration, status} = response.rows[0].elements[0];
+        if (status === 'OK') {
+          const {value: seconds} = duration;
+          const myETA = addTime(seconds).format('YYYY-MM-DD HH:mm');
 
-        dispatch(fetchMyETASuccess(myETA, myLUT));
-        resolve();
-        return;
+          dispatch(fetchMyETASuccess(myETA, myLUT));
+          return resolve();
+        }
+
+        dispatch(fetchMyETAFailure(getErrorMessage(status)));
+        return reject();
       }
-      reject();
+
+      dispatch(fetchMyETAFailure(getErrorMessage(status)));
+      return reject();
     });
   } catch(error) {
-    console.warn('Dont ever play yourself', error);
-    reject();
+    dispatch(fetchMyETAFailure(getErrorMessage(JSON.stringify(error))));
+    return reject();
   }
 });
 

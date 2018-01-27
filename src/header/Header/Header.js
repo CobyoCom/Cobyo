@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ErrorBannerContainer from '../../error/ErrorBanner/ErrorBannerContainer';
+import './Header.css';
 
 const Header = props => (
-  <div>
-    Cobyo
+  <div className="Header">
     {props.showError && <ErrorBannerContainer/>}
   </div>
 );

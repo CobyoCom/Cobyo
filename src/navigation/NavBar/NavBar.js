@@ -1,14 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {FaHome, FaCalendarPlusO, FaList} from 'react-icons/lib/fa';
 import Tab from '../../components/Tab/Tab';
 import './NavBar.css';
 
 const NavBar = props => (
   <div className="NavBar">
-    <Tab iconId="Home" link="/"/>
-    <Tab iconId="Events" link="/events"/>
-    <Tab iconId={3} />
-    <Tab iconId={4} />
+    <Tab link="/">
+      <FaHome color="black" size={30} />
+    </Tab>
+    <Tab link="/events">
+      <FaCalendarPlusO color="black" size={28} />
+    </Tab>
+    <Tab link="/">
+      <FaList color="black" size={28} />
+    </Tab>
   </div>
 );
 

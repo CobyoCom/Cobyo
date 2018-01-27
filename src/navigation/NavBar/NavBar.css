@@ -1,15 +1,18 @@
 .NavBar {
-  background-color: red;
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-end;
   position: fixed;
   bottom: 0;
   left: 0;
-  height: 50px;
+  height: 60px;
   width: 100%;
 }
 
 .NavBar > * {
+  border-top: 1px solid #999999;
   flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -1,4 +1,5 @@
 import {types} from '../../event/eventActions';
+import {DRIVING} from '../../event/TravelModeSelect/TravelModeSelect';
 
 export const moduleName = 'events';
 
@@ -12,7 +13,8 @@ export const eventInitialState = {
   attendees: [],
   userName: null,
   myETA: null,
-  myLUT: null
+  myLUT: null,
+  travelMode: DRIVING
 };
 
 export default function events(state = initialState, {type, payload}) {
@@ -40,12 +42,13 @@ export default function events(state = initialState, {type, payload}) {
       };
     }
     case types.loginEvent: {
-      const {eventId, userName} = payload;
+      const {eventId, userName, travelMode} = payload;
       return {
         ...state,
         [eventId]: {
           ...state[eventId],
           userName,
+          travelMode,
           isLoggedIn: true
         }
       };

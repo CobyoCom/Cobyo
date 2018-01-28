@@ -2,7 +2,10 @@
 import axios from 'axios';
 import {getErrorMessage} from '../helpers/googlemaps';
 import {formatDateForDatabase, addTime} from '../helpers/moment';
-import {selectEventId, selectMyETA, selectMyLUT, selectUserName} from './activeEventSelectors';
+import {
+  selectEventId, selectMyETA, selectMyLUT, selectPlaceId, selectTravelMode,
+  selectUserName
+} from './activeEventSelectors';
 
 export const types = {
   createEventRequest: 'CREATE_EVENT_REQUEST',
@@ -34,9 +37,9 @@ const fetchEventSuccess = (eventId, placeId, eventTime) => ({
   payload: {eventId, placeId, eventTime}
 });
 
-export const loginEvent = (eventId, userName) => ({
+export const loginEvent = (eventId, userName, travelMode) => ({
   type: types.loginEvent,
-  payload: {eventId, userName}
+  payload: {eventId, userName, travelMode}
 });
 
 export const fetchMyETASuccess = (eventId, myETA, myLUT) => ({
@@ -129,9 +132,11 @@ const fetchLocation = () => (dispatch) => new Promise((resolve, reject) => {
   }
 });
 
-export const fetchMyETA = (destinationPlaceId) => (dispatch, getState) => new Promise(async (resolve, reject) => {
+export const fetchMyETA = () => (dispatch, getState) => new Promise(async (resolve, reject) => {
   const state = getState();
+  const destinationPlaceId = selectPlaceId(state);
   const eventId = selectEventId(state);
+  const travelMode = selectTravelMode(state);
 
   try {
     const {coordinates: {latitude, longitude}, myLUT} = await dispatch(fetchLocation());
@@ -139,7 +144,7 @@ export const fetchMyETA = (destinationPlaceId) => (dispatch, getState) => new Pr
     new google.maps.DistanceMatrixService().getDistanceMatrix({
       origins: [new google.maps.LatLng(latitude, longitude)],
       destinations: [{'placeId': destinationPlaceId}],
-      travelMode: 'WALKING',
+      travelMode,
       unitSystem: google.maps.UnitSystem.METRIC,
       avoidHighways: false,
       avoidTolls: false
@@ -180,7 +185,8 @@ export const getAttendees = () => async (dispatch, getState) => {
     const response = await axios.post(`/api/events/${eventId}`, {
       userName: selectUserName(state),
       estimatedArrivalTime: selectMyETA(state),
-      lastUpdatedTime: selectMyLUT(state)
+      lastUpdatedTime: selectMyLUT(state),
+      travelMode: selectTravelMode(state)
     });
     const data = await response.data;
     dispatch(getAttendeesSuccess(eventId, data));

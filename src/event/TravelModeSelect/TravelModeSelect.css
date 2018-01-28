@@ -1,0 +1,17 @@
+.TravelModeSelect-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.TravelModeSelect-item {
+  padding: 10px;
+  color: #696773;
+  border: none;
+  background-color: transparent;
+}
+
+.TravelModeSelect-item--selected {
+  color: #009FB7;
+  border-bottom: 1px solid #009FB7;
+}

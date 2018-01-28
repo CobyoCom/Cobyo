@@ -3,7 +3,7 @@
   border-radius: 5px;
   border: none;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0 rgba(0,0,0,0.02);
-  background-color: #00b3b3;
+  background-color: #009FB7;
   color: white;
   padding: 5px 25px;
 }
@@ -17,5 +17,5 @@
 }
 
 .Button--disabled {
-  background-color: #e6e6e6;
+  background-color: #EFF1F3;
 }

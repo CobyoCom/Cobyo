@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import moment from 'moment';
-import {fetchEvent, loginEvent, fetchMyETA, getAttendees} from '../event/eventActions';
+import {fetchEvent, fetchMyETA, getAttendees} from '../event/eventActions';
 import {selectPlaceId, selectEventTime, selectIsLoggedIn} from '../event/activeEventSelectors';
 import Button from '../components/Button/Button';
-import EventLoginForm from '../event/LoginForm/EventLoginForm';
+import EventLoginFormContainer from '../event/LoginForm/EventLoginFormContainer';
 import AttendeesListContainer from '../event/AttendeesList/AttendeesListContainer';
 import NavBar from '../navigation/NavBar/NavBar';
 import './Page.css';
@@ -14,7 +14,6 @@ class EventPage extends Component {
   static propTypes = {
     eventId: PropTypes.string.isRequired,
     fetchEvent: PropTypes.func.isRequired,
-    loginEvent: PropTypes.func.isRequired,
     placeId: PropTypes.string,
     eventTime: PropTypes.string,
     isLoggedIn: PropTypes.bool
@@ -23,12 +22,12 @@ class EventPage extends Component {
   static defaultProps = {
     placeId: null,
     eventTime: null,
-    isLoggedIn: false
+    isLoggedIn: false,
+    isOpenTravelMode: false
   };
 
   state = {
-    isRefreshing: false,
-    nameValue: ''
+    isRefreshing: false
   };
 
   async componentDidMount() {
@@ -40,26 +39,19 @@ class EventPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.placeId !== nextProps.placeId) {
-      this.props.fetchMyETA(nextProps.placeId);
-    }
+    // if (this.props.placeId !== nextProps.placeId) {
+    //   this.props.fetchMyETA(nextProps.placeId);
+    // }
   }
 
   getEventDate = () => moment(this.props.eventTime).format('ddd, MMMM DDDo');
 
   getEventTime = () => moment(this.props.eventTime).format('[at] h:mm a');
 
-  handleSubmitLoginForm = (e) =>
-    e.preventDefault() || (
-      !!this.state.nameValue && this.props.loginEvent(this.props.eventId, this.state.nameValue)
-    );
-
-  handleChangeName = ({target: {value: nameValue}}) => this.setState({nameValue});
-
   handleRefresh = async () => {
     this.setState({isRefreshing: true});
     try {
-      await this.props.fetchMyETA(this.props.placeId);
+      await this.props.fetchMyETA();
       this.props.getAttendees();
       this.setState({isRefreshing: false});
     } catch(error) {
@@ -78,21 +70,14 @@ class EventPage extends Component {
             Refresh
           </Button>
         )}
-        <h3>
-          {this.getEventDate()}
-        </h3>
-        <h3>
-          {this.getEventTime()}
-        </h3>
-        {!this.props.isLoggedIn &&
-          <EventLoginForm
-            value={this.state.nameValue}
-            disabled={!this.state.nameValue}
-            onSubmit={this.handleSubmitLoginForm}
-            onChange={this.handleChangeName}
-          />
-        }
+        <h3>{this.getEventDate()}</h3>
+
+        <h3>{this.getEventTime()}</h3>
+
+        {!this.props.isLoggedIn && <EventLoginFormContainer/>}
+
         {this.props.isLoggedIn && <AttendeesListContainer/>}
+
         <NavBar/>
       </div>
     );
@@ -107,7 +92,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   fetchEvent,
-  loginEvent,
   fetchMyETA,
   getAttendees
 };

@@ -45,7 +45,7 @@ export const fetchMyETASuccess = (eventId, myETA, myLUT) => ({
 });
 
 export const fetchMyETAFailure = (eventId, errorMessage) => ({
-  type: types.fetchETAFailure,
+  type: types.fetchMyETAFailure,
   payload: {eventId, errorMessage}
 });
 

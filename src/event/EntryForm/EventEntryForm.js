@@ -2,11 +2,11 @@ import React  from 'react';
 import PropTypes from 'prop-types';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
-import './EventCodeForm.css';
+import './EventEntryForm.css';
 
-const EventCodeForm = props => (
+const EventEntryForm = props => (
   <form
-    className="EventCodeForm"
+    className="EventEntryForm"
     onSubmit={props.onSubmit}
   >
     <h1>Enter event code</h1>
@@ -24,11 +24,11 @@ const EventCodeForm = props => (
   </form>
 );
 
-EventCodeForm.propTypes = {
+EventEntryForm.propTypes = {
   disabled: PropTypes.bool.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired
 };
 
-export default EventCodeForm;
+export default EventEntryForm;

@@ -2,14 +2,17 @@
 import axios from 'axios';
 import {getErrorMessage} from '../helpers/googlemaps';
 import {formatDateForDatabase, addTime} from '../helpers/moment';
-import {selectEventId, selectMyETA, selectMyLUT, selectUserName} from './eventSelectors';
+import {selectEventId, selectMyETA, selectMyLUT, selectUserName} from './activeEventSelectors';
 
 export const types = {
+  createEventRequest: 'CREATE_EVENT_REQUEST',
+  createEventSuccess: 'CREATE_EVENT_SUCCESS',
+  createEventFailure: 'CREATE_EVENT_FAILURE',
   fetchEventRequest: 'FETCH_EVENT_REQUEST',
   fetchEventSuccess: 'FETCH_EVENT_SUCCESS',
   loginEvent: 'LOGIN_EVENT',
-  fetchETASuccess: 'FETCH_ETA_SUCCESS',
-  fetchETAFailure: 'FETCH_ETA_FALIURE',
+  fetchMyETASuccess: 'FETCH_MY_ETA_SUCCESS',
+  fetchMyETAFailure: 'FETCH_MY_ETA_FALIURE',
   getAttendeesSuccess: 'GET_ATTENDEES_SUCCESS',
   getAttendeesFailure: 'GET_ATTENDEES_FAILURE',
   fetchLocationRequest: 'FETCH_LOCATION_REQUEST',
@@ -17,39 +20,44 @@ export const types = {
   fetchLocationFailure: 'FETCH_LOCATION_FAILURE'
 };
 
+const createEventRequest = () => ({
+  type: types.createEventRequest
+});
+
 const fetchEventRequest = (eventId) => ({
   type: types.fetchEventRequest,
   payload: {eventId}
 });
 
-const fetchEventSuccess = (placeId, eventTime) => ({
+const fetchEventSuccess = (eventId, placeId, eventTime) => ({
   type: types.fetchEventSuccess,
-  payload: {placeId, eventTime}
+  payload: {eventId, placeId, eventTime}
 });
 
-export const loginEvent = (userName) => ({
+export const loginEvent = (eventId, userName) => ({
   type: types.loginEvent,
-  payload: {userName}
+  payload: {eventId, userName}
 });
 
-export const fetchMyETASuccess = (myETA, myLUT) => ({
-  type: types.fetchETASuccess,
-  payload: {myETA, myLUT}
+export const fetchMyETASuccess = (eventId, myETA, myLUT) => ({
+  type: types.fetchMyETASuccess,
+  payload: {eventId, myETA, myLUT}
 });
 
-export const fetchMyETAFailure = (errorMessage) => ({
+export const fetchMyETAFailure = (eventId, errorMessage) => ({
   type: types.fetchETAFailure,
-  payload: {errorMessage}
+  payload: {eventId, errorMessage}
 });
 
 
-const getAttendeesSuccess = (data) => ({
+const getAttendeesSuccess = (eventId, data) => ({
   type: types.getAttendeesSuccess,
-  payload: {attendees: data}
+  payload: {eventId, attendees: data}
 });
 
-const getAttendeesFailure = () => ({
-  type: types.getAttendeesFailure
+const getAttendeesFailure = (eventId) => ({
+  type: types.getAttendeesFailure,
+  payload: {eventId}
 });
 
 const fetchLocationRequest = () => ({
@@ -65,6 +73,24 @@ const fetchLocationFailure = () => ({
   type: types.fetchLocationFailure
 });
 
+export const createEvent = (placeId, eventTime) => async (dispatch) => {
+  dispatch(createEventRequest());
+
+  try {
+    const response = await axios.post('/api/events', {
+      placeId,
+      eventTime
+    });
+    if (response && response.data) {
+      const {eventId} = response.data;
+      return Promise.resolve(eventId);
+    }
+    return Promise.reject();
+  } catch(error) {
+    return Promise.reject();
+  }
+};
+
 export const fetchEvent = (eventId) => async (dispatch) => {
   dispatch(fetchEventRequest(eventId));
 
@@ -72,7 +98,7 @@ export const fetchEvent = (eventId) => async (dispatch) => {
     const response = await axios.get(`/api/events/${eventId}`);
     if (response && response.data) {
       const {placeId, eventTime} = response.data;
-      dispatch(fetchEventSuccess(placeId, eventTime));
+      dispatch(fetchEventSuccess(eventId, placeId, eventTime));
     }
   } catch(error) {
     return Promise.reject(error);
@@ -103,7 +129,10 @@ const fetchLocation = () => (dispatch) => new Promise((resolve, reject) => {
   }
 });
 
-export const fetchMyETA = (destinationPlaceId) => (dispatch) => new Promise(async (resolve, reject) => {
+export const fetchMyETA = (destinationPlaceId) => (dispatch, getState) => new Promise(async (resolve, reject) => {
+  const state = getState();
+  const eventId = selectEventId(state);
+
   try {
     const {coordinates: {latitude, longitude}, myLUT} = await dispatch(fetchLocation());
 
@@ -126,35 +155,36 @@ export const fetchMyETA = (destinationPlaceId) => (dispatch) => new Promise(asyn
           const {value: seconds} = duration;
           const myETA = addTime(seconds).format('YYYY-MM-DD HH:mm');
 
-          dispatch(fetchMyETASuccess(myETA, myLUT));
+          dispatch(fetchMyETASuccess(eventId, myETA, myLUT));
           return resolve();
         }
 
-        dispatch(fetchMyETAFailure(getErrorMessage(status)));
+        dispatch(fetchMyETAFailure(eventId, getErrorMessage(status)));
         return reject();
       }
 
-      dispatch(fetchMyETAFailure(getErrorMessage(status)));
+      dispatch(fetchMyETAFailure(eventId, getErrorMessage(status)));
       return reject();
     });
   } catch(error) {
-    dispatch(fetchMyETAFailure(getErrorMessage(JSON.stringify(error))));
+    dispatch(fetchMyETAFailure(eventId, getErrorMessage(JSON.stringify(error))));
     return reject();
   }
 });
 
 export const getAttendees = () => async (dispatch, getState) => {
   const state = getState();
+  const eventId = selectEventId(state);
 
   try {
-    const response = await axios.post(`/api/events/${selectEventId(state)}`, {
+    const response = await axios.post(`/api/events/${eventId}`, {
       userName: selectUserName(state),
       estimatedArrivalTime: selectMyETA(state),
       lastUpdatedTime: selectMyLUT(state)
     });
     const data = await response.data;
-    dispatch(getAttendeesSuccess(data));
+    dispatch(getAttendeesSuccess(eventId, data));
   } catch(error) {
-    dispatch(getAttendeesFailure());
+    dispatch(getAttendeesFailure(eventId));
   }
 };

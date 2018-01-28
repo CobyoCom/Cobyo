@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {formatDateForDatabase} from '../helpers/moment';
-import {createEvent} from '../create/createActions';
+import {createEvent} from '../event/eventActions';
 import NavBar from '../navigation/NavBar/NavBar';
-import CreateEventForm from '../create/EventForm/CreateEventForm';
+import EventCreateForm from '../event/CreateForm/EventCreateForm';
 import './Page.css';
 
 class CreatePage extends Component {
@@ -28,7 +28,7 @@ class CreatePage extends Component {
   render() {
     return (
       <div className="CreatePage">
-        <CreateEventForm
+        <EventCreateForm
           placeValue={this.state.placeValue}
           disabled={!this.state.placeId}
           onSubmit={this.handleSubmit}

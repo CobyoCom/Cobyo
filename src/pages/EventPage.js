@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import {fetchEvent, loginEvent, fetchMyETA, getAttendees} from '../event/eventActions';
-import {selectPlaceId, selectEventTime, selectIsLoggedIn} from '../event/eventSelectors';
+import {selectPlaceId, selectEventTime, selectIsLoggedIn} from '../event/activeEventSelectors';
 import Button from '../components/Button/Button';
 import EventLoginForm from '../event/LoginForm/EventLoginForm';
 import AttendeesListContainer from '../event/AttendeesList/AttendeesListContainer';
@@ -51,7 +51,7 @@ class EventPage extends Component {
 
   handleSubmitLoginForm = (e) =>
     e.preventDefault() || (
-      !!this.state.nameValue && this.props.loginEvent(this.state.nameValue)
+      !!this.state.nameValue && this.props.loginEvent(this.props.eventId, this.state.nameValue)
     );
 
   handleChangeName = ({target: {value: nameValue}}) => this.setState({nameValue});

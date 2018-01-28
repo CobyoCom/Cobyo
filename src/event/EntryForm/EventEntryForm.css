@@ -1,10 +1,10 @@
-.EventCodeForm {
+.EventEntryForm {
   display: flex;
   flex-direction: column;
   align-items: center;
   max-width: 100%;
 }
 
-.EventCodeForm > * {
+.EventEntryForm > * {
   margin: 10px 0;
 }

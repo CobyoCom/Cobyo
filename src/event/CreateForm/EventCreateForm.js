@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '../../components/Button/Button';
-import SearchPlacesContainer from '../../create/SearchPlacesContainer';
-import './CreateEventForm.css';
+import PlacesAutocompleteContainer from '../PlacesAutocomplete/PlacesAutocompleteContainer';
+import './EventCreateForm.css';
 
-const CreateEventForm = props => (
+const EventCreateForm = props => (
   <form
-    className="CreateEventForm"
+    className="EventCreateForm"
     onSubmit={() => {}}
   >
-    <SearchPlacesContainer
+    <PlacesAutocompleteContainer
       placeValue={props.placeValue}
       onChangePlace={props.onChangePlace}
       onSelectPlace={props.onSelectPlace}
@@ -24,7 +24,7 @@ const CreateEventForm = props => (
   </form>
 );
 
-CreateEventForm.propTypes = {
+EventCreateForm.propTypes = {
   placeValue: PropTypes.string.isRequired,
   disabled: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -32,4 +32,4 @@ CreateEventForm.propTypes = {
   onSelectPlace: PropTypes.func.isRequired
 };
 
-export default CreateEventForm;
+export default EventCreateForm;

@@ -1,10 +1,12 @@
 import {combineReducers} from 'redux';
-import eventReducer, {moduleName as eventModuleName} from '../event/eventReducer';
+import activeEventReducer, {moduleName as activeEventModuleName} from '../event/activeEventReducer';
 import errorReducer, {moduleName as errorModuleName}  from '../error/errorReducer';
 import uiReducer from './uiReducer';
+import entitiesReducer from './entitiesReducer';
 
 export default combineReducers({
-  [eventModuleName]: eventReducer,
+  [activeEventModuleName]: activeEventReducer,
   [errorModuleName]: errorReducer,
-  ui: uiReducer
+  ui: uiReducer,
+  entities: entitiesReducer
 });

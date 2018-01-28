@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import EventCodeForm from '../home/EventCodeForm/EventCodeForm';
+import EventCodeForm from '../event/EntryForm/EventEntryForm';
 import NavBar from '../navigation/NavBar/NavBar';
 import './Page.css';
 

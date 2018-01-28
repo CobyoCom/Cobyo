@@ -1,8 +1,8 @@
-.CreateEventForm {
+.EventCreateForm {
 
 }
 
-.CreateEventForm > * {
+.EventCreateForm > * {
   margin: 10px;
 }
 

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {selectEventAttendees, selectMyETA, selectMyLUT, selectUserName} from '../eventSelectors';
+import {selectEventAttendees, selectMyETA, selectMyLUT, selectUserName} from '../activeEventSelectors';
 import {getAttendees} from '../eventActions';
 import AttendeesList from './AttendeesList';
 

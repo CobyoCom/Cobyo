@@ -1,0 +1,12 @@
+.Input {
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.Input-medium {
+  font-size: 20pt;
+}
+
+.Input-large {
+  font-size: 48pt;
+}

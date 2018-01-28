@@ -4,9 +4,9 @@ import {formatDateForDatabase} from '../helpers/moment';
 import {createEvent} from '../create/createActions';
 import NavBar from '../navigation/NavBar/NavBar';
 import CreateEventForm from '../create/EventForm/CreateEventForm';
+import './Page.css';
 
 class CreatePage extends Component {
-
   state = {
     placeValue: '',
     placeId: null,
@@ -30,6 +30,7 @@ class CreatePage extends Component {
       <div className="CreatePage">
         <CreateEventForm
           placeValue={this.state.placeValue}
+          disabled={!this.state.placeId}
           onSubmit={this.handleSubmit}
           onSelectPlace={this.handleSelectPlace}
           onChangePlace={this.handleChangePlace}

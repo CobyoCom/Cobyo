@@ -2,16 +2,19 @@ import React  from 'react';
 import PropTypes from 'prop-types';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
-import './EventLoginForm.css';
+import './EventCodeForm.css';
 
-const EventLoginForm = props => (
+const EventCodeForm = props => (
   <form
-    className="EventLoginForm"
+    className="EventCodeForm"
     onSubmit={props.onSubmit}
   >
+    <h1>Enter event code</h1>
     <Input
-      onChange={props.onChange}
+      size="large"
+      maxLength={4}
       value={props.value}
+      onChange={props.onChange}
     />
     <Button
       disabled={props.disabled}
@@ -21,11 +24,11 @@ const EventLoginForm = props => (
   </form>
 );
 
-EventLoginForm.propTypes = {
-  value: PropTypes.string.isRequired,
+EventCodeForm.propTypes = {
   disabled: PropTypes.bool.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
 };
 
-export default EventLoginForm;
+export default EventCodeForm;

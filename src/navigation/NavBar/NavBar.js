@@ -7,13 +7,13 @@ import './NavBar.css';
 const NavBar = props => (
   <div className="NavBar">
     <Tab link="/">
-      <FaHome color="black" size={30} />
+      <FaHome color="black" size={24} />
     </Tab>
     <Tab link="/events">
-      <FaCalendarPlusO color="black" size={28} />
+      <FaCalendarPlusO color="black" size={22} />
     </Tab>
     <Tab link="/">
-      <FaList color="black" size={28} />
+      <FaList color="black" size={22} />
     </Tab>
   </div>
 );

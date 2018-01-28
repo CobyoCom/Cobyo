@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import FaBeer from 'react-icons/lib/fa/beer';
 import './Tab.css';
 
 const Tab = props => (

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {init} from '../helpers/googlemaps';
-import PlacesAutocomplete from 'react-places-autocomplete'
+import PlacesAutocomplete from 'react-places-autocomplete';
+
 
 class SearchPlacesContainer extends Component {
   static propTypes = {
@@ -36,6 +37,14 @@ class SearchPlacesContainer extends Component {
   showPlacesAutocomplete = () => !this.showDefaultSearch() && !this.state.isLoadingGoogleMaps;
 
   render() {
+    const cssClasses = {
+      root: 'PlaceAutocomplete-root',
+      input: 'PlaceAutocomplete-root',
+      autocompleteContainer: 'PlaceAutocomplete-root',
+      autocompleteItem: 'PlaceAutocomplete-root',
+      autocompleteItemActive: 'PlaceAutocomplete-root'
+    };
+
     return (
       <div className="PlaceAutocomplete-wrapper">
         {this.showDefaultSearch() &&

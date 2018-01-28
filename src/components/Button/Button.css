@@ -1,6 +1,21 @@
 .Button {
   cursor: pointer;
-  border-radius: 3px;
+  border-radius: 5px;
   border: none;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0 rgba(0,0,0,0.02);
+  background-color: #00b3b3;
+  color: white;
+  padding: 5px 25px;
+}
+
+.Button-medium {
+  font-size: 18pt;
+}
+
+.Button-large {
+  font-size: 32pt;
+}
+
+.Button--disabled {
+  background-color: #e6e6e6;
 }

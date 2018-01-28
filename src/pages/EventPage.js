@@ -4,9 +4,11 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 import {fetchEvent, loginEvent, fetchMyETA, getAttendees} from '../event/eventActions';
 import {selectPlaceId, selectEventTime, selectIsLoggedIn} from '../event/eventSelectors';
+import Button from '../components/Button/Button';
 import EventLoginForm from '../event/LoginForm/EventLoginForm';
 import AttendeesListContainer from '../event/AttendeesList/AttendeesListContainer';
 import NavBar from '../navigation/NavBar/NavBar';
+import './Page.css';
 
 class EventPage extends Component {
   static propTypes = {
@@ -24,6 +26,11 @@ class EventPage extends Component {
     isLoggedIn: false
   };
 
+  state = {
+    isRefreshing: false,
+    nameValue: ''
+  };
+
   async componentDidMount() {
     try {
       await this.props.fetchEvent(this.props.eventId);
@@ -38,21 +45,23 @@ class EventPage extends Component {
     }
   }
 
-  getEventDate = () => moment(this.props.eventTime).format('dddd, MMMM DDDo');
+  getEventDate = () => moment(this.props.eventTime).format('ddd, MMMM DDDo');
 
   getEventTime = () => moment(this.props.eventTime).format('[at] h:mm a');
 
   handleSubmitLoginForm = (e) =>
     e.preventDefault() || (
-      !!this.login.value && this.props.loginEvent(this.login.value)
+      !!this.state.nameValue && this.props.loginEvent(this.state.nameValue)
     );
 
-  handleRefLoginForm = ref => this.login = ref;
+  handleChangeName = ({target: {value: nameValue}}) => this.setState({nameValue});
 
   handleRefresh = async () => {
+    this.setState({isRefreshing: true});
     try {
       await this.props.fetchMyETA(this.props.placeId);
       this.props.getAttendees();
+      this.setState({isRefreshing: false});
     } catch(error) {
       console.warn('Refresh failed');
     }
@@ -61,7 +70,14 @@ class EventPage extends Component {
   render() {
     return (
       <div className="EventPage">
-        <button onClick={this.handleRefresh}>Refresh</button>
+        {this.props.isLoggedIn && (
+          <Button
+            onClick={this.handleRefresh}
+            disabled={this.state.isRefreshing}
+          >
+            Refresh
+          </Button>
+        )}
         <h3>
           {this.getEventDate()}
         </h3>
@@ -70,8 +86,10 @@ class EventPage extends Component {
         </h3>
         {!this.props.isLoggedIn &&
           <EventLoginForm
+            value={this.state.nameValue}
+            disabled={!this.state.nameValue}
             onSubmit={this.handleSubmitLoginForm}
-            onRef={this.handleRefLoginForm}
+            onChange={this.handleChangeName}
           />
         }
         {this.props.isLoggedIn && <AttendeesListContainer/>}

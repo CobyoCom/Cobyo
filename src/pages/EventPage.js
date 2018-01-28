@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import {fetchEvent, fetchMyETA, getAttendees} from '../event/eventActions';
-import {selectPlaceId, selectEventTime, selectIsLoggedIn} from '../event/activeEventSelectors';
+import {selectPlaceId, selectPlaceName, selectEventTime, selectIsLoggedIn} from '../event/activeEventSelectors';
 import Button from '../components/Button/Button';
 import EventLoginFormContainer from '../event/LoginForm/EventLoginFormContainer';
 import AttendeesListContainer from '../event/AttendeesList/AttendeesListContainer';
@@ -15,12 +15,14 @@ class EventPage extends Component {
     eventId: PropTypes.string.isRequired,
     fetchEvent: PropTypes.func.isRequired,
     placeId: PropTypes.string,
+    placeName: PropTypes.string,
     eventTime: PropTypes.string,
     isLoggedIn: PropTypes.bool
   };
 
   static defaultProps = {
     placeId: null,
+    placeName: '',
     eventTime: null,
     isLoggedIn: false,
     isOpenTravelMode: false
@@ -70,6 +72,7 @@ class EventPage extends Component {
             Refresh
           </Button>
         )}
+        <h3>{this.props.placeName}</h3>
         <h3>{this.getEventDate()}</h3>
 
         <h3>{this.getEventTime()}</h3>
@@ -86,6 +89,7 @@ class EventPage extends Component {
 
 const mapStateToProps = state => ({
   placeId: selectPlaceId(state),
+  placeName: selectPlaceName(state),
   eventTime: selectEventTime(state),
   isLoggedIn: selectIsLoggedIn(state)
 });

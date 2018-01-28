@@ -8,6 +8,7 @@ const initialState = {};
 export const eventInitialState = {
   eventId: null,
   placeId: null,
+  placeName: '',
   eventTime: null,
   isLoggedIn: false,
   attendees: [],
@@ -31,11 +32,12 @@ export default function events(state = initialState, {type, payload}) {
       };
     }
     case types.fetchEventSuccess: {
-      const {eventId, placeId, eventTime} = payload;
+      const {eventId, placeName, placeId, eventTime} = payload;
       return {
         ...state,
         [eventId]: {
           ...state[eventId],
+          placeName,
           placeId,
           eventTime
         }

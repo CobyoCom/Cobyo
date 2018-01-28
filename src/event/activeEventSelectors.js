@@ -14,6 +14,7 @@ const selectActiveEvent = createSelector(
 
 export const selectEventId = state => selectActiveEvent(state).eventId;
 export const selectPlaceId = state => selectActiveEvent(state).placeId;
+export const selectPlaceName = state => selectActiveEvent(state).placeName;
 export const selectEventTime = state => selectActiveEvent(state).eventTime;
 export const selectIsLoggedIn = state => selectActiveEvent(state).isLoggedIn;
 export const selectEventAttendees = state => selectActiveEvent(state).attendees;

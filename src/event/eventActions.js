@@ -32,9 +32,9 @@ const fetchEventRequest = (eventId) => ({
   payload: {eventId}
 });
 
-const fetchEventSuccess = (eventId, placeId, eventTime) => ({
+const fetchEventSuccess = (eventId, placeName, placeId, eventTime) => ({
   type: types.fetchEventSuccess,
-  payload: {eventId, placeId, eventTime}
+  payload: {eventId, placeName, placeId, eventTime}
 });
 
 export const loginEvent = (eventId, userName, travelMode) => ({
@@ -76,12 +76,13 @@ const fetchLocationFailure = () => ({
   type: types.fetchLocationFailure
 });
 
-export const createEvent = (placeId, eventTime) => async (dispatch) => {
+export const createEvent = (placeValue, placeId, eventTime) => async (dispatch) => {
   dispatch(createEventRequest());
 
   try {
     const response = await axios.post('/api/events', {
       placeId,
+      placeName: placeValue,
       eventTime
     });
     if (response && response.data) {
@@ -100,8 +101,8 @@ export const fetchEvent = (eventId) => async (dispatch) => {
   try {
     const response = await axios.get(`/api/events/${eventId}`);
     if (response && response.data) {
-      const {placeId, eventTime} = response.data;
-      dispatch(fetchEventSuccess(eventId, placeId, eventTime));
+      const {placeName, placeId, eventTime} = response.data;
+      dispatch(fetchEventSuccess(eventId, placeName, placeId, eventTime));
     }
   } catch(error) {
     return Promise.reject(error);

@@ -15,8 +15,8 @@ class CreatePage extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const {placeId, eventTime} = this.state;
-    this.props.createEvent(placeId, eventTime).then(eventId =>
+    const {placeValue, placeId, eventTime} = this.state;
+    this.props.createEvent(placeValue, placeId, eventTime).then(eventId =>
       this.props.history.push(`/events/${eventId}`)
     );
   };

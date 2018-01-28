@@ -5,6 +5,7 @@ import moment from 'moment';
 import {fetchEvent, fetchMyETA, getAttendees} from '../event/eventActions';
 import {selectPlaceId, selectPlaceName, selectEventTime, selectIsLoggedIn} from '../event/activeEventSelectors';
 import Button from '../components/Button/Button';
+import EventDetails from '../event/Details/EventDetails';
 import EventLoginFormContainer from '../event/LoginForm/EventLoginFormContainer';
 import AttendeesListContainer from '../event/AttendeesList/AttendeesListContainer';
 import NavBar from '../navigation/NavBar/NavBar';
@@ -40,16 +41,6 @@ class EventPage extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    // if (this.props.placeId !== nextProps.placeId) {
-    //   this.props.fetchMyETA(nextProps.placeId);
-    // }
-  }
-
-  getEventDate = () => moment(this.props.eventTime).format('ddd, MMMM DDDo');
-
-  getEventTime = () => moment(this.props.eventTime).format('[at] h:mm a');
-
   handleRefresh = async () => {
     this.setState({isRefreshing: true});
     try {
@@ -72,10 +63,10 @@ class EventPage extends Component {
             Refresh
           </Button>
         )}
-        <h3>{this.props.placeName}</h3>
-        <h3>{this.getEventDate()}</h3>
-
-        <h3>{this.getEventTime()}</h3>
+        <EventDetails
+          placeName={this.props.placeName}
+          eventTime={this.props.eventTime}
+        />
 
         {!this.props.isLoggedIn && <EventLoginFormContainer/>}
 

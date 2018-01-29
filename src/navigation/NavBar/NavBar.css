@@ -7,10 +7,10 @@
   left: 0;
   height: 50px;
   width: 100%;
+  border-top: 1px solid #EFF1F3;
 }
 
 .NavBar > * {
-  border-top: 1px solid #999999;
   flex-grow: 1;
   display: flex;
   justify-content: center;

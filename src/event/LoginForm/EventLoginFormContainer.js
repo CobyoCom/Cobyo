@@ -15,7 +15,8 @@ class EventLoginFormContainer extends Component {
   state = {
     nameValue: '',
     travelModeValue: DRIVING,
-    isModalOpen: false
+    isModalOpen: false,
+    isLoading: false
   };
 
   getIsDisabled = () => !this.state.nameValue;
@@ -33,15 +34,16 @@ class EventLoginFormContainer extends Component {
     this.setState({isModalOpen: true});
   };
 
-  handleCloseModal = () => {
-    this.setState({isModalOpen: false}, () => {
-      if (!this.state.nameValue || !this.state.travelModeValue) {
-        return;
-      }
+  handleCloseModal = async () => {
+    if (!this.state.nameValue || !this.state.travelModeValue) {
+      return;
+    }
 
-      this.props.loginEvent(this.props.eventId, this.state.nameValue, this.state.travelModeValue);
-      this.props.fetchMyETA();
-    });
+    this.setState({isLoading: true});
+
+    this.props.fetchMyETA();
+    await new Promise((resolve, reject) => setTimeout(resolve, 1000));
+    this.props.loginEvent(this.props.eventId, this.state.nameValue, this.state.travelModeValue);
   };
 
   render() {
@@ -51,6 +53,7 @@ class EventLoginFormContainer extends Component {
         travelModeValue={this.state.travelModeValue}
         isDisabled={this.getIsDisabled()}
         isModalOpen={this.state.isModalOpen}
+        isLoading={this.state.isLoading}
         onChangeName={this.handleChangeName}
         onChangeTravelMode={this.handleChangeTravelMode}
         onSubmit={this.handleSubmit}

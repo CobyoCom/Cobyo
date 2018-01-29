@@ -39,15 +39,18 @@ const TravelModeSelect = props => (
         <FaSubway size={36} />
       </button>
     </div>
+    <div className={cx('TravelModeSelect-bar', {'TravelModeSelect-loading': props.isLoading})}/>
   </div>
 );
 
 TravelModeSelect.propTypes = {
+  isLoading: PropTypes.bool,
   travelModeValue: PropTypes.oneOf(['WALKING', 'DRIVING', 'TRANSIT']),
   onChange: PropTypes.func.isRequired
 };
 
 TravelModeSelect.defaultProps = {
+  isLoading: false,
   travelModeValue: DRIVING
 };
 

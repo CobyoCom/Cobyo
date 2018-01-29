@@ -23,11 +23,14 @@ const EventLoginForm = props => (
     </Button>
 
     <Modal
+      little
       open={props.isModalOpen}
       showCloseIcon={false}
+      closeOnOverlayClick={false}
       onClose={props.onCloseModal}
     >
       <TravelModeSelect
+        isLoading={props.isLoading}
         travelModeValue={props.travelModeValue}
         onChange={props.onChangeTravelMode}
       />
@@ -40,6 +43,7 @@ EventLoginForm.propTypes = {
   travelModeValue: PropTypes.string,
   isDisabled: PropTypes.bool.isRequired,
   isModalOpen: PropTypes.bool,
+  isLoading: PropTypes.bool,
   onChangeName: PropTypes.func.isRequired,
   onChangeTravelMode: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -48,7 +52,8 @@ EventLoginForm.propTypes = {
 
 EventLoginForm.defaultProps = {
   isDisabled: true,
-  isModalOpen: false
+  isModalOpen: false,
+  isLoading: false
 };
 
 export default EventLoginForm;

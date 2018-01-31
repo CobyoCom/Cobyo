@@ -1,9 +1,48 @@
 .AttendeesListItem {
-  border: 1px solid black;
+  padding: 5px 0;
 }
 
 .AttendeesListItem-content {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.AttendeesListItem-content > div {
+  display: flex;
+  flex-direction: row;
+}
+
+.AttendeesListItem-icon {
+  height: 10vw;
+  width: 10vw;
+  border-radius: 50vw;
+  border: 1px solid #696773;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.AttendeesListItem-user {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.AttendeesListItem-name {
+  font-weight: normal;
+  font-size: 15pt;
+  margin: 0;
+}
+
+.AttendeesListItem-lut {
+  font-size: 11pt;
+}
+
+.AttendeesListItem-eta {
+  align-self: center;
+  border: 1px solid #272727;
+  border-radius: 5px;
+  padding: 2px;
 }

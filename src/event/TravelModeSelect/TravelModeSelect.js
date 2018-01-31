@@ -2,11 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {FaMale, FaCab, FaSubway} from 'react-icons/lib/fa';
+import {WALKING, DRIVING, TRANSIT, DEFAULT_TRAVEL_MODE} from '../../helpers/globalConstants';
 import './TravelModeSelect.css';
-
-export const WALKING = 'WALKING';
-export const DRIVING = 'DRIVING';
-export const TRANSIT = 'TRANSIT';
 
 const TravelModeSelect = props => (
   <div className="TravelModeSelect">
@@ -45,13 +42,13 @@ const TravelModeSelect = props => (
 
 TravelModeSelect.propTypes = {
   isLoading: PropTypes.bool,
-  travelModeValue: PropTypes.oneOf(['WALKING', 'DRIVING', 'TRANSIT']),
+  travelModeValue: PropTypes.oneOf([WALKING, DRIVING, TRANSIT]),
   onChange: PropTypes.func.isRequired
 };
 
 TravelModeSelect.defaultProps = {
   isLoading: false,
-  travelModeValue: DRIVING
+  travelModeValue: DEFAULT_TRAVEL_MODE
 };
 
 export default TravelModeSelect;

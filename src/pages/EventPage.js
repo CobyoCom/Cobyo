@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import moment from 'moment';
 import {fetchEvent, fetchMyETA, getAttendees} from '../event/eventActions';
 import {selectPlaceId, selectPlaceName, selectEventTime, selectIsLoggedIn} from '../event/activeEventSelectors';
 import Button from '../components/Button/Button';
@@ -55,14 +54,6 @@ class EventPage extends Component {
   render() {
     return (
       <div className="EventPage">
-        {this.props.isLoggedIn && (
-          <Button
-            onClick={this.handleRefresh}
-            disabled={this.state.isRefreshing}
-          >
-            Refresh
-          </Button>
-        )}
         <EventDetails
           placeName={this.props.placeName}
           eventTime={this.props.eventTime}
@@ -72,6 +63,14 @@ class EventPage extends Component {
 
         {this.props.isLoggedIn && <AttendeesListContainer/>}
 
+        {this.props.isLoggedIn && (
+          <Button
+            onClick={this.handleRefresh}
+            disabled={this.state.isRefreshing}
+          >
+            Refresh
+          </Button>
+        )}
         <NavBar/>
       </div>
     );

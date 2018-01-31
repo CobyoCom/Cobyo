@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import AttendeesListItem from './AttendeesListItem/AttendeesListItem';
 import AttendeesListItemContainer from './AttendeesListItem/AttendeesListItemContainer';
 import './AttendeesList.css';
 
 const AttendeesList = props => (
   <div className="AttendeesList">
     <AttendeesListItemContainer
-      key={props.userName}
-      userName={props.userName}
-      estimatedArrivalTime={props.myETA}
-      lastUpdatedTime={props.myLUT}
+      key={props.me.userName}
+      {...props.me}
     />
     {props.attendees.map(attendee =>
       <AttendeesListItemContainer key={attendee.userName} {...attendee} />
@@ -18,8 +17,8 @@ const AttendeesList = props => (
 );
 
 AttendeesList.propTypes = {
-  attendees: PropTypes.array,
-  userName: PropTypes.string
+  me: PropTypes.shape(AttendeesListItem.propTypes).isRequired,
+  attendees: PropTypes.array
 };
 
 AttendeesList.defaultProps = {

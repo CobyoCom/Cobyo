@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {FaMale, FaCab, FaSubway} from 'react-icons/lib/fa';
 import moment from 'moment';
+import {fromNow} from '../../../helpers/moment';
+import {WALKING, DRIVING, TRANSIT} from '../../../helpers/globalConstants';
 import './AttendeesListItem.css';
 
 const formatArrivalTime = estimatedArrivalTime => {
@@ -15,21 +18,29 @@ const formatArrivalTime = estimatedArrivalTime => {
 };
 
 const AttendeesListItem = props => (
-  <div
-    className="AttendeesListItem"
-    onClick={props.onClick}
-  >
-    <div
-      className="AttendeesListItem-content"
-    >
-      <div>{props.userName}</div>
-      <div>{formatArrivalTime(props.estimatedArrivalTime)}</div>
-    </div>
-    {props.isExpanded &&
+  <div className="AttendeesListItem">
+    <div className="AttendeesListItem-content">
       <div>
-        {moment().to(props.lastUpdatedTime)}
+        <div className="AttendeesListItem-icon">
+          {props.travelMode === WALKING && <FaMale/>}
+          {props.travelMode === DRIVING && <FaCab/>}
+          {props.travelMode === TRANSIT && <FaSubway/>}
+        </div>
+        <div className="AttendeesListItem-user">
+          <h2 className="AttendeesListItem-name">
+            {props.userName}
+          </h2>
+          <span className="AttendeesListItem-lut">
+            {fromNow(props.lastUpdatedTime)}
+          </span>
+        </div>
       </div>
-    }
+      <div>
+        <span className="AttendeesListItem-eta">
+          {formatArrivalTime(props.estimatedArrivalTime)}
+        </span>
+      </div>
+    </div>
   </div>
 );
 
@@ -37,14 +48,7 @@ AttendeesListItem.propTypes = {
   userName: PropTypes.string.isRequired,
   estimatedArrivalTime: PropTypes.string,
   lastUpdatedTime: PropTypes.string,
-  isExanded: PropTypes.bool,
-  onClick: PropTypes.func.isRequired
-};
-
-AttendeesListItem.defaultProps = {
-  estimatedArrivalTime: '',
-  lastUpdatedTime: '',
-  isExpanded: false
+  travelMode: PropTypes.oneOf([WALKING, DRIVING, TRANSIT])
 };
 
 export default AttendeesListItem;

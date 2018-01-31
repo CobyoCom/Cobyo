@@ -1,14 +1,21 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {selectEventAttendees, selectMyETA, selectMyLUT, selectUserName} from '../activeEventSelectors';
+import {
+  selectEventAttendees,
+  selectMyETA,
+  selectMyLUT,
+  selectTravelMode,
+  selectUserName
+} from '../activeEventSelectors';
 import {getAttendees} from '../eventActions';
+import AttendeesListItem from './AttendeesListItem/AttendeesListItem';
 import AttendeesList from './AttendeesList';
 
 class AttendeesListContainer extends Component {
   static propTypes = {
+    me: PropTypes.shape(AttendeesListItem.propTypes).isRequired,
     attendees: PropTypes.array,
-    myETA: PropTypes.string,
     getAttendees: PropTypes.func.isRequired
   };
 
@@ -17,13 +24,13 @@ class AttendeesListContainer extends Component {
   };
 
   componentDidMount() {
-    if (this.props.myETA) {
+    if (this.props.me.estimatedArrivalTime) {
       this.props.getAttendees();
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.myETA !== nextProps.myETA) {
+    if (this.props.me.estimatedArrivalTime !== nextProps.me.estimatedArrivalTime) {
       this.props.getAttendees();
     }
   }
@@ -37,9 +44,12 @@ class AttendeesListContainer extends Component {
 
 const mapStateToProps = state => ({
   attendees: selectEventAttendees(state),
-  userName: selectUserName(state),
-  myETA: selectMyETA(state),
-  myLUT: selectMyLUT(state)
+  me: {
+    userName: selectUserName(state),
+    estimatedArrivalTime: selectMyETA(state),
+    lastUpdatedTime: selectMyLUT(state),
+    travelMode: selectTravelMode(state)
+  }
 });
 
 const mapDispatchToProps = {

@@ -13,6 +13,7 @@ export const types = {
   createEventFailure: 'CREATE_EVENT_FAILURE',
   fetchEventRequest: 'FETCH_EVENT_REQUEST',
   fetchEventSuccess: 'FETCH_EVENT_SUCCESS',
+  setTravelMode: 'SET_TRAVEL_MODE',
   loginEvent: 'LOGIN_EVENT',
   fetchMyETASuccess: 'FETCH_MY_ETA_SUCCESS',
   fetchMyETAFailure: 'FETCH_MY_ETA_FALIURE',
@@ -37,9 +38,14 @@ const fetchEventSuccess = (eventId, placeName, placeId, eventTime) => ({
   payload: {eventId, placeName, placeId, eventTime}
 });
 
-export const loginEvent = (eventId, userName, travelMode) => ({
+export const setTravelMode = (eventId, travelMode) => ({
+  type: types.setTravelMode,
+  payload: {eventId, travelMode}
+});
+
+export const loginEvent = (eventId, userName) => ({
   type: types.loginEvent,
-  payload: {eventId, userName, travelMode}
+  payload: {eventId, userName}
 });
 
 export const fetchMyETASuccess = (eventId, myETA, myLUT) => ({
@@ -141,7 +147,7 @@ export const fetchMyETA = () => (dispatch, getState) => new Promise(async (resol
 
   try {
     const {coordinates: {latitude, longitude}, myLUT} = await dispatch(fetchLocation());
-
+    console.log(travelMode);
     new google.maps.DistanceMatrixService().getDistanceMatrix({
       origins: [new google.maps.LatLng(latitude, longitude)],
       destinations: [{'placeId': destinationPlaceId}],

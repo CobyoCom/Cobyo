@@ -1,5 +1,5 @@
 import {types} from '../../event/eventActions';
-import {DRIVING} from '../../event/TravelModeSelect/TravelModeSelect';
+import {DEFAULT_TRAVEL_MODE} from '../../helpers/globalConstants';
 
 export const moduleName = 'events';
 
@@ -15,7 +15,7 @@ export const eventInitialState = {
   userName: null,
   myETA: null,
   myLUT: null,
-  travelMode: DRIVING
+  travelMode: DEFAULT_TRAVEL_MODE
 };
 
 export default function events(state = initialState, {type, payload}) {
@@ -43,14 +43,23 @@ export default function events(state = initialState, {type, payload}) {
         }
       };
     }
+    case types.setTravelMode: {
+      const {eventId, travelMode} = payload;
+      return {
+        ...state,
+        [eventId]: {
+          ...state[eventId],
+          travelMode
+        }
+      };
+    }
     case types.loginEvent: {
-      const {eventId, userName, travelMode} = payload;
+      const {eventId, userName} = payload;
       return {
         ...state,
         [eventId]: {
           ...state[eventId],
           userName,
-          travelMode,
           isLoggedIn: true
         }
       };

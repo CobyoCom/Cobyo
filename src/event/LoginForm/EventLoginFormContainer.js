@@ -1,20 +1,21 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {loginEvent, fetchMyETA} from '../../event/eventActions';
+import {setTravelMode, loginEvent, fetchMyETA} from '../../event/eventActions';
 import {selectEventId} from '../activeEventSelectors';
 import EventLoginForm from './EventLoginForm';
-import {DRIVING} from '../TravelModeSelect/TravelModeSelect';
+import {DEFAULT_TRAVEL_MODE} from '../../helpers/globalConstants';
 
 class EventLoginFormContainer extends Component {
   static propTypes = {
-    loginEvent: PropTypes.func.isRequired,
-    fetchMyETA: PropTypes.func.isRequired
+    setTravelMode: PropTypes.func.isRequired,
+    fetchMyETA: PropTypes.func.isRequired,
+    loginEvent: PropTypes.func.isRequired
   };
   
   state = {
     nameValue: '',
-    travelModeValue: DRIVING,
+    travelModeValue: DEFAULT_TRAVEL_MODE,
     isModalOpen: false,
     isLoading: false
   };
@@ -40,10 +41,11 @@ class EventLoginFormContainer extends Component {
     }
 
     this.setState({isLoading: true});
+    this.props.setTravelMode(this.props.eventId, this.state.travelModeValue);
 
     this.props.fetchMyETA();
     await new Promise((resolve, reject) => setTimeout(resolve, 1000));
-    this.props.loginEvent(this.props.eventId, this.state.nameValue, this.state.travelModeValue);
+    this.props.loginEvent(this.props.eventId, this.state.nameValue);
   };
 
   render() {
@@ -68,8 +70,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  loginEvent,
-  fetchMyETA
+  setTravelMode,
+  fetchMyETA,
+  loginEvent
 };
 
 export default connect(

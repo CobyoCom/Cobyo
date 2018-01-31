@@ -8,6 +8,7 @@
   height: 50px;
   width: 100%;
   border-top: 1px solid #EFF1F3;
+  background-color: white;
 }
 
 .NavBar > * {

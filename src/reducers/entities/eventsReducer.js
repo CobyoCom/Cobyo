@@ -13,8 +13,8 @@ export const eventInitialState = {
   isLoggedIn: false,
   attendees: [],
   userName: null,
-  myETA: null,
-  myLUT: null,
+  duration: null,
+  lastUpdated: null,
   travelMode: DEFAULT_TRAVEL_MODE
 };
 
@@ -65,13 +65,13 @@ export default function events(state = initialState, {type, payload}) {
       };
     }
     case types.fetchMyETASuccess: {
-      const {eventId, myETA, myLUT} = payload;
+      const {eventId, duration, lastUpdated} = payload;
       return {
         ...state,
         [eventId]: {
           ...state[eventId],
-          myETA,
-          myLUT
+          duration,
+          lastUpdated
         }
       };
     }

@@ -3,7 +3,7 @@ import axios from 'axios';
 import {getErrorMessage} from '../helpers/googlemaps';
 import {formatDateForDatabase, addTime} from '../helpers/moment';
 import {
-  selectEventId, selectMyETA, selectMyLUT, selectPlaceId, selectTravelMode,
+  selectEventId, selectDuration, selectLastUpdated, selectPlaceId, selectTravelMode,
   selectUserName
 } from './activeEventSelectors';
 
@@ -48,9 +48,9 @@ export const loginEvent = (eventId, userName) => ({
   payload: {eventId, userName}
 });
 
-export const fetchMyETASuccess = (eventId, myETA, myLUT) => ({
+export const fetchMyETASuccess = (eventId, duration, lastUpdated) => ({
   type: types.fetchMyETASuccess,
-  payload: {eventId, myETA, myLUT}
+  payload: {eventId, duration, lastUpdated}
 });
 
 export const fetchMyETAFailure = (eventId, errorMessage) => ({
@@ -124,9 +124,9 @@ const fetchLocation = () => (dispatch) => new Promise((resolve, reject) => {
       (position) => {
         const {coords: {latitude, longitude}, timestamp} = position;
         const coordinates = {latitude, longitude};
-        const myLUT = formatDateForDatabase(timestamp);
-        dispatch(fetchLocationSuccess(coordinates, myLUT));
-        return resolve({coordinates, myLUT});
+        const lastUpdated = formatDateForDatabase(timestamp);
+        dispatch(fetchLocationSuccess(coordinates, lastUpdated));
+        return resolve({coordinates, lastUpdated});
       },
       () => {
         dispatch(fetchLocationFailure());
@@ -146,8 +146,8 @@ export const fetchMyETA = () => (dispatch, getState) => new Promise(async (resol
   const travelMode = selectTravelMode(state);
 
   try {
-    const {coordinates: {latitude, longitude}, myLUT} = await dispatch(fetchLocation());
-    console.log(travelMode);
+    const {coordinates: {latitude, longitude}, lastUpdated} = await dispatch(fetchLocation());
+
     new google.maps.DistanceMatrixService().getDistanceMatrix({
       origins: [new google.maps.LatLng(latitude, longitude)],
       destinations: [{'placeId': destinationPlaceId}],
@@ -165,9 +165,7 @@ export const fetchMyETA = () => (dispatch, getState) => new Promise(async (resol
         const {duration, status} = response.rows[0].elements[0];
         if (status === 'OK') {
           const {value: seconds} = duration;
-          const myETA = addTime(seconds).format('YYYY-MM-DD HH:mm');
-
-          dispatch(fetchMyETASuccess(eventId, myETA, myLUT));
+          dispatch(fetchMyETASuccess(eventId, seconds, lastUpdated));
           return resolve();
         }
 
@@ -191,8 +189,8 @@ export const getAttendees = () => async (dispatch, getState) => {
   try {
     const response = await axios.post(`/api/events/${eventId}`, {
       userName: selectUserName(state),
-      estimatedArrivalTime: selectMyETA(state),
-      lastUpdatedTime: selectMyLUT(state),
+      duration: selectDuration(state),
+      lastUpdatedTime: selectLastUpdated(state),
       travelMode: selectTravelMode(state)
     });
     const data = await response.data;

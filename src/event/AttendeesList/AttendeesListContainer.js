@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {
   selectEventAttendees,
-  selectMyETA,
-  selectMyLUT,
+  selectDuration,
+  selectLastUpdated,
   selectTravelMode,
   selectUserName
 } from '../activeEventSelectors';
@@ -24,13 +24,13 @@ class AttendeesListContainer extends Component {
   };
 
   componentDidMount() {
-    if (this.props.me.estimatedArrivalTime) {
+    if (this.props.me.duration !== null) {
       this.props.getAttendees();
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.me.estimatedArrivalTime !== nextProps.me.estimatedArrivalTime) {
+    if (this.props.me.duration !== nextProps.me.duration) {
       this.props.getAttendees();
     }
   }
@@ -46,8 +46,8 @@ const mapStateToProps = state => ({
   attendees: selectEventAttendees(state),
   me: {
     userName: selectUserName(state),
-    estimatedArrivalTime: selectMyETA(state),
-    lastUpdatedTime: selectMyLUT(state),
+    duration: selectDuration(state),
+    lastUpdated: selectLastUpdated(state),
     travelMode: selectTravelMode(state)
   }
 });

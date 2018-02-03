@@ -20,5 +20,5 @@ export const selectIsLoggedIn = state => selectActiveEvent(state).isLoggedIn;
 export const selectEventAttendees = state => selectActiveEvent(state).attendees;
 export const selectUserName = state => selectActiveEvent(state).userName;
 export const selectTravelMode = state => selectActiveEvent(state).travelMode;
-export const selectMyETA = state => selectActiveEvent(state).myETA;
-export const selectMyLUT = state => selectActiveEvent(state).myLUT;
+export const selectDuration = state => selectActiveEvent(state).duration;
+export const selectLastUpdated = state => selectActiveEvent(state).lastUpdated;

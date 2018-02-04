@@ -1,5 +1,5 @@
 import {types} from '../../event/eventActions';
-import {DEFAULT_TRAVEL_MODE} from '../../helpers/globalConstants';
+import {AttendeeDefaultProps} from '../../event/AttendeesList/AttendeesListItem/AttendeesListItem';
 
 export const moduleName = 'events';
 
@@ -8,14 +8,10 @@ const initialState = {};
 export const eventInitialState = {
   eventId: null,
   placeId: null,
-  placeName: '',
+  location: '',
   eventTime: null,
-  isLoggedIn: false,
   attendees: [],
-  userName: null,
-  duration: null,
-  lastUpdated: null,
-  travelMode: DEFAULT_TRAVEL_MODE
+  me: AttendeeDefaultProps
 };
 
 export default function events(state = initialState, {type, payload}) {
@@ -27,17 +23,17 @@ export default function events(state = initialState, {type, payload}) {
         [eventId]: {
           ...eventInitialState,
           ...state[eventId],
-          eventId
+          eventId: parseInt(eventId, 10)
         }
       };
     }
     case types.fetchEventSuccess: {
-      const {eventId, placeName, placeId, eventTime} = payload;
+      const {eventId, location, placeId, eventTime} = payload;
       return {
         ...state,
         [eventId]: {
           ...state[eventId],
-          placeName,
+          location,
           placeId,
           eventTime
         }
@@ -49,7 +45,10 @@ export default function events(state = initialState, {type, payload}) {
         ...state,
         [eventId]: {
           ...state[eventId],
-          travelMode
+          me: {
+            ...state[eventId].me,
+            travelMode
+          }
         }
       };
     }
@@ -59,19 +58,24 @@ export default function events(state = initialState, {type, payload}) {
         ...state,
         [eventId]: {
           ...state[eventId],
-          userName,
-          isLoggedIn: true
+          me: {
+            ...state[eventId].me,
+            userName
+          }
         }
       };
     }
-    case types.fetchMyETASuccess: {
+    case types.refreshEventRequest: {
       const {eventId, duration, lastUpdated} = payload;
       return {
         ...state,
         [eventId]: {
           ...state[eventId],
-          duration,
-          lastUpdated
+          me: {
+            ...state[eventId].me,
+            duration,
+            lastUpdated
+          }
         }
       };
     }
@@ -82,6 +86,32 @@ export default function events(state = initialState, {type, payload}) {
         [eventId]: {
           ...state[eventId],
           attendees
+        }
+      };
+    }
+    case types.leaveForEventRequest: {
+      const {eventId} = payload;
+      return {
+        ...state,
+        [eventId]: {
+          ...state[eventId],
+          me: {
+            ...state[eventId].me,
+            hasLeft: true
+          }
+        }
+      };
+    }
+    case types.leaveForEventFailure: {
+      const {eventId} = payload;
+      return {
+        ...state,
+        [eventId]: {
+          ...state[eventId],
+          me: {
+            ...state[eventId].me,
+            hasLeft: false
+          }
         }
       };
     }

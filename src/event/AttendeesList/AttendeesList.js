@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AttendeesListItem from './AttendeesListItem/AttendeesListItem';
+import {AttendeePropTypes} from './AttendeesListItem/AttendeesListItem';
 import AttendeesListItemContainer from './AttendeesListItem/AttendeesListItemContainer';
 import './AttendeesList.css';
 
@@ -17,7 +17,7 @@ const AttendeesList = props => (
 );
 
 AttendeesList.propTypes = {
-  me: PropTypes.shape(AttendeesListItem.propTypes).isRequired,
+  me: PropTypes.shape(AttendeePropTypes).isRequired,
   attendees: PropTypes.array
 };
 

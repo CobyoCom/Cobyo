@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {setTravelMode, loginEvent, fetchMyETA} from '../../event/eventActions';
+import {DEFAULT_TRAVEL_MODE} from '../../helpers/globalConstants';
+import {setTravelMode, loginEvent} from '../../event/eventActions';
 import {selectEventId} from '../activeEventSelectors';
 import EventLoginForm from './EventLoginForm';
-import {DEFAULT_TRAVEL_MODE} from '../../helpers/globalConstants';
 
 class EventLoginFormContainer extends Component {
+
   static propTypes = {
+    eventId: PropTypes.number.isRequired,
     setTravelMode: PropTypes.func.isRequired,
-    fetchMyETA: PropTypes.func.isRequired,
     loginEvent: PropTypes.func.isRequired
   };
   
@@ -20,8 +21,6 @@ class EventLoginFormContainer extends Component {
     isLoading: false
   };
 
-  getIsDisabled = () => !this.state.nameValue;
-
   handleChangeName = ({target: {value: nameValue}}) => this.setState({nameValue});
 
   handleChangeTravelMode = travelModeValue =>
@@ -31,7 +30,6 @@ class EventLoginFormContainer extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-
     this.setState({isModalOpen: true});
   };
 
@@ -42,8 +40,7 @@ class EventLoginFormContainer extends Component {
 
     this.setState({isLoading: true});
     this.props.setTravelMode(this.props.eventId, this.state.travelModeValue);
-
-    this.props.fetchMyETA();
+    // Show the loading bar because the quick movement is a bit jarring
     await new Promise((resolve, reject) => setTimeout(resolve, 1000));
     this.props.loginEvent(this.props.eventId, this.state.nameValue);
   };
@@ -53,7 +50,7 @@ class EventLoginFormContainer extends Component {
       <EventLoginForm
         nameValue={this.state.nameValue}
         travelModeValue={this.state.travelModeValue}
-        isDisabled={this.getIsDisabled()}
+        isDisabled={!this.state.nameValue}
         isModalOpen={this.state.isModalOpen}
         isLoading={this.state.isLoading}
         onChangeName={this.handleChangeName}
@@ -71,7 +68,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setTravelMode,
-  fetchMyETA,
   loginEvent
 };
 

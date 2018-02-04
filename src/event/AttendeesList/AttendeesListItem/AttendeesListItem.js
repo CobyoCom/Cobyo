@@ -1,9 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FaMale, FaCab, FaSubway, FaHome} from 'react-icons/lib/fa';
 import moment from 'moment';
-import {fromNow, addTime} from '../../../helpers/moment';
-import {WALKING, DRIVING, TRANSIT, DEFAULT_TRAVEL_MODE} from '../../../helpers/globalConstants';
+import {
+  FaMale,
+  FaCab,
+  FaSubway,
+  FaHome
+} from 'react-icons/lib/fa';
+import {
+  fromNow,
+  addTime
+} from '../../../helpers/moment';
+import {
+  WALKING,
+  DRIVING,
+  TRANSIT,
+  DEFAULT_TRAVEL_MODE
+} from '../../../helpers/globalConstants';
 import './AttendeesListItem.css';
 
 const getIcon = (hasLeft, travelMode) => {
@@ -34,9 +47,12 @@ const AttendeesListItem = props => (
   <div className="AttendeesListItem">
     <div className="AttendeesListItem-content">
       <div>
-        <div className="AttendeesListItem-icon">
+        <button
+          className="AttendeesListItem-icon"
+          onClick={props.onClickTravelMode}
+        >
           {getIcon(props.hasLeft, props.travelMode)}
-        </div>
+        </button>
         <div className="AttendeesListItem-user">
           <h2 className="AttendeesListItem-name">
             {props.userName}
@@ -59,19 +75,29 @@ const AttendeesListItem = props => (
   </div>
 );
 
-AttendeesListItem.propTypes = {
-  userName: PropTypes.string.isRequired,
+export const AttendeePropTypes = {
+  userName: PropTypes.string,
   duration: PropTypes.number,
   lastUpdated: PropTypes.string,
   travelMode: PropTypes.oneOf([WALKING, DRIVING, TRANSIT]),
-  hasLeft: PropTypes.bool
+  hasLeft: PropTypes.bool,
 };
 
-AttendeesListItem.defaultProps = {
+export const AttendeeDefaultProps = {
+  userName: '',
   duration: null,
   lastUpdated: null,
   travelMode: DEFAULT_TRAVEL_MODE,
   hasLeft: false
+};
+
+AttendeesListItem.propTypes = {
+  ...AttendeePropTypes,
+  onClickTravelMode: PropTypes.func.isRequired
+};
+
+AttendeesListItem.defaultProps = {
+  ...AttendeeDefaultProps
 };
 
 export default AttendeesListItem;

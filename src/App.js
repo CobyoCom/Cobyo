@@ -10,7 +10,7 @@ import {
 import ErrorBannerContainer from './error/ErrorBanner/ErrorBannerContainer';
 import HomePage from './pages/HomePage';
 import CreatePage from './pages/CreatePage';
-import EventPage from './pages/EventPage';
+import EventPageContainer from './pages/EventPage/EventPageContainer';
 import NotFoundPage from './pages/NotFoundPage';
 import './App.css';
 
@@ -26,11 +26,27 @@ class App extends Component {
           <div className="Page">
             <Router>
               <Switch>
-                <Route exact path="/" render={props => <HomePage {...props} />} />
-                <Route exact path="/events" render={props => <CreatePage {...props} />} />
-                <Route path="/events/:eventId" render={props => <Redirect to={`/${extractParams(props).eventId}`} />} />
-                <Route path="/:eventId" render={props => <EventPage {...props} {...extractParams(props)} />} />
-                <Route component={NotFoundPage} />
+                <Route
+                  exact
+                  path="/"
+                  render={props => <HomePage {...props} />}
+                />
+                <Route
+                  exact
+                  path="/events"
+                  render={props => <CreatePage {...props} />}
+                />
+                <Route
+                  path="/events/:eventId"
+                  render={props => <Redirect to={`/${extractParams(props).eventId}`} />}
+                />
+                <Route
+                  path="/:eventId"
+                  render={props => <EventPageContainer {...props} {...extractParams(props)} />}
+                />
+                <Route
+                  component={NotFoundPage}
+                />
               </Switch>
             </Router>
           </div>

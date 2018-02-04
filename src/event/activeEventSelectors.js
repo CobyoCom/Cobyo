@@ -14,11 +14,12 @@ const selectActiveEvent = createSelector(
 
 export const selectEventId = state => selectActiveEvent(state).eventId;
 export const selectPlaceId = state => selectActiveEvent(state).placeId;
-export const selectPlaceName = state => selectActiveEvent(state).placeName;
+export const selectEventLocation = state => selectActiveEvent(state).location;
 export const selectEventTime = state => selectActiveEvent(state).eventTime;
-export const selectIsLoggedIn = state => selectActiveEvent(state).isLoggedIn;
 export const selectEventAttendees = state => selectActiveEvent(state).attendees;
-export const selectUserName = state => selectActiveEvent(state).userName;
-export const selectTravelMode = state => selectActiveEvent(state).travelMode;
-export const selectDuration = state => selectActiveEvent(state).duration;
-export const selectLastUpdated = state => selectActiveEvent(state).lastUpdated;
+export const selectMe = state => selectActiveEvent(state).me;
+
+export const selectIsLoggedIn = state => !!selectMe(state).userName;
+export const selectUserName = state => selectMe(state).userName;
+export const selectTravelMode = state => selectMe(state).travelMode;
+export const selectHasLeft = state => selectMe(state).hasLeft;

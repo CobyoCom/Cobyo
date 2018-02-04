@@ -3,36 +3,33 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {
   selectEventAttendees,
-  selectDuration,
-  selectLastUpdated,
-  selectTravelMode,
-  selectUserName
+  selectMe
 } from '../activeEventSelectors';
-import {getAttendees} from '../eventActions';
-import AttendeesListItem from './AttendeesListItem/AttendeesListItem';
+import {refreshEvent} from '../eventActions';
+import {AttendeePropTypes} from './AttendeesListItem/AttendeesListItem';
 import AttendeesList from './AttendeesList';
 
 class AttendeesListContainer extends Component {
   static propTypes = {
-    me: PropTypes.shape(AttendeesListItem.propTypes).isRequired,
+    me: PropTypes.shape(AttendeePropTypes).isRequired,
     attendees: PropTypes.array,
-    getAttendees: PropTypes.func.isRequired
+    refreshEvent: PropTypes.func.isRequired
   };
 
   static defaultProps = {
     attendees: []
   };
 
-  componentDidMount() {
-    if (this.props.me.duration !== null) {
-      this.props.getAttendees();
+  async componentDidMount() {
+    try {
+      await this.props.refreshEvent();
+    } catch(error) {
+      console.error('Loading attendees failed');
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.me.duration !== nextProps.me.duration) {
-      this.props.getAttendees();
-    }
+
   }
 
   render() {
@@ -44,16 +41,11 @@ class AttendeesListContainer extends Component {
 
 const mapStateToProps = state => ({
   attendees: selectEventAttendees(state),
-  me: {
-    userName: selectUserName(state),
-    duration: selectDuration(state),
-    lastUpdated: selectLastUpdated(state),
-    travelMode: selectTravelMode(state)
-  }
+  me: selectMe(state)
 });
 
 const mapDispatchToProps = {
-  getAttendees
+  refreshEvent
 };
 
 export default connect(

@@ -24,6 +24,7 @@ const TravelModeSelect = props => (
           'TravelModeSelect-item--selected': props.travelModeValue === DRIVING
         })}
         onClick={() => props.onChange(DRIVING)}
+        autoFocus
       >
         <FaCab size={40} />
       </button>

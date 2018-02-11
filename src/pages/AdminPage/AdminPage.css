@@ -1,5 +1,7 @@
 .AdminPage {
-  padding: 5px;
+  padding: 5px 5px 100px;
+  overflow-x: auto;
+
 }
 
 .AdminPage-tableWrapper {

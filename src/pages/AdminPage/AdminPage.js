@@ -20,7 +20,16 @@ const AdminPageTable = ({rows}) => (
 
 const AdminPageTableHeader = ({row}) => <tr>{Object.keys(row).map(key => <th key={key} className="AdminPage-tableData">{key}</th>)}</tr>;
 
-const AdminPageTableRow = ({columns}) => <tr>{Object.keys(columns).map(columnKey => <td key={columnKey} className="AdminPage-tableData">{columns[columnKey]}</td>)}</tr>;
+const AdminPageTableRow = ({columns}) =>
+  <tr>
+    {Object.keys(columns).map(columnKey =>
+      <td key={columnKey} className="AdminPage-tableData">
+        {columns[columnKey] === true && 'true'}
+        {columns[columnKey] === false && 'false'}
+        {columns[columnKey]}
+      </td>
+    )}
+    </tr>;
 
 const AdminPage = props => (
   <div className="AdminPage">

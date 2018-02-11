@@ -13,14 +13,14 @@ class AdminPageContainer extends Component {
     }
 
     try {
-      const serverLog = await axios.get('/log/server.log');
+      const {data: serverLog} = await axios.get('/log/server.log');
       this.setState({serverLog});
     } catch(error) {
 
     }
 
     try {
-      const sshLog = await axios.get('/log/ssh.log');
+      const {data: sshLog} = await axios.get('/log/ssh.log');
       this.setState({sshLog});
     } catch(error) {
 

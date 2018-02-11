@@ -5,29 +5,24 @@ import {
   refreshEvent,
   leaveForEvent
 } from '../eventActions';
-import {selectHasLeft} from '../activeEventSelectors';
+import {selectHasLeft, selectIsRefreshing} from '../activeEventSelectors';
 import EventControls from './EventControls';
 
 class EventControlsContainer extends Component {
 
   static propTypes = {
     hasLeft: PropTypes.bool.isRequired,
+    isRefreshing: PropTypes.bool.isRequired,
     refreshEvent: PropTypes.func.isRequired,
     leaveForEvent: PropTypes.func.isRequired
   };
 
-  state = {
-    isDisabledRefresh: false
-  };
-
   handleClickRefresh = async () => {
-    this.setState({isDisabledRefresh: true});
     try {
       await this.props.refreshEvent();
     } catch(error) {
       console.warn('Something failed in refresh');
     }
-    this.setState({isDisabledRefresh: false});
   };
 
   handleClickCancel = () => {
@@ -41,8 +36,8 @@ class EventControlsContainer extends Component {
   render() {
     return (
       <EventControls
-        {...this.state}
         hasLeft={this.props.hasLeft}
+        isRefreshing={this.props.isRefreshing}
         onClickRefresh={this.handleClickRefresh}
         onClickCancel={this.handleClickCancel}
         onClickGo={this.handleClickGo}
@@ -52,7 +47,8 @@ class EventControlsContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  hasLeft: selectHasLeft(state)
+  hasLeft: selectHasLeft(state),
+  isRefreshing: selectIsRefreshing(state)
 });
 
 const mapDispatchToProps = {

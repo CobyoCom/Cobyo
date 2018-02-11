@@ -12,7 +12,7 @@ const NavBar = props => (
     <Tab link="/events">
       <FaCalendarPlusO color="black" size={22} />
     </Tab>
-    <Tab link="/">
+    <Tab link="/admin">
       <FaList color="black" size={22} />
     </Tab>
   </div>

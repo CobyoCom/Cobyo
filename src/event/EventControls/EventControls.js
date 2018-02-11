@@ -7,7 +7,7 @@ const EventControls = props => (
   <div className="EventControls">
     <Button
       onClick={props.onClickRefresh}
-      disabled={props.isDisabledRefresh}
+      disabled={props.isRefreshing}
     >
       <FaRefresh/>
     </Button>
@@ -29,7 +29,7 @@ const EventControls = props => (
 
 EventControls.propTypes = {
   hasLeft: PropTypes.bool.isRequired,
-  isDisabledRefresh: PropTypes.bool.isRequired,
+  isRefreshing: PropTypes.bool.isRequired,
   onClickRefresh: PropTypes.func.isRequired,
   onClickCancel: PropTypes.func.isRequired,
   onClickGo: PropTypes.func.isRequired

@@ -1,0 +1,16 @@
+.AdminPage {
+  padding: 5px;
+}
+
+.AdminPage-tableWrapper {
+
+}
+.AdminPage-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.AdminPage-tableData {
+  overflow-x: auto;
+  text-align: center;
+}

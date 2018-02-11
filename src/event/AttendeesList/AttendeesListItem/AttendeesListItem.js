@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import {
   FaMale,
   FaCab,
@@ -8,10 +7,7 @@ import {
   FaHome
 } from 'react-icons/lib/fa';
 import Modal from 'react-responsive-modal';
-import {
-  fromNow,
-  addTime
-} from '../../../helpers/moment';
+import {fromNow} from '../../../helpers/moment';
 import {
   WALKING,
   DRIVING,
@@ -32,17 +28,6 @@ const getIcon = (hasLeft, travelMode) => {
     case TRANSIT: return <FaSubway/>;
     default: return null;
   }
-};
-
-const formatArrivalTime = eta => {
-  return moment(eta).calendar(null, {
-    sameDay: 'h:mm a',
-    nextDay: '[Tomorrow at ] h:mm a',
-    nextWeek: 'dddd h:mm a',
-    lastDay: '[Yesterday]',
-    lastWeek: '[Last] dddd',
-    sameElse: '[-]'
-  });
 };
 
 const AttendeesListItem = props => (
@@ -72,11 +57,7 @@ const AttendeesListItem = props => (
       </div>
       <div>
         <span className="AttendeesListItem-eta">
-          {props.duration === null ? (
-            formatArrivalTime(null)
-          ): (
-            formatArrivalTime(addTime(props.duration, props.lastUpdated).format('YYYY-MM-DD HH:mm'))
-          )}
+          {props.userStatus}
         </span>
       </div>
     </div>
@@ -84,7 +65,7 @@ const AttendeesListItem = props => (
     <Modal
       little
       showCloseIcon={false}
-      closeOnOverlayClick={false}
+      closeOnOverlayClick={true}
       open={props.isTravelModeOpen}
       onClose={props.onCloseTravelMode}
     >
@@ -101,7 +82,7 @@ export const AttendeePropTypes = {
   duration: PropTypes.number,
   lastUpdated: PropTypes.string,
   travelMode: PropTypes.oneOf([WALKING, DRIVING, TRANSIT]),
-  hasLeft: PropTypes.bool,
+  hasLeft: PropTypes.bool
 };
 
 export const AttendeeDefaultProps = {
@@ -116,6 +97,7 @@ AttendeesListItem.propTypes = {
   ...AttendeePropTypes,
   isMe: PropTypes.bool.isRequired,
   isTravelModeOpen: PropTypes.bool.isRequired,
+  userStatus: PropTypes.string.isRequired,
   onClickTravelMode: PropTypes.func.isRequired,
   onCloseTravelMode: PropTypes.func.isRequired,
   onChangeTravelMode: PropTypes.func.isRequired

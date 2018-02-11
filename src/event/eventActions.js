@@ -2,7 +2,8 @@
 import axios from 'axios';
 import {formatDateForDatabase} from '../helpers/moment';
 import {
-  selectEventId,
+  selectDuration,
+  selectEventId, selectHasLeft, selectLastUpdated,
   selectPlaceId,
   selectTravelMode,
   selectUserName
@@ -90,42 +91,46 @@ export const fetchEvent = (eventId) => async (dispatch) => {
 
 /************ REFRESH EVENT ************/
 
-const refreshEventRequest = (eventId, duration, lastUpdated) => ({
-  type: types.refreshEventRequest,
-  payload: {eventId, duration, lastUpdated}
+const refreshEventRequest = () => ({
+  type: types.refreshEventRequest
 });
 
-const refreshEventSuccess = (eventId, hasLeft) => ({
+const refreshEventSuccess = (eventId, duration, lastUpdated, hasLeft = false) => ({
   type: types.refreshEventSuccess,
-  payload: {eventId, hasLeft}
+  payload: {eventId, duration, lastUpdated, hasLeft}
 });
 
-const refreshEventFailure = () => ({
-  type: types.refreshEventFailure
+const refreshEventFailure = (eventId, duration, lastUpdated, hasLeft = false) => ({
+  type: types.refreshEventFailure,
+  payload: {eventId, duration, lastUpdated, hasLeft}
 });
 
 export const refreshEvent = () => (dispatch, getState) => new Promise(async (resolve, reject) => {
+  dispatch(refreshEventRequest());
+
+  const prevState = getState();
+  const prevDuration = selectDuration(prevState);
+  const prevLastUpdated = selectLastUpdated(prevState);
+  const prevHasLeft = selectHasLeft(prevState);
+
   // Get attendees regardless of whether user successfully updates own information
   dispatch(getAttendees());
 
   const {coordinates, lastUpdated} = await fetchLocation();
-
   const state = getState();
   const eventId = selectEventId(state);
   const destinationPlaceId = selectPlaceId(state);
   const travelMode = selectTravelMode(state);
   const userName = selectUserName(state);
 
-  const duration = await fetchTravelDuration({
-    eventId,
-    coordinates,
-    destinationPlaceId,
-    travelMode
-  });
-
-  dispatch(refreshEventRequest(eventId, duration, lastUpdated));
-
   try {
+    const duration = await fetchTravelDuration({
+      eventId,
+      coordinates,
+      destinationPlaceId,
+      travelMode
+    });
+
     const response = await axios.put(`/api/events/${eventId}/users/${userName}`, {
       userName,
       duration,
@@ -133,10 +138,10 @@ export const refreshEvent = () => (dispatch, getState) => new Promise(async (res
       travelMode
     });
 
-    dispatch(refreshEventSuccess(eventId, response.data.hasLeft));
+    dispatch(refreshEventSuccess(eventId, response.data.duration, response.data.lastUpdated, response.data.hasLeft));
     resolve();
   } catch(error) {
-    dispatch(refreshEventFailure());
+    dispatch(refreshEventFailure(eventId, prevDuration, prevLastUpdated, prevHasLeft));
     reject();
   }
 });

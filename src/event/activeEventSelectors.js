@@ -1,7 +1,9 @@
 import {createSelector} from 'reselect';
-import {moduleName as eventsModuleName} from '../reducers/entities/eventsReducer';
+import {moduleName as eventsModuleName, eventInitialState} from '../reducers/entities/eventsReducer';
+import {moduleName as uiEventModuleName} from '../reducers/ui/uiEventReducer';
 import {moduleName as activeEventModuleName} from './activeEventReducer';
-import {eventInitialState} from '../reducers/entities/eventsReducer';
+
+/****** EVENT ENTITIES ******/
 
 const selectActiveEventId = state => state[activeEventModuleName];
 const selectEvents = state => state.entities[eventsModuleName];
@@ -21,5 +23,14 @@ export const selectMe = state => selectActiveEvent(state).me;
 
 export const selectIsLoggedIn = state => !!selectMe(state).userName;
 export const selectUserName = state => selectMe(state).userName;
+export const selectDuration = state => selectMe(state).duration;
+export const selectLastUpdated = state => selectMe(state).lastUpdated;
 export const selectTravelMode = state => selectMe(state).travelMode;
 export const selectHasLeft = state => selectMe(state).hasLeft;
+
+
+/****** EVENT UI ******/
+
+const selectEventUI = state => state.ui[uiEventModuleName];
+
+export const selectIsRefreshing = state => selectEventUI(state).isRefreshing;

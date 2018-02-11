@@ -11,7 +11,8 @@ export const eventInitialState = {
   location: '',
   eventTime: null,
   attendees: [],
-  me: AttendeeDefaultProps
+  me: AttendeeDefaultProps,
+  isRefreshing: false
 };
 
 export default function events(state = initialState, {type, payload}) {
@@ -65,8 +66,9 @@ export default function events(state = initialState, {type, payload}) {
         }
       };
     }
-    case types.refreshEventRequest: {
-      const {eventId, duration, lastUpdated} = payload;
+    case types.refreshEventSuccess:
+    case types.refreshEventFailure: {
+      const {eventId, duration, lastUpdated, hasLeft} = payload;
       return {
         ...state,
         [eventId]: {
@@ -74,19 +76,7 @@ export default function events(state = initialState, {type, payload}) {
           me: {
             ...state[eventId].me,
             duration,
-            lastUpdated
-          }
-        }
-      };
-    }
-    case types.refreshEventSuccess: {
-      const {eventId, hasLeft} = payload;
-      return {
-        ...state,
-        [eventId]: {
-          ...state[eventId],
-          me: {
-            ...state[eventId].me,
+            lastUpdated,
             hasLeft
           }
         }

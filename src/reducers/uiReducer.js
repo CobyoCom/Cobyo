@@ -1,10 +1,6 @@
-const initialState = {
+import {combineReducers} from 'redux';
+import uiEventReducer, {moduleName as uiEventModuleName} from './ui/uiEventReducer';
 
-};
-
-export default function(state = initialState, {type, payload}) {
-  switch(type) {
-    default:
-      return state;
-  }
-}
+export default combineReducers({
+  [uiEventModuleName]: uiEventReducer
+});

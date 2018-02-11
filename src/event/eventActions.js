@@ -20,7 +20,9 @@ export const types = {
   getAttendeesSuccess: 'GET_ATTENDEES_SUCCESS',
   getAttendeesFailure: 'GET_ATTENDEES_FAILURE',
   leaveForEventRequest: 'LEAVE_FOR_EVENT_REQUEST',
-  leaveForEventFailure: 'LEAVE_FOR_EVENT_FAILURE'
+  leaveForEventFailure: 'LEAVE_FOR_EVENT_FAILURE',
+  changeTravelModeRequest: 'CHANGE_TRAVEL_MODE_REQUEST',
+  changeTravelModeFailure: 'CHANGE_TRAVEL_MODE_FAILURE'
 };
 
 /************ ACTIONS TO EXPORT ************/
@@ -47,11 +49,11 @@ export const createEvent = (placeValue, placeId, eventTime) => async (dispatch) 
   try {
     const response = await axios.post('/api/events', {
       placeId,
-      placeName: placeValue,
+      eventName: placeValue,
       eventTime
     });
     if (response && response.data) {
-      const {eventId} = response.data;
+      const {id: eventId} = response.data;
       return Promise.resolve(eventId);
     }
     return Promise.reject();
@@ -78,8 +80,8 @@ export const fetchEvent = (eventId) => async (dispatch) => {
   try {
     const response = await axios.get(`/api/events/${eventId}`);
     if (response && response.data) {
-      const {placeName, placeId, eventTime} = response.data;
-      dispatch(fetchEventSuccess(eventId, placeName, placeId, eventTime));
+      const {eventName, placeId, eventTime} = response.data;
+      dispatch(fetchEventSuccess(eventId, eventName, placeId, eventTime));
     }
   } catch(error) {
     return Promise.reject(error);
@@ -93,9 +95,9 @@ const refreshEventRequest = (eventId, duration, lastUpdated) => ({
   payload: {eventId, duration, lastUpdated}
 });
 
-const refreshEventSuccess = () => ({
+const refreshEventSuccess = (eventId, hasLeft) => ({
   type: types.refreshEventSuccess,
-  payload: {}
+  payload: {eventId, hasLeft}
 });
 
 const refreshEventFailure = () => ({
@@ -131,9 +133,7 @@ export const refreshEvent = () => (dispatch, getState) => new Promise(async (res
       travelMode
     });
 
-    console.log(response);
-    // Pass in hasLeft?
-    dispatch(refreshEventSuccess());
+    dispatch(refreshEventSuccess(eventId, response.data.hasLeft));
     resolve();
   } catch(error) {
     dispatch(refreshEventFailure());
@@ -165,6 +165,34 @@ export const leaveForEvent = () => async (dispatch, getState) => {
     });
   } catch(error) {
     dispatch(leaveForEventFailure(eventId));
+  }
+};
+
+/************ USER CHANGES TRAVEL MODE ************/
+
+const changeTravelModeRequest = (eventId, travelMode) => ({
+  type: types.changeTravelModeRequest,
+  payload: {eventId, travelMode}
+});
+
+const changeTravelModeFailure = (eventId, travelMode) => ({
+  type: types.changeTravelModeFailure,
+  payload: {eventId, travelMode}
+});
+
+export const changeTravelMode = (travelMode) => async (dispatch, getState) => {
+  const state = getState();
+  const eventId = selectEventId(state);
+  const userName = selectUserName(state);
+  const previousTravelMode = selectTravelMode(state);
+  dispatch(changeTravelModeRequest(eventId, travelMode));
+
+  try {
+    await axios.put(`/api/events/${eventId}/users/${userName}`, {
+      travelMode
+    });
+  } catch(error) {
+    dispatch(changeTravelModeFailure(eventId, previousTravelMode));
   }
 };
 
@@ -242,7 +270,7 @@ const getAttendees = () => async (dispatch, getState) => {
   const userName = selectUserName(state);
 
   try {
-    const response = await axios.get(`/api/events/${eventId}/users?exclude=${userName}`);
+    const response = await axios.get(`/api/events/${eventId}/users?sortBy=userName&exclude=${userName}`);
     const data = await response.data;
     dispatch(getAttendeesSuccess(eventId, data));
   } catch(error) {

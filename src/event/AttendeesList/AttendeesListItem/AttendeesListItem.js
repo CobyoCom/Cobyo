@@ -7,6 +7,7 @@ import {
   FaSubway,
   FaHome
 } from 'react-icons/lib/fa';
+import Modal from 'react-responsive-modal';
 import {
   fromNow,
   addTime
@@ -17,6 +18,7 @@ import {
   TRANSIT,
   DEFAULT_TRAVEL_MODE
 } from '../../../helpers/globalConstants';
+import TravelModeSelect from '../../TravelModeSelect/TravelModeSelect';
 import './AttendeesListItem.css';
 
 const getIcon = (hasLeft, travelMode) => {
@@ -47,12 +49,18 @@ const AttendeesListItem = props => (
   <div className="AttendeesListItem">
     <div className="AttendeesListItem-content">
       <div>
-        <button
-          className="AttendeesListItem-icon"
-          onClick={props.onClickTravelMode}
-        >
-          {getIcon(props.hasLeft, props.travelMode)}
-        </button>
+        {props.isMe ? (
+          <button
+            className="AttendeesListItem-icon"
+            onClick={props.onClickTravelMode}
+          >
+            {getIcon(props.hasLeft, props.travelMode)}
+          </button>
+        ) : (
+          <div className="AttendeesListItem-icon">
+            {getIcon(props.hasLeft, props.travelMode)}
+          </div>
+        )}
         <div className="AttendeesListItem-user">
           <h2 className="AttendeesListItem-name">
             {props.userName}
@@ -72,6 +80,19 @@ const AttendeesListItem = props => (
         </span>
       </div>
     </div>
+
+    <Modal
+      little
+      showCloseIcon={false}
+      closeOnOverlayClick={false}
+      open={props.isTravelModeOpen}
+      onClose={props.onCloseTravelMode}
+    >
+      <TravelModeSelect
+        onChange={props.onChangeTravelMode}
+        travelModeValue={props.travelMode}
+      />
+    </Modal>
   </div>
 );
 
@@ -93,7 +114,11 @@ export const AttendeeDefaultProps = {
 
 AttendeesListItem.propTypes = {
   ...AttendeePropTypes,
-  onClickTravelMode: PropTypes.func.isRequired
+  isMe: PropTypes.bool.isRequired,
+  isTravelModeOpen: PropTypes.bool.isRequired,
+  onClickTravelMode: PropTypes.func.isRequired,
+  onCloseTravelMode: PropTypes.func.isRequired,
+  onChangeTravelMode: PropTypes.func.isRequired
 };
 
 AttendeesListItem.defaultProps = {

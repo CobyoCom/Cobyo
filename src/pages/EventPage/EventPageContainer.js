@@ -38,7 +38,7 @@ class EventPageContainer extends Component {
 
 const mapStateToProps = state => ({
   isLoggedIn: selectIsLoggedIn(state),
-  isEventLoaded: !!selectEventId(state)
+  isEventLoaded: selectEventId(state) !== null
 });
 
 const mapDispatchToProps = {

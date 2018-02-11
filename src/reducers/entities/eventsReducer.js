@@ -79,6 +79,19 @@ export default function events(state = initialState, {type, payload}) {
         }
       };
     }
+    case types.refreshEventSuccess: {
+      const {eventId, hasLeft} = payload;
+      return {
+        ...state,
+        [eventId]: {
+          ...state[eventId],
+          me: {
+            ...state[eventId].me,
+            hasLeft
+          }
+        }
+      };
+    }
     case types.getAttendeesSuccess: {
       const {eventId, attendees} = payload;
       return {
@@ -111,6 +124,20 @@ export default function events(state = initialState, {type, payload}) {
           me: {
             ...state[eventId].me,
             hasLeft: false
+          }
+        }
+      };
+    }
+    case types.changeTravelModeRequest:
+    case types.changeTravelModeFailure: {
+      const {eventId, travelMode} = payload;
+      return {
+        ...state,
+        [eventId]: {
+          ...state[eventId],
+          me: {
+            ...state[eventId].me,
+            travelMode
           }
         }
       };

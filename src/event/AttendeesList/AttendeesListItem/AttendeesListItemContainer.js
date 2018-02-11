@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import moment from 'moment';
-import {addTime} from '../../../helpers/moment';
+import {addTime, fromNow} from '../../../helpers/moment';
 import {changeTravelMode, refreshEvent} from '../../eventActions';
 import AttendeesListItem, {AttendeePropTypes} from './AttendeesListItem';
 import {selectUserName, selectIsRefreshing} from "../../activeEventSelectors";
@@ -32,13 +32,9 @@ class AttendeesListItemContainer extends Component {
     });
   };
 
-  getUserStatus = () => {
-    if (this.props.isRefreshing && this.props.isMe) {
-      return 'calculating...';
-    }
-
+  getDurationStatus = () => {
     if (this.props.duration === null || isNaN(this.props.duration)) {
-      return this.formatArrivalTime(null);
+      return '';
     }
 
     if (!this.props.hasLeft) {
@@ -52,6 +48,18 @@ class AttendeesListItemContainer extends Component {
     }
 
     return this.formatArrivalTime(addTime(this.props.duration, this.props.lastUpdated).format('YYYY-MM-DD HH:mm'));
+  };
+
+  getLastUpdatedStatus = () => {
+    if (this.props.isRefreshing && this.props.isMe) {
+      return 'calculating...';
+    }
+
+    if (!this.props.lastUpdated && this.props.isMe) {
+      return 'invalid';
+    }
+
+    return fromNow(this.props.lastUpdated);
   };
 
   handleClickTravelMode = () => this.setState({isTravelModeOpen: true});
@@ -70,7 +78,8 @@ class AttendeesListItemContainer extends Component {
       <AttendeesListItem
         {...this.props}
         {...this.state}
-        userStatus={this.getUserStatus()}
+        durationStatus={this.getDurationStatus()}
+        lastUpdatedStatus={this.getLastUpdatedStatus()}
         onClickTravelMode={this.handleClickTravelMode}
         onCloseTravelMode={this.handleCloseTravelMode}
         onChangeTravelMode={this.handleChangeTravelMode}

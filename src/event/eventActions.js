@@ -148,28 +148,29 @@ export const refreshEvent = () => (dispatch, getState) => new Promise(async (res
 
 /************ USER LEAVES FOR EVENT ************/
 
-const leaveForEventRequest = (eventId) => ({
+const leaveForEventRequest = (eventId, hasLeft) => ({
   type: types.leaveForEventRequest,
-  payload: {eventId}
+  payload: {eventId, hasLeft}
 });
 
-const leaveForEventFailure = (eventId) => ({
+const leaveForEventFailure = (eventId, hasLeft) => ({
   type: types.leaveForEventFailure,
-  payload: {eventId}
+  payload: {eventId, hasLeft}
 });
 
-export const leaveForEvent = () => async (dispatch, getState) => {
+export const leaveForEvent = (hasLeft = true) => async (dispatch, getState) => {
   const state = getState();
+  const prevHasLeft = selectHasLeft(state);
   const eventId = selectEventId(state);
   const userName = selectUserName(state);
-  dispatch(leaveForEventRequest(eventId));
+  dispatch(leaveForEventRequest(eventId, hasLeft));
 
   try {
     await axios.put(`/api/events/${eventId}/users/${userName}`, {
-      hasLeft: true
+      hasLeft
     });
   } catch(error) {
-    dispatch(leaveForEventFailure(eventId));
+    dispatch(leaveForEventFailure(eventId, prevHasLeft));
   }
 };
 
@@ -190,6 +191,11 @@ export const changeTravelMode = (travelMode) => async (dispatch, getState) => {
   const eventId = selectEventId(state);
   const userName = selectUserName(state);
   const previousTravelMode = selectTravelMode(state);
+
+  if (previousTravelMode === travelMode) {
+    return;
+  }
+
   dispatch(changeTravelModeRequest(eventId, travelMode));
 
   try {

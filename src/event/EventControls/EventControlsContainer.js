@@ -26,7 +26,7 @@ class EventControlsContainer extends Component {
   };
 
   handleClickCancel = () => {
-    console.warn('TODO: cancel leaving');
+    this.props.leaveForEvent(false);
   };
 
   handleClickGo = () => {

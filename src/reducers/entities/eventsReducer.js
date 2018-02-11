@@ -92,28 +92,16 @@ export default function events(state = initialState, {type, payload}) {
         }
       };
     }
-    case types.leaveForEventRequest: {
-      const {eventId} = payload;
-      return {
-        ...state,
-        [eventId]: {
-          ...state[eventId],
-          me: {
-            ...state[eventId].me,
-            hasLeft: true
-          }
-        }
-      };
-    }
+    case types.leaveForEventRequest:
     case types.leaveForEventFailure: {
-      const {eventId} = payload;
+      const {eventId, hasLeft} = payload;
       return {
         ...state,
         [eventId]: {
           ...state[eventId],
           me: {
             ...state[eventId].me,
-            hasLeft: false
+            hasLeft
           }
         }
       };

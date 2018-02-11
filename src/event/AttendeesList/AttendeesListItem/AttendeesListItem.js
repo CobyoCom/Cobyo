@@ -7,7 +7,6 @@ import {
   FaHome
 } from 'react-icons/lib/fa';
 import Modal from 'react-responsive-modal';
-import {fromNow} from '../../../helpers/moment';
 import {
   WALKING,
   DRIVING,
@@ -19,13 +18,13 @@ import './AttendeesListItem.css';
 
 const getIcon = (hasLeft, travelMode) => {
   if (!hasLeft) {
-    return <FaHome/>;
+    return <FaHome size={28} />;
   }
 
   switch (travelMode) {
-    case WALKING: return <FaMale/>;
-    case DRIVING: return <FaCab/>;
-    case TRANSIT: return <FaSubway/>;
+    case WALKING: return <FaMale size={26} />;
+    case DRIVING: return <FaCab size={24} />;
+    case TRANSIT: return <FaSubway size={24} />;
     default: return null;
   }
 };
@@ -51,14 +50,16 @@ const AttendeesListItem = props => (
             {props.userName}
           </h2>
           <span className="AttendeesListItem-lut">
-            {fromNow(props.lastUpdated)}
+            {props.lastUpdatedStatus}
           </span>
         </div>
       </div>
       <div>
-        <span className="AttendeesListItem-eta">
-          {props.userStatus}
-        </span>
+        {!!props.durationStatus &&
+          <span className="AttendeesListItem-eta">
+            {props.durationStatus}
+          </span>
+        }
       </div>
     </div>
 
@@ -97,7 +98,8 @@ AttendeesListItem.propTypes = {
   ...AttendeePropTypes,
   isMe: PropTypes.bool.isRequired,
   isTravelModeOpen: PropTypes.bool.isRequired,
-  userStatus: PropTypes.string.isRequired,
+  durationStatus: PropTypes.string.isRequired,
+  lastUpdatedStatus: PropTypes.string.isRequired,
   onClickTravelMode: PropTypes.func.isRequired,
   onCloseTravelMode: PropTypes.func.isRequired,
   onChangeTravelMode: PropTypes.func.isRequired

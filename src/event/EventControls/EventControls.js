@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FaRefresh} from 'react-icons/lib/fa';
 import Button from '../../components/Button/Button';
+import './EventControls.css';
 
 const EventControls = props => (
   <div className="EventControls">
@@ -13,12 +14,14 @@ const EventControls = props => (
     </Button>
     {props.hasLeft ? (
       <Button
+        disabled={props.isRefreshing}
         onClick={props.onClickCancel}
       >
-        Cancel
+        Stop
       </Button>
     ): (
       <Button
+        disabled={props.isRefreshing}
         onClick={props.onClickGo}
       >
         Go

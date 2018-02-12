@@ -4,6 +4,7 @@ import EventDetails from '../../event/EventDetails/EventDetails';
 import EventLoginFormContainer from '../../event/EventLoginForm/EventLoginFormContainer';
 import EventControlsContainer from '../../event/EventControls/EventControlsContainer';
 import AttendeesListContainer from "../../event/AttendeesList/AttendeesListContainer";
+import EventNotificationsContainer from "../../event/EventNotifications/EventNotificationsContainer";
 import NavBar from '../../navigation/NavBar/NavBar';
 
 const EventPage = props => (
@@ -12,6 +13,7 @@ const EventPage = props => (
     {props.isEventLoaded && !props.isLoggedIn && <EventLoginFormContainer/>}
     {props.isLoggedIn && <EventControlsContainer/>}
     {props.isLoggedIn && <AttendeesListContainer/>}
+    {props.isLoggedIn && <EventNotificationsContainer/>}
     <NavBar/>
   </div>
 );

@@ -1,0 +1,11 @@
+.EventNotifications {
+  padding: 10px;
+  display: flex;
+  flex-direction: column-reverse;
+
+}
+
+.EventNotification {
+  border-top: 1px solid black;
+  padding: 5px;
+}

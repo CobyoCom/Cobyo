@@ -6,6 +6,7 @@ import EventControlsContainer from '../../event/EventControls/EventControlsConta
 import AttendeesListContainer from "../../event/AttendeesList/AttendeesListContainer";
 import EventNotificationsContainer from "../../event/EventNotifications/EventNotificationsContainer";
 import NavBar from '../../navigation/NavBar/NavBar';
+import './EventPage.css';
 
 const EventPage = props => (
   <div className="EventPage">

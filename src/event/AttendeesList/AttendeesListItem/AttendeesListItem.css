@@ -13,16 +13,36 @@
   flex-direction: row;
 }
 
-.AttendeesListItem-icon {
-  height: 10vw;
-  width: 10vw;
+.AttendeesListItem-iconButton {
+  position: relative;
+  padding: inherit;
+  margin: 0 10px 0 0;
+  border: none;
+  outline: none;
+}
+
+.AttendeesListItem-icon,
+.AttendeesListItem-subIcon {
   border-radius: 50vw;
-  border: 1px solid #696773;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 10px;
-  padding: inherit;
+}
+
+.AttendeesListItem-icon {
+  height: 10vw;
+  width: 10vw;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0 rgba(0,0,0,0.02);
+  font-size: 150%;
+}
+
+.AttendeesListItem-subIcon {
+  position: absolute;
+  right: -.5vw;
+  bottom: -.5vh;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0 rgba(0,0,0,0.02);
+  padding: .4vh;
 }
 
 .AttendeesListItem-user {

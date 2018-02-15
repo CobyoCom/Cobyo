@@ -3,36 +3,53 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import './Button.css';
 
+const buttonClassNames = props => cx(
+  'Button',
+  `Button-${props.size}`,
+  {
+    'Button--disabled': props.disabled
+  }
+);
+
+const iconClassNames = props => cx('Icon');
+
 const Button = props => (
   <button
-    className={cx(
-      'Button',
-      `Button-${props.size}`,
-      {
-        'Button--disabled': props.disabled
-      }
-    )}
+    className={props.iconOnly ? iconClassNames(props) : buttonClassNames(props)}
     disabled={props.disabled}
     onClick={props.onClick}
   >
-    {props.children}
+    {props.icon && (
+      <div className="Button-icon">
+        {props.icon}
+      </div>
+    )}
+    {props.children && (
+      <div className="Button-children">
+        {props.children}
+      </div>
+    )}
   </button>
 );
 
 Button.propTypes = {
   children: PropTypes.node,
-  onClick: PropTypes.func,
+  icon: PropTypes.node,
+  iconOnly: PropTypes.bool,
   size: PropTypes.oneOf(['small', 'medium', 'large']),
   type: PropTypes.oneOf(['button', 'submit']),
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func
 };
 
 Button.defaultProps = {
   children: null,
-  onClick: () => {},
+  icon: null,
+  iconOnly: false,
   size: 'medium',
   type: 'button',
-  disabled: false
+  disabled: false,
+  onClick: () => {}
 };
 
 export default Button;

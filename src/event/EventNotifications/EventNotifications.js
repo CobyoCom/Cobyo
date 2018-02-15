@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './EventNotifications.css';
 
 const EventNotifications = props => (
   <div className="EventNotifications">
     {props.notifications.map(({id, message}) => (
-      <div key={id}>
+      <div
+        key={id}
+        className="EventNotification"
+      >
         {message}
       </div>
     ))}

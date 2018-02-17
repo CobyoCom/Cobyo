@@ -44,6 +44,7 @@
   background-color: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0 rgba(0,0,0,0.02);
   padding: .4vh;
+  color: #696773;
 }
 
 .AttendeesListItem-user {
@@ -54,12 +55,13 @@
 
 .AttendeesListItem-name {
   font-weight: normal;
-  font-size: 15pt;
+  font-size: 14pt;
   margin: 0;
+  padding: 2px 0;
 }
 
 .AttendeesListItem-lut {
-  font-size: 11pt;
+  font-size: 10pt;
 }
 
 .AttendeesListItem-eta {

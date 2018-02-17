@@ -1,11 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const AttendeesListItemIcon = props => props.isClickable ? (
-  <div
+const RenderedElement = props => props.isClickable ? (
+  <button
     className="AttendeesListItem-iconButton"
     onClick={props.onClick}
   >
+    {props.children}
+  </button>
+) : (
+  <div className="AttendeesListItem-iconButton">
+    {props.children}
+  </div>
+);
+
+const AttendeesListItemIcon = props => (
+  <RenderedElement>
     <div className="AttendeesListItem-icon">
       {props.icon}
     </div>
@@ -14,13 +24,7 @@ const AttendeesListItemIcon = props => props.isClickable ? (
         {props.subIcon}
       </div>
     )}
-  </div>
-) : (
-  <div className="AttendeesListItem-iconButton">
-    <div className="AttendeesListItem-icon">
-      {props.icon}
-    </div>
-  </div>
+  </RenderedElement>
 );
 
 AttendeesListItemIcon.propTypes = {

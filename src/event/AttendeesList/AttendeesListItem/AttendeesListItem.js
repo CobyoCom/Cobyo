@@ -14,17 +14,30 @@ import {
   DEFAULT_TRAVEL_MODE
 } from '../../../helpers/globalConstants';
 import TravelModeSelect from '../../TravelModeSelect/TravelModeSelect';
+import AttendeesListItemIcon from './AttendeesListItemIcon';
 import './AttendeesListItem.css';
 
 const getIcon = (hasLeft, travelMode) => {
   if (!hasLeft) {
-    return <FaHome size={28} />;
+    return <FaHome/>;
   }
 
+  return getTravelModeIcon(travelMode)
+};
+
+const getSubIcon = (hasLeft, travelMode) => {
+  if (hasLeft) {
+    return null;
+  }
+
+  return getTravelModeIcon(travelMode);
+};
+
+const getTravelModeIcon = (travelMode) => {
   switch (travelMode) {
-    case WALKING: return <FaMale size={26} />;
-    case DRIVING: return <FaCab size={24} />;
-    case TRANSIT: return <FaSubway size={24} />;
+    case WALKING: return <FaMale />;
+    case DRIVING: return <FaCab />;
+    case TRANSIT: return <FaSubway />;
     default: return null;
   }
 };
@@ -33,18 +46,12 @@ const AttendeesListItem = props => (
   <div className="AttendeesListItem">
     <div className="AttendeesListItem-content">
       <div>
-        {props.isMe ? (
-          <button
-            className="AttendeesListItem-icon"
-            onClick={props.onClickTravelMode}
-          >
-            {getIcon(props.hasLeft, props.travelMode)}
-          </button>
-        ) : (
-          <div className="AttendeesListItem-icon">
-            {getIcon(props.hasLeft, props.travelMode)}
-          </div>
-        )}
+        <AttendeesListItemIcon
+          isClickable={props.isMe}
+          icon={getIcon(props.hasLeft, props.travelMode)}
+          subIcon={getSubIcon(props.hasLeft, props.travelMode)}
+          onClick={props.onClickTravelMode}
+        />
         <div className="AttendeesListItem-user">
           <h2 className="AttendeesListItem-name">
             {props.userName}

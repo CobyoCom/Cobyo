@@ -1,4 +1,9 @@
 .EventLoginForm {
   display: flex;
   flex-direction: column;
+  padding: 10px 30px;
+}
+
+.EventLoginForm > Input {
+  margin-bottom: 15px;
 }

@@ -25,5 +25,5 @@ export function fromNow(start) {
     return `${Math.floor(seconds / 60)} minutes ago`;
   }
 
-  return 'Gone fishing';
+  return 'A while ago';
 }

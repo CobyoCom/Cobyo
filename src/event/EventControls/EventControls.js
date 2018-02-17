@@ -1,19 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FaRefresh} from 'react-icons/lib/fa';
+import {FaLocationArrow} from 'react-icons/lib/fa';
 import Button from '../../components/Button/Button';
 import './EventControls.css';
 
 const EventControls = props => (
   <div className="EventControls">
     <Button
-      onClick={props.onClickRefresh}
+      icon={<FaLocationArrow/>}
+      size="small"
       disabled={props.isRefreshing}
+      onClick={props.onClickRefresh}
     >
-      <FaRefresh/>
+      Update
     </Button>
     {props.hasLeft ? (
       <Button
+        size="small"
         disabled={props.isRefreshing}
         onClick={props.onClickCancel}
       >
@@ -21,6 +24,7 @@ const EventControls = props => (
       </Button>
     ): (
       <Button
+        size="small"
         disabled={props.isRefreshing}
         onClick={props.onClickGo}
       >

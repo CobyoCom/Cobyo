@@ -5,6 +5,7 @@ import {
   refreshEvent,
   leaveForEvent
 } from '../eventActions';
+import {fetchEventNotifications} from '../EventNotifications/eventNotificationsActions'
 import {selectHasLeft, selectIsRefreshing} from '../activeEventSelectors';
 import EventControls from './EventControls';
 
@@ -14,12 +15,14 @@ class EventControlsContainer extends Component {
     hasLeft: PropTypes.bool.isRequired,
     isRefreshing: PropTypes.bool.isRequired,
     refreshEvent: PropTypes.func.isRequired,
-    leaveForEvent: PropTypes.func.isRequired
+    leaveForEvent: PropTypes.func.isRequired,
+    fetchEventNotifications: PropTypes.func.isRequired
   };
 
   handleClickRefresh = async () => {
     try {
       await this.props.refreshEvent();
+      this.props.fetchEventNotifications();
     } catch(error) {
       console.warn('Something failed in refresh');
     }
@@ -53,7 +56,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   refreshEvent,
-  leaveForEvent
+  leaveForEvent,
+  fetchEventNotifications
 };
 
 export default connect(

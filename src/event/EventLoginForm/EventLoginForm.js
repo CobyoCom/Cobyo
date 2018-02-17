@@ -12,8 +12,10 @@ const EventLoginForm = props => (
     onSubmit={props.onSubmit}
   >
     <Input
-      onChange={props.onChangeName}
+      maxLength={24}
       value={props.nameValue}
+      placeholder={"Enter name..."}
+      onChange={props.onChangeName}
     />
 
     <Button

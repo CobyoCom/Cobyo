@@ -16,6 +16,7 @@ const Input = props => (
     maxLength={props.maxLength}
     size={props.maxLength}
     value={props.value}
+    placeholder={props.placeholder}
     onChange={props.onChange}
   />
 );
@@ -25,6 +26,7 @@ Input.propTypes = {
   disabled: PropTypes.bool,
   maxLength: PropTypes.number,
   value: PropTypes.string,
+  placeholder: PropTypes.string,
   onChange: PropTypes.func
 };
 
@@ -33,6 +35,7 @@ Input.defaultProps = {
   disabled: false,
   maxLength: 10,
   value: '',
+  placeholder: '',
   onChange: () => {}
 };
 

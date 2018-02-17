@@ -1,15 +1,27 @@
-.Button {
+.Button,
+.Icon {
   cursor: pointer;
-  border-radius: 5px;
   border: none;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0 rgba(0,0,0,0.02);
+}
+
+.Button {
+  border-radius: 5px;
   background-color: #009FB7;
   color: white;
   padding: 5px 25px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.Button-small {
+  font-size: 14pt;
 }
 
 .Button-medium {
-  font-size: 18pt;
+  font-size: 20pt;
 }
 
 .Button-large {
@@ -18,4 +30,19 @@
 
 .Button--disabled {
   background-color: #EFF1F3;
+}
+
+.Button-icon {
+  display: inline;
+  margin-right: 8px;
+}
+
+.Button-children {
+  display: inline;
+}
+
+.Icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50vh;
 }

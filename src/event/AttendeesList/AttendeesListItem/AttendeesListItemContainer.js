@@ -5,12 +5,13 @@ import moment from 'moment';
 import {addTime, fromNow} from '../../../helpers/moment';
 import {changeTravelMode, refreshEvent} from '../../eventActions';
 import AttendeesListItem, {AttendeePropTypes} from './AttendeesListItem';
-import {selectUserName, selectIsRefreshing} from "../../activeEventSelectors";
+import {selectUserName, selectIsRefreshing, selectEventId} from "../../activeEventSelectors";
 
 class AttendeesListItemContainer extends Component {
 
   static propTypes = {
     ...AttendeePropTypes,
+    eventId: PropTypes.number.isRequired,
     isMe: PropTypes.bool.isRequired,
     isRefreshing: PropTypes.bool.isRequired,
     changeTravelMode: PropTypes.func.isRequired,
@@ -69,7 +70,7 @@ class AttendeesListItemContainer extends Component {
   handleChangeTravelMode = async (e) => {
     this.handleCloseTravelMode();
 
-    await this.props.changeTravelMode(e);
+    this.props.changeTravelMode(this.props.eventId, e);
     this.props.refreshEvent();
   };
 
@@ -90,7 +91,8 @@ class AttendeesListItemContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   isMe: selectUserName(state) === ownProps.userName,
-  isRefreshing: selectIsRefreshing(state)
+  isRefreshing: selectIsRefreshing(state),
+  eventId: selectEventId(state)
 });
 
 const mapDispatchToProps = {

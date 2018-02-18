@@ -20,7 +20,7 @@ const EventControls = props => (
         disabled={props.isRefreshing}
         onClick={props.onClickCancel}
       >
-        Stop
+        Pause
       </Button>
     ): (
       <Button

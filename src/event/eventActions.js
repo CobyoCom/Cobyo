@@ -8,6 +8,7 @@ import {
   selectTravelMode,
   selectUserName
 } from './activeEventSelectors';
+import {fetchEventNotifications} from './EventNotifications/eventNotificationsActions';
 
 export const types = {
   setTravelMode: 'SET_TRAVEL_MODE',
@@ -22,8 +23,7 @@ export const types = {
   getAttendeesFailure: 'GET_ATTENDEES_FAILURE',
   leaveForEventRequest: 'LEAVE_FOR_EVENT_REQUEST',
   leaveForEventFailure: 'LEAVE_FOR_EVENT_FAILURE',
-  changeTravelModeRequest: 'CHANGE_TRAVEL_MODE_REQUEST',
-  changeTravelModeFailure: 'CHANGE_TRAVEL_MODE_FAILURE'
+  changeTravelMode: 'CHANGE_TRAVEL_MODE'
 };
 
 /************ ACTIONS TO EXPORT ************/
@@ -36,6 +36,11 @@ export const setTravelMode = (eventId, travelMode) => ({
 export const loginEvent = (eventId, userName) => ({
   type: types.loginEvent,
   payload: {eventId, userName}
+});
+
+export const changeTravelMode = (eventId, travelMode) => ({
+  type: types.changeTravelMode,
+  payload: {eventId, travelMode}
 });
 
 /************ CREATE EVENT ************/
@@ -112,10 +117,6 @@ export const refreshEvent = () => (dispatch, getState) => new Promise(async (res
   const prevDuration = selectDuration(prevState);
   const prevLastUpdated = selectLastUpdated(prevState);
   const prevHasLeft = selectHasLeft(prevState);
-
-  // Get attendees regardless of whether user successfully updates own information
-  dispatch(getAttendees());
-
   const {coordinates, lastUpdated} = await fetchLocation();
   const state = getState();
   const eventId = selectEventId(state);
@@ -139,6 +140,11 @@ export const refreshEvent = () => (dispatch, getState) => new Promise(async (res
     });
 
     dispatch(refreshEventSuccess(eventId, response.data.duration, response.data.lastUpdated, response.data.hasLeft));
+
+    // When we want to get attendees and notifications async outside the control of clicking refresh, move this to its
+    // respective components' componentDidMount functions
+    dispatch(getAttendees());
+    dispatch(fetchEventNotifications());
     resolve();
   } catch(error) {
     dispatch(refreshEventFailure(eventId, prevDuration, prevLastUpdated, prevHasLeft));
@@ -171,39 +177,6 @@ export const leaveForEvent = (hasLeft = true) => async (dispatch, getState) => {
     });
   } catch(error) {
     dispatch(leaveForEventFailure(eventId, prevHasLeft));
-  }
-};
-
-/************ USER CHANGES TRAVEL MODE ************/
-
-const changeTravelModeRequest = (eventId, travelMode) => ({
-  type: types.changeTravelModeRequest,
-  payload: {eventId, travelMode}
-});
-
-const changeTravelModeFailure = (eventId, travelMode) => ({
-  type: types.changeTravelModeFailure,
-  payload: {eventId, travelMode}
-});
-
-export const changeTravelMode = (travelMode) => async (dispatch, getState) => {
-  const state = getState();
-  const eventId = selectEventId(state);
-  const userName = selectUserName(state);
-  const previousTravelMode = selectTravelMode(state);
-
-  if (previousTravelMode === travelMode) {
-    return;
-  }
-
-  dispatch(changeTravelModeRequest(eventId, travelMode));
-
-  try {
-    await axios.put(`/api/events/${eventId}/users/${userName}`, {
-      travelMode
-    });
-  } catch(error) {
-    dispatch(changeTravelModeFailure(eventId, previousTravelMode));
   }
 };
 

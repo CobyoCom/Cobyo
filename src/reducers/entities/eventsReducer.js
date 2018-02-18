@@ -108,8 +108,7 @@ export default function events(state = initialState, {type, payload}) {
         }
       };
     }
-    case types.changeTravelModeRequest:
-    case types.changeTravelModeFailure: {
+    case types.changeTravelMode: {
       const {eventId, travelMode} = payload;
       return {
         ...state,

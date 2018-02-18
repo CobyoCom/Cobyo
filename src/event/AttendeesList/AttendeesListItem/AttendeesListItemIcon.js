@@ -15,7 +15,7 @@ const RenderedElement = props => props.isClickable ? (
 );
 
 const AttendeesListItemIcon = props => (
-  <RenderedElement>
+  <RenderedElement {...props}>
     <div className="AttendeesListItem-icon">
       {props.icon}
     </div>

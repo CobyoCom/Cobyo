@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {AttendeePropTypes} from './AttendeesListItem/AttendeesListItem';
-import AttendeesListItemContainer from './AttendeesListItem/AttendeesListItemContainer';
+import {AttendeePropTypes} from './AttendeesListItem';
+import AttendeesListItemContainer from './AttendeesListItemContainer';
 import './AttendeesList.css';
 
 const AttendeesList = props => (

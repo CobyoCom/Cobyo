@@ -6,7 +6,7 @@ import {
   selectMe
 } from '../activeEventSelectors';
 import {refreshEvent} from '../eventActions';
-import {AttendeePropTypes} from './AttendeesListItem/AttendeesListItem';
+import {AttendeePropTypes} from './AttendeesListItem';
 import AttendeesList from './AttendeesList';
 
 class AttendeesListContainer extends Component {
@@ -26,10 +26,6 @@ class AttendeesListContainer extends Component {
     } catch(error) {
       console.error('Loading attendees failed');
     }
-  }
-
-  componentWillReceiveProps(nextProps) {
-
   }
 
   render() {

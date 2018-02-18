@@ -2,10 +2,13 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import moment from 'moment';
-import {addTime, fromNow} from '../../../helpers/moment';
-import {changeTravelMode, refreshEvent} from '../../eventActions';
+import {addTime, fromNow} from '../../helpers/moment';
+import {changeTravelMode, refreshEvent} from '../eventActions';
 import AttendeesListItem, {AttendeePropTypes} from './AttendeesListItem';
-import {selectUserName, selectIsRefreshing, selectEventId} from "../../activeEventSelectors";
+import {selectUserName, selectIsRefreshing, selectEventId} from "../activeEventSelectors";
+
+const EARLY = 'EARLY';
+const LATE = 'LATE';
 
 class AttendeesListItemContainer extends Component {
 
@@ -22,6 +25,7 @@ class AttendeesListItemContainer extends Component {
     isTravelModeOpen: false
   };
 
+
   formatArrivalTime = eta => {
     return moment(eta).calendar(null, {
       sameDay: 'h:mm a',
@@ -32,6 +36,8 @@ class AttendeesListItemContainer extends Component {
       sameElse: '[-]'
     });
   };
+
+  getHasProbablyArrived = () => this.props.duration < 60;
 
   getDurationStatus = () => {
     if (this.props.duration === null || isNaN(this.props.duration)) {
@@ -79,6 +85,7 @@ class AttendeesListItemContainer extends Component {
       <AttendeesListItem
         {...this.props}
         {...this.state}
+        hasProbablyArrived={this.getHasProbablyArrived()}
         durationStatus={this.getDurationStatus()}
         lastUpdatedStatus={this.getLastUpdatedStatus()}
         onClickTravelMode={this.handleClickTravelMode}

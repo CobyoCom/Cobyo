@@ -238,9 +238,9 @@ const fetchTravelDuration = ({
 
 /************ GET EVENT ATTENDEES ************/
 
-const getAttendeesSuccess = (eventId, data) => ({
+const getAttendeesSuccess = (eventId, attendees) => ({
   type: types.getAttendeesSuccess,
-  payload: {eventId, attendees: data}
+  payload: {eventId, attendees}
 });
 
 const getAttendeesFailure = (eventId) => ({
@@ -255,8 +255,8 @@ const getAttendees = () => async (dispatch, getState) => {
 
   try {
     const response = await axios.get(`/api/events/${eventId}/users?sortBy=userName&exclude=${userName}`);
-    const data = await response.data;
-    dispatch(getAttendeesSuccess(eventId, data));
+    const attendees = await response.data;
+    dispatch(getAttendeesSuccess(eventId, attendees));
   } catch(error) {
     dispatch(getAttendeesFailure(eventId));
   }

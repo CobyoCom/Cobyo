@@ -1,6 +1,6 @@
 import {types} from '../../event/eventActions';
 import {types as notificationTypes} from '../../event/EventNotifications/eventNotificationsActions';
-import {AttendeeDefaultProps} from '../../event/AttendeesList/AttendeesListItem/AttendeesListItem';
+import {AttendeeDefaultProps} from '../../event/Attendees/AttendeesListItem';
 
 export const moduleName = 'events';
 
@@ -11,7 +11,7 @@ export const eventInitialState = {
   placeId: null,
   location: '',
   eventTime: null,
-  attendees: [],
+  attendeeIds: [],
   eventNotificationIds: [],
   me: AttendeeDefaultProps,
   isRefreshing: false
@@ -90,7 +90,7 @@ export default function events(state = initialState, {type, payload}) {
         ...state,
         [eventId]: {
           ...state[eventId],
-          attendees
+          attendeeIds: attendees.map(attendee => attendee.id)
         }
       };
     }

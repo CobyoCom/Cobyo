@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import EventDetails from '../../event/EventDetails/EventDetails';
 import EventLoginFormContainer from '../../event/EventLoginForm/EventLoginFormContainer';
 import EventControlsContainer from '../../event/EventControls/EventControlsContainer';
-import AttendeesListContainer from "../../event/AttendeesList/AttendeesListContainer";
+import AttendeesListContainer from "../../event/Attendees/AttendeesListContainer";
 import EventNotificationsContainer from "../../event/EventNotifications/EventNotificationsContainer";
 import NavBar from '../../navigation/NavBar/NavBar';
 import './EventPage.css';

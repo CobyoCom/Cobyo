@@ -4,7 +4,8 @@ import {
   FaMale,
   FaCab,
   FaSubway,
-  FaHome
+  FaHome,
+  FaFlagCheckered
 } from 'react-icons/lib/fa';
 import Modal from 'react-responsive-modal';
 import {
@@ -12,12 +13,16 @@ import {
   DRIVING,
   TRANSIT,
   DEFAULT_TRAVEL_MODE
-} from '../../../helpers/globalConstants';
-import TravelModeSelect from '../../TravelModeSelect/TravelModeSelect';
+} from '../../helpers/globalConstants';
+import TravelModeSelect from '../TravelModeSelect/TravelModeSelect';
 import AttendeesListItemIcon from './AttendeesListItemIcon';
 import './AttendeesListItem.css';
 
-const getIcon = (hasLeft, travelMode) => {
+const getIcon = ({hasLeft, hasProbablyArrived, travelMode}) => {
+  if (hasProbablyArrived) {
+    return <FaFlagCheckered/>;
+  }
+
   if (!hasLeft) {
     return <FaHome/>;
   }
@@ -25,8 +30,8 @@ const getIcon = (hasLeft, travelMode) => {
   return getTravelModeIcon(travelMode)
 };
 
-const getSubIcon = (hasLeft, travelMode) => {
-  if (hasLeft) {
+const getSubIcon = ({hasLeft, hasProbablyArrived, travelMode}) => {
+  if (hasLeft || hasProbablyArrived) {
     return null;
   }
 
@@ -47,9 +52,9 @@ const AttendeesListItem = props => (
     <div className="AttendeesListItem-content">
       <div>
         <AttendeesListItemIcon
-          isClickable={props.isMe}
-          icon={getIcon(props.hasLeft, props.travelMode)}
-          subIcon={getSubIcon(props.hasLeft, props.travelMode)}
+          isClickable={props.isMe && !props.hasProbablyArrived}
+          icon={getIcon(props)}
+          subIcon={getSubIcon(props)}
           onClick={props.onClickTravelMode}
         />
         <div className="AttendeesListItem-user">
@@ -94,6 +99,7 @@ export const AttendeePropTypes = {
 };
 
 export const AttendeeDefaultProps = {
+  id: null,
   userName: '',
   duration: null,
   lastUpdated: null,
@@ -105,6 +111,7 @@ AttendeesListItem.propTypes = {
   ...AttendeePropTypes,
   isMe: PropTypes.bool.isRequired,
   isTravelModeOpen: PropTypes.bool.isRequired,
+  hasProbablyArrived: PropTypes.bool.isRequired,
   durationStatus: PropTypes.string.isRequired,
   lastUpdatedStatus: PropTypes.string.isRequired,
   onClickTravelMode: PropTypes.func.isRequired,

@@ -26,8 +26,8 @@ EventNotification.propTypes = {
 };
 
 EventNotification.defaultProps = {
-  userName: 'Alex',
-  message: ''
+  userName: null,
+  message: null
 };
 
 export default EventNotification;

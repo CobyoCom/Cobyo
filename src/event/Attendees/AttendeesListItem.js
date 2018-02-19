@@ -50,9 +50,12 @@ const getTravelModeIcon = (travelMode) => {
 const AttendeesListItem = props => (
   <div className="AttendeesListItem">
     <div className="AttendeesListItem-content">
+      {props.isMe && (
+        <div className="AttendeesListItem-loading" />
+      )}
       <div>
         <AttendeesListItemIcon
-          isClickable={props.isMe && !props.hasProbablyArrived}
+          isClickable={props.isIconClickable}
           icon={getIcon(props)}
           subIcon={getSubIcon(props)}
           onClick={props.onClickTravelMode}
@@ -110,6 +113,8 @@ export const AttendeeDefaultProps = {
 AttendeesListItem.propTypes = {
   ...AttendeePropTypes,
   isMe: PropTypes.bool.isRequired,
+  isIconClickable: PropTypes.bool.isRequired,
+  isRefreshing: PropTypes.bool.isRequired,
   isTravelModeOpen: PropTypes.bool.isRequired,
   hasProbablyArrived: PropTypes.bool.isRequired,
   durationStatus: PropTypes.string.isRequired,

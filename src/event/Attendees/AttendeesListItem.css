@@ -7,6 +7,17 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  position: relative;
+}
+
+.AttendeesListItem-loading {
+  border: 1px solid black;
+  position: absolute;
+  width: 5vw;
+  height: 5vw;
+  left: 50vw;
+  top: 0;
+  animation: spin 1s linear infinite;
 }
 
 .AttendeesListItem-content > div {
@@ -66,4 +77,9 @@
 
 .AttendeesListItem-eta {
   align-self: center;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

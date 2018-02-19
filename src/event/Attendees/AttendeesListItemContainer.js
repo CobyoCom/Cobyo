@@ -25,7 +25,6 @@ class AttendeesListItemContainer extends Component {
     isTravelModeOpen: false
   };
 
-
   formatArrivalTime = eta => {
     return moment(eta).calendar(null, {
       sameDay: 'h:mm a',
@@ -36,6 +35,8 @@ class AttendeesListItemContainer extends Component {
       sameElse: '[-]'
     });
   };
+
+  getIsIconClickable = () => this.props.isMe && !this.getHasProbablyArrived() && !this.props.isRefreshing;
 
   getHasProbablyArrived = () => this.props.duration < 60;
 
@@ -59,7 +60,7 @@ class AttendeesListItemContainer extends Component {
 
   getLastUpdatedStatus = () => {
     if (this.props.isRefreshing && this.props.isMe) {
-      return 'calculating...';
+      return 'updating...';
     }
 
     if (!this.props.lastUpdated && this.props.isMe) {
@@ -85,6 +86,7 @@ class AttendeesListItemContainer extends Component {
       <AttendeesListItem
         {...this.props}
         {...this.state}
+        isIconClickable={this.getIsIconClickable()}
         hasProbablyArrived={this.getHasProbablyArrived()}
         durationStatus={this.getDurationStatus()}
         lastUpdatedStatus={this.getLastUpdatedStatus()}

@@ -28,7 +28,7 @@ const EventControls = props => (
         disabled={props.isRefreshing}
         onClick={props.onClickGo}
       >
-        Go
+        Leave
       </Button>
     )}
   </div>

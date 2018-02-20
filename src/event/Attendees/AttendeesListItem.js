@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import {
   FaMale,
   FaCab,
@@ -48,7 +49,9 @@ const getTravelModeIcon = (travelMode) => {
 };
 
 const AttendeesListItem = props => (
-  <div className="AttendeesListItem">
+  <div className={cx("AttendeesListItem", {
+    'AttendeesListItem-me': props.isMe
+  })}>
     <div className="AttendeesListItem-content">
       <div>
         <AttendeesListItemIcon

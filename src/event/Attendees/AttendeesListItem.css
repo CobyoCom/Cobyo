@@ -3,6 +3,10 @@
   border-bottom: 1px solid #EFF1F3;
 }
 
+.AttendeesListItem-me {
+  padding-bottom: 15px;
+}
+
 .AttendeesListItem-content {
   display: flex;
   flex-direction: row;
@@ -66,4 +70,5 @@
 
 .AttendeesListItem-eta {
   align-self: center;
+  font-size: 11pt;
 }

@@ -47,11 +47,11 @@ class AttendeesListItemContainer extends Component {
     if (!this.props.hasLeft) {
       const minutes = Math.floor(this.props.duration / 60);
       if (minutes > 0) {
-        return `${minutes} minutes`;
+        return `${minutes} minutes away`;
       }
 
       const seconds = this.props.duration & 60;
-      return `${seconds} seconds`;
+      return `${seconds} seconds away`;
     }
 
     return this.formatArrivalTime(addTime(this.props.duration, this.props.lastUpdated).format('YYYY-MM-DD HH:mm'));

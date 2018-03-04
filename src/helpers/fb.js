@@ -1,7 +1,15 @@
 /*global FB*/
+/**
+ * Facebook API helpers
+ */
 const FACEBOOK_API_VERSION = 'v2.11';
 const FACEBOOK_APP_ID = '1946151882268761';
 
+/**
+ * Initialize the Facebook API.
+ *
+ * @returns {Promise<any>}
+ */
 export const init = () => new Promise((resolve) => {
   if (this.initialized) {
     resolve(FB);

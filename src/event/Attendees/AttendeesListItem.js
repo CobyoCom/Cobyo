@@ -1,20 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {
-  FaMale,
-  FaCab,
-  FaSubway,
-  FaHome,
-  FaFlagCheckered
-} from 'react-icons/lib/fa';
+import {FaMale, FaCab, FaSubway, FaHome, FaFlagCheckered} from 'react-icons/lib/fa';
 import Modal from 'react-responsive-modal';
-import {
-  WALKING,
-  DRIVING,
-  TRANSIT,
-  DEFAULT_TRAVEL_MODE
-} from '../../helpers/globalConstants';
+import {WALKING, DRIVING, TRANSIT, DEFAULT_TRAVEL_MODE} from '../../helpers/globalConstants';
 import TravelModeSelect from '../TravelModeSelect/TravelModeSelect';
 import AttendeesListItemIcon from './AttendeesListItemIcon';
 import './AttendeesListItem.css';

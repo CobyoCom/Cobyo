@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import moment from 'moment';
+import {formatDate} from '../../helpers/moment';
 import {selectEventTime, selectEventLocation} from '../activeEventSelectors';
 import './EventDetails.css';
 
 const EventDetails = props => {
-  const time = moment(props.dateTime).format('h:mm A');
-  const date = moment(props.dateTime).format('ddd');
+  const time = formatDate(props.dateTime, 'h:mm A');
+  const date = formatDate(props.dateTime, 'ddd');
 
   return (
     <div className="EventDetails">

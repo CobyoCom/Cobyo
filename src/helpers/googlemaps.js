@@ -1,7 +1,15 @@
+/**
+ * Google Maps helper functions
+ */
 import loadGoogleMapsAPI from 'load-google-maps-api';
 
 export const API_KEY = 'AIzaSyBnlBl_1F9FuifQlfJeQQ6-nq1fF4KsDvw';
 
+/**
+ * Initialize the Google Maps API.
+ *
+ * @returns {Promise<any>}
+ */
 export function init() {
   return loadGoogleMapsAPI({
     key: API_KEY,
@@ -9,6 +17,13 @@ export function init() {
   });
 }
 
+/**
+ * Given a Google Maps API response code, output a human readable error message.
+ *
+ * @param status
+ *
+ * @returns {string}
+ */
 export function getErrorMessage(status) {
   switch(status) {
     case 'INVALID_REQUEST':

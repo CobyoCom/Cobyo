@@ -1,6 +1,6 @@
 /*global google*/
-import axios from 'axios';
-import {formatDateForDatabase} from '../helpers/moment';
+import {get, post, put} from '../helpers/axios';
+import {formatDate} from '../helpers/moment';
 import {
   selectDuration,
   selectEventId, selectHasLeft, selectLastUpdated,
@@ -53,7 +53,7 @@ export const createEvent = (placeValue, placeId, eventTime) => async (dispatch) 
   dispatch(createEventRequest());
 
   try {
-    const response = await axios.post('/api/events', {
+    const response = await post('/api/events', {
       placeId,
       eventName: placeValue,
       eventTime
@@ -84,7 +84,7 @@ export const fetchEvent = (eventId) => async (dispatch) => {
   dispatch(fetchEventRequest(eventId));
 
   try {
-    const response = await axios.get(`/api/events/${eventId}`);
+    const response = await get(`/api/events/${eventId}`);
     if (response && response.data) {
       const {eventName, placeId, eventTime} = response.data;
       dispatch(fetchEventSuccess(eventId, eventName, placeId, eventTime));
@@ -132,7 +132,7 @@ export const refreshEvent = () => (dispatch, getState) => new Promise(async (res
       travelMode
     });
 
-    const response = await axios.put(`/api/events/${eventId}/users/${userName}`, {
+    const response = await put(`/api/events/${eventId}/users/${userName}`, {
       userName,
       duration,
       lastUpdated,
@@ -172,7 +172,7 @@ export const leaveForEvent = (hasLeft = true) => async (dispatch, getState) => {
   dispatch(leaveForEventRequest(eventId, hasLeft));
 
   try {
-    await axios.put(`/api/events/${eventId}/users/${userName}`, {
+    await put(`/api/events/${eventId}/users/${userName}`, {
       hasLeft
     });
   } catch(error) {
@@ -188,7 +188,7 @@ const fetchLocation = () => new Promise((resolve, reject) => {
       (position) => {
         const {coords: {latitude, longitude}, timestamp} = position;
         const coordinates = {latitude, longitude};
-        const lastUpdated = formatDateForDatabase(timestamp);
+        const lastUpdated = formatDate(timestamp);
         return resolve({coordinates, lastUpdated});
       },
       () => {
@@ -254,7 +254,7 @@ const getAttendees = () => async (dispatch, getState) => {
   const userName = selectUserName(state);
 
   try {
-    const response = await axios.get(`/api/events/${eventId}/users?sortBy=userName&exclude=${userName}`);
+    const response = await get(`/api/events/${eventId}/users?sortBy=userName&exclude=${userName}`);
     const attendees = await response.data;
     dispatch(getAttendeesSuccess(eventId, attendees));
   } catch(error) {

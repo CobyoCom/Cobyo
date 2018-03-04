@@ -1,14 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import moment from 'moment';
-import {addTime, fromNow} from '../../helpers/moment';
+import {addTime, formatCalendar, fromNow} from '../../helpers/moment';
 import {changeTravelMode, refreshEvent} from '../eventActions';
 import AttendeesListItem, {AttendeePropTypes} from './AttendeesListItem';
 import {selectUserName, selectIsRefreshing, selectEventId} from "../activeEventSelectors";
-
-const EARLY = 'EARLY';
-const LATE = 'LATE';
 
 class AttendeesListItemContainer extends Component {
 
@@ -23,18 +19,6 @@ class AttendeesListItemContainer extends Component {
 
   state = {
     isTravelModeOpen: false
-  };
-
-
-  formatArrivalTime = eta => {
-    return moment(eta).calendar(null, {
-      sameDay: 'h:mm a',
-      nextDay: '[Tomorrow at ] h:mm a',
-      nextWeek: 'dddd h:mm a',
-      lastDay: '[Yesterday]',
-      lastWeek: '[Last] dddd',
-      sameElse: '[-]'
-    });
   };
 
   getHasProbablyArrived = () => this.props.duration < 60;
@@ -54,7 +38,8 @@ class AttendeesListItemContainer extends Component {
       return `${seconds} seconds away`;
     }
 
-    return this.formatArrivalTime(addTime(this.props.duration, this.props.lastUpdated).format('YYYY-MM-DD HH:mm'));
+    const arrivalTime = addTime(this.props.duration, this.props.lastUpdated).format('YYYY-MM-DD HH:mm');
+    return formatCalendar(arrivalTime);
   };
 
   getLastUpdatedStatus = () => {

@@ -25,8 +25,7 @@ export default function events(state = initialState, {type, payload}) {
         ...state,
         [eventId]: {
           ...eventInitialState,
-          ...state[eventId],
-          eventId: parseInt(eventId, 10)
+          ...state[eventId]
         }
       };
     }
@@ -36,6 +35,7 @@ export default function events(state = initialState, {type, payload}) {
         ...state,
         [eventId]: {
           ...state[eventId],
+          eventId: parseInt(eventId, 10),
           location,
           placeId,
           eventTime

@@ -1,22 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '../../components/Button/Button';
+import TravelModeSelect from "../TravelModeSelect/TravelModeSelect";
 
 const QuickLogin = props => (
   <div>
-    <Button onClick={() => props.loginEvent(props.eventId, props.localStorageEvent.userName, props.localStorageEvent.travelMode)}>
-      {`Login as ${props.localStorageEvent.userName}?`}
-    </Button>
+    {props.showTravelModeSelect ? (
+      <div>
+        <p>{`Logging in as ${props.userName}.`}</p>
+        <TravelModeSelect onChange={props.onChangeTravelMode}/>
+      </div>
+    ) : (
+      <Button
+        onClick={props.onSubmit}
+        autoFocus
+      >
+        {`Login as ${props.userName}?`}
+      </Button>
+    )}
   </div>
 );
 
 QuickLogin.propTypes = {
   eventId: PropTypes.number.isRequired,
-  localStorageEvent: PropTypes.shape({
-    userName: PropTypes.string.isRequired,
-    travelMode: PropTypes.string.isRequired
-  }),
-  loginEvent: PropTypes.func.isRequired
+  userName: PropTypes.string.isRequired,
+  showTravelModeSelect: PropTypes.bool.isRequired,
+  onChangeTravelMode: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
 };
 
 export default QuickLogin;
+

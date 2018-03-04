@@ -18,6 +18,7 @@ const Button = props => (
     className={props.iconOnly ? iconClassNames(props) : buttonClassNames(props)}
     disabled={props.disabled}
     onClick={props.onClick}
+    autoFocus={props.autoFocus}
   >
     {props.icon && (
       <div className="Button-icon">
@@ -38,6 +39,7 @@ Button.propTypes = {
   iconOnly: PropTypes.bool,
   size: PropTypes.oneOf(['small', 'medium', 'large']),
   type: PropTypes.oneOf(['button', 'submit']),
+  autoFocus: PropTypes.bool,
   disabled: PropTypes.bool,
   onClick: PropTypes.func
 };
@@ -48,6 +50,7 @@ Button.defaultProps = {
   iconOnly: false,
   size: 'medium',
   type: 'button',
+  autoFocus: false,
   disabled: false,
   onClick: () => {}
 };

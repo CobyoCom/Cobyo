@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import EventCodeForm from '../event/EntryForm/EventEntryForm';
+import RecentEventsContainer from '../event/RecentEvents/RecentEventsContainer';
 import NavBar from '../navigation/NavBar/NavBar';
 import './Page.css';
 
@@ -26,6 +27,7 @@ class HomePage extends Component {
           value={this.state.code}
           disabled={!this.state.code}
         />
+        <RecentEventsContainer history={this.props.history} />
         <NavBar/>
       </div>
     );

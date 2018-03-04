@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {fetchEvent, loginEvent} from '../../event/eventActions';
+import {getItem} from '../../helpers/localStorage';
+import {fetchEvent} from '../../event/eventActions';
 import {selectEventId, selectIsLoggedIn} from '../../event/activeEventSelectors';
 import EventPage from './EventPage';
 
@@ -11,8 +12,7 @@ class EventPageContainer extends Component {
     eventId: PropTypes.string.isRequired,
     isEventLoaded: PropTypes.bool,
     isLoggedIn: PropTypes.bool,
-    fetchEvent: PropTypes.func.isRequired,
-    loginEvent: PropTypes.func.isRequired
+    fetchEvent: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -22,24 +22,36 @@ class EventPageContainer extends Component {
 
   state = {
     isQuickLoginModalOpen: false,
-    localStorageEvent: null
+    localStorageLogin: null
   };
 
   async componentDidMount() {
     try {
       await this.props.fetchEvent(this.props.eventId);
-      const localStorageEvents = localStorage.getItem('events');
+      const localStorageEvents = getItem('events', true);
+      const localStorageUserName = getItem('userName');
 
-      if (!localStorageEvents) {
+      if (!localStorageEvents || !localStorageUserName) {
         return;
       }
 
-      const events = JSON.parse(localStorageEvents);
-      const event = events[this.props.eventId];
-      if (event) {
+      const event = localStorageEvents[this.props.eventId];
+      const userPreviouslyLoggedIntoEvent = !!event && event.userName === localStorageUserName;
+      const userPreviouslyLoggedIn = !!localStorageUserName;
+
+      if (userPreviouslyLoggedIntoEvent) {
         this.setState({
           isQuickLoginModalOpen: true,
-          localStorageEvent: event
+          localStorageLogin: {
+            ...event
+          }
+        });
+      } else if (userPreviouslyLoggedIn) {
+        this.setState({
+          isQuickLoginModalOpen: true,
+          localStorageLogin: {
+            userName: localStorageUserName
+          }
         });
       }
     } catch(error) {
@@ -67,8 +79,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  fetchEvent,
-  loginEvent
+  fetchEvent
 };
 
 export default connect(

@@ -3,7 +3,7 @@ import {get, post, put} from '../helpers/axios';
 import {formatDate} from '../helpers/moment';
 import {
   selectDuration,
-  selectEventId, selectHasLeft, selectLastUpdated,
+  selectEventId, selectEventLocation, selectHasLeft, selectLastUpdated,
   selectPlaceId,
   selectTravelMode,
   selectUserName
@@ -154,26 +154,33 @@ const loginEventSuccess = (eventId, userName, travelMode) => ({
  * @param {string} userName
  * @param {string} travelMode
  */
-export const loginEvent = (eventId, userName, travelMode) => (dispatch) => new Promise((resolve) => {
+export const loginEvent = (eventId, userName, travelMode) => (dispatch, getState) => new Promise((resolve) => {
+  const state = getState();
+  const location = selectEventLocation(state);
   const localStorageEvents = localStorage.getItem('events');
   if (localStorageEvents) {
     const events = JSON.parse(localStorageEvents);
     events[eventId] = {
       ...events[eventId],
+      eventId,
       userName,
-      travelMode
+      travelMode,
+      location
     };
     localStorage.setItem('events', JSON.stringify(events));
   } else {
     // Nothing in local storage
     localStorage.setItem('events', JSON.stringify({
       [eventId]: {
+        eventId,
         userName,
-        travelMode
+        travelMode,
+        location
       }
     }));
   }
 
+  localStorage.setItem('userName', userName);
   dispatch(loginEventSuccess(eventId, userName, travelMode));
   resolve();
 });

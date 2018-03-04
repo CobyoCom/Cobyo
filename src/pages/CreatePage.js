@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {formatDate} from '../helpers/moment';
 import {createEvent} from '../event/eventActions';
 import NavBar from '../navigation/NavBar/NavBar';
 import EventCreateForm from '../event/CreateForm/EventCreateForm';
@@ -10,7 +9,7 @@ class CreatePage extends Component {
   state = {
     placeValue: '',
     placeId: null,
-    eventTime: formatDate()
+    eventTime: new Date()
   };
 
   handleSubmit = e => {

@@ -5,6 +5,7 @@ import NavBar from '../navigation/NavBar/NavBar';
 import './Page.css';
 
 class HomePage extends Component {
+
   state = {
     code: ''
   };

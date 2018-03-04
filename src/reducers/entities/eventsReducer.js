@@ -42,28 +42,16 @@ export default function events(state = initialState, {type, payload}) {
         }
       };
     }
-    case types.setTravelMode: {
-      const {eventId, travelMode} = payload;
+    case types.loginEventSuccess: {
+      const {eventId, userName, travelMode} = payload;
       return {
         ...state,
         [eventId]: {
           ...state[eventId],
           me: {
             ...state[eventId].me,
+            userName,
             travelMode
-          }
-        }
-      };
-    }
-    case types.loginEvent: {
-      const {eventId, userName} = payload;
-      return {
-        ...state,
-        [eventId]: {
-          ...state[eventId],
-          me: {
-            ...state[eventId].me,
-            userName
           }
         }
       };
@@ -108,7 +96,7 @@ export default function events(state = initialState, {type, payload}) {
         }
       };
     }
-    case types.changeTravelMode: {
+    case types.changeTravelModeSuccess: {
       const {eventId, travelMode} = payload;
       return {
         ...state,

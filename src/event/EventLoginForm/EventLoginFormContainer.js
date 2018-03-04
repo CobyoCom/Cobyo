@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {DEFAULT_TRAVEL_MODE} from '../../helpers/globalConstants';
-import {setTravelMode, loginEvent} from '../../event/eventActions';
+import {loginEvent} from '../../event/eventActions';
 import {selectEventId} from '../activeEventSelectors';
 import EventLoginForm from './EventLoginForm';
 
@@ -10,7 +10,6 @@ class EventLoginFormContainer extends Component {
 
   static propTypes = {
     eventId: PropTypes.number.isRequired,
-    setTravelMode: PropTypes.func.isRequired,
     loginEvent: PropTypes.func.isRequired
   };
   
@@ -39,10 +38,9 @@ class EventLoginFormContainer extends Component {
     }
 
     this.setState({isLoading: true});
-    this.props.setTravelMode(this.props.eventId, this.state.travelModeValue);
     // Show the loading bar because the quick movement is a bit jarring
-    await new Promise((resolve, reject) => setTimeout(resolve, 1000));
-    this.props.loginEvent(this.props.eventId, this.state.nameValue);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    this.props.loginEvent(this.props.eventId, this.state.nameValue, this.state.travelModeValue);
   };
 
   render() {
@@ -67,7 +65,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  setTravelMode,
   loginEvent
 };
 

@@ -11,8 +11,7 @@ import {
 import {fetchEventNotifications} from './EventNotifications/eventNotificationsActions';
 
 export const types = {
-  setTravelMode: 'SET_TRAVEL_MODE',
-  loginEvent: 'LOGIN_EVENT',
+  loginEventSuccess: 'LOGIN_EVENT_SUCCESS',
   createEventRequest: 'CREATE_EVENT_REQUEST',
   fetchEventRequest: 'FETCH_EVENT_REQUEST',
   fetchEventSuccess: 'FETCH_EVENT_SUCCESS',
@@ -23,25 +22,8 @@ export const types = {
   getAttendeesFailure: 'GET_ATTENDEES_FAILURE',
   leaveForEventRequest: 'LEAVE_FOR_EVENT_REQUEST',
   leaveForEventFailure: 'LEAVE_FOR_EVENT_FAILURE',
-  changeTravelMode: 'CHANGE_TRAVEL_MODE'
+  changeTravelModeSuccess: 'CHANGE_TRAVEL_MODE_SUCCESS'
 };
-
-/************ ACTIONS TO EXPORT ************/
-
-export const setTravelMode = (eventId, travelMode) => ({
-  type: types.setTravelMode,
-  payload: {eventId, travelMode}
-});
-
-export const loginEvent = (eventId, userName) => ({
-  type: types.loginEvent,
-  payload: {eventId, userName}
-});
-
-export const changeTravelMode = (eventId, travelMode) => ({
-  type: types.changeTravelMode,
-  payload: {eventId, travelMode}
-});
 
 /************ CREATE EVENT ************/
 
@@ -85,10 +67,16 @@ export const fetchEvent = (eventId) => async (dispatch) => {
 
   try {
     const response = await get(`/api/events/${eventId}`);
-    if (response && response.data) {
+    if (response &&
+        response.data &&
+        Object.keys(response.data).length
+    ) {
       const {eventName, placeId, eventTime} = response.data;
       dispatch(fetchEventSuccess(eventId, eventName, placeId, eventTime));
+      return;
     }
+
+    return Promise.reject('Event not found');
   } catch(error) {
     return Promise.reject(error);
   }
@@ -150,6 +138,44 @@ export const refreshEvent = () => (dispatch, getState) => new Promise(async (res
     dispatch(refreshEventFailure(eventId, prevDuration, prevLastUpdated, prevHasLeft));
     reject();
   }
+});
+
+/************ LOGIN EVENT ************/
+
+const loginEventSuccess = (eventId, userName, travelMode) => ({
+  type: types.loginEventSuccess,
+  payload: {eventId, userName, travelMode}
+});
+
+/**
+ * No network request is made, but we want to save some data to local storage.
+ *
+ * @param {number} eventId
+ * @param {string} userName
+ * @param {string} travelMode
+ */
+export const loginEvent = (eventId, userName, travelMode) => (dispatch) => new Promise((resolve) => {
+  const localStorageEvents = localStorage.getItem('events');
+  if (localStorageEvents) {
+    const events = JSON.parse(localStorageEvents);
+    events[eventId] = {
+      ...events[eventId],
+      userName,
+      travelMode
+    };
+    localStorage.setItem('events', JSON.stringify(events));
+  } else {
+    // Nothing in local storage
+    localStorage.setItem('events', JSON.stringify({
+      [eventId]: {
+        userName,
+        travelMode
+      }
+    }));
+  }
+
+  dispatch(loginEventSuccess(eventId, userName, travelMode));
+  resolve();
 });
 
 /************ USER LEAVES FOR EVENT ************/
@@ -261,3 +287,28 @@ const getAttendees = () => async (dispatch, getState) => {
     dispatch(getAttendeesFailure(eventId));
   }
 };
+
+/************ CHANGE TRAVEL MODE ************/
+
+const changeTravelModeSuccess = (eventId, travelMode) => ({
+  type: types.changeTravelModeSuccess,
+  payload: {eventId, travelMode}
+});
+
+export const changeTravelMode = (eventId, travelMode) => (dispatch) => new Promise((resolve) => {
+  const localStorageEvents = localStorage.getItem('events');
+  if (localStorageEvents) {
+    const events = JSON.parse(localStorageEvents);
+    if (events[eventId]) {
+      events[eventId] = {
+        ...events[eventId],
+        travelMode
+      };
+      localStorage.setItem('events', JSON.stringify(events));
+    }
+  }
+
+  dispatch(changeTravelModeSuccess(eventId, travelMode));
+  resolve();
+});
+

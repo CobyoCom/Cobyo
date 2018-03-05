@@ -23,7 +23,6 @@ RecentEvent.propTypes = {
   history: PropTypes.object.isRequired
 };
 
-
 const RecentEvents = props => (
   <div className="RecentEvents">
     {props.events.map(event =>

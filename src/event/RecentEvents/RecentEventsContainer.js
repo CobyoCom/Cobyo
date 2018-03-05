@@ -15,8 +15,11 @@ class RecentEventsContainer extends Component {
 
   componentDidMount() {
     const localStorageEvents = getItem('events', true);
-    if (localStorageEvents) {
-      this.setState({events: Object.values(localStorageEvents)});
+    const localStorageEventIds = getItem('eventIds', true);
+    if (localStorageEvents && localStorageEventIds) {
+      this.setState({
+        events: localStorageEventIds.map(eventId => localStorageEvents[eventId])
+      });
     }
   }
 

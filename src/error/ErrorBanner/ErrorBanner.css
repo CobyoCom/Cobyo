@@ -1,0 +1,5 @@
+.ErrorBanner-message {
+  color: white;
+  display: inline-flex;
+  align-items: center;
+}

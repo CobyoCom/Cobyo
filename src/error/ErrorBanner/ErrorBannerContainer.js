@@ -6,7 +6,7 @@ import ErrorBanner from './ErrorBanner';
 
 const ErrorBannerContainer = props => (
   !!props.errorMessage ?
-    <ErrorBanner {...props} /> :
+    <ErrorBanner {...props} onClose={props.clearError} /> :
     null
 );
 

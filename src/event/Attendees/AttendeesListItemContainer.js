@@ -37,8 +37,7 @@ class AttendeesListItemContainer extends Component {
       const seconds = this.props.duration & 60;
       return `${seconds} seconds away`;
     }
-
-    const arrivalTime = addTime(this.props.duration, this.props.lastUpdated).format('YYYY-MM-DD HH:mm');
+    const arrivalTime = addTime(this.props.duration, this.props.lastUpdated);
     return formatCalendar(arrivalTime);
   };
 

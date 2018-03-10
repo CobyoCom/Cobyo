@@ -11,7 +11,11 @@ const buttonClassNames = props => cx(
   }
 );
 
-const iconClassNames = props => cx('Icon');
+const iconClassNames = props => cx(
+  'Icon',
+  `Icon-${props.size}`,
+  `Icon-${props.disabled}`
+);
 
 const Button = props => (
   <button

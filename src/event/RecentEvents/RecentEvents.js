@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './RecentEvents.css';
 
-const getFormattedLocation = location => location.split(',')[0];
+const getFormattedLocation = location => location && location.split(',')[0];
 
 const RecentEvent = props => (
   <div

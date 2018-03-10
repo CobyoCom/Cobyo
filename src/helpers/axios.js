@@ -1,40 +1,56 @@
+/* global process */
+
 /**
  * Axios helper functions
  */
 import axios from 'axios';
 
+const IS_DEV = process.env.NODE_ENV === 'development';
+const PROD_PATH = 'https://api.cobyo.me';
+const DEV_PATH = 'http://localhost:3001';
+
+/**
+ * Get URL based on environment
+ *
+ * @param {string} path
+ *
+ * @returns {string}
+ */
+function getUrl(path) {
+  return `${IS_DEV ? DEV_PATH : PROD_PATH}${path}`;
+}
+
 /**
  * REST post
  *
- * @param {string} url
+ * @param {string} path
  * @param {object} data
  *
  * @returns {AxiosPromise<any>}
  */
-export function post(url, data = {}) {
-  // If PROD, use prod url.
-  return axios.post(url, data);
+export function post(path, data = {}) {
+  return axios.post(getUrl(path), data);
 }
 
 /**
  * REST put
  *
- * @param {string} url
+ * @param {string} path
  * @param {object} data
  *
  * @returns {AxiosPromise<any>}
  */
-export function put(url, data = {}) {
-  return axios.put(url, data);
+export function put(path, data = {}) {
+  return axios.put(getUrl(path), data);
 }
 
 /**
  * Rest get
  *
- * @param {string} url
+ * @param {string} path
  *
  * @returns {AxiosPromise<any>}
  */
-export function get(url) {
-  return axios.get(url);
+export function get(path) {
+  return axios.get(getUrl(path));
 }

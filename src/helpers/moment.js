@@ -20,6 +20,10 @@ const DB_DATE_FORMAT = 'YYYY-MM-DD HH:mm';
  * @returns {string}
  */
 export function formatDate(timestamp, format = DB_DATE_FORMAT) {
+  if (!timestamp) {
+    return '';
+  }
+
   return moment(new Date(timestamp)).format(format);
 }
 

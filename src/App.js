@@ -11,7 +11,7 @@ import ErrorBannerContainer from './error/ErrorBanner/ErrorBannerContainer';
 import HomePage from './pages/HomePage';
 import CreatePage from './pages/CreatePage';
 import EventPageContainer from './pages/EventPage/EventPageContainer';
-import AdminPageContainer from "./pages/AdminPage/AdminPageContainer";
+import SettingsPageContainer from "./pages/SettingsPage/SettingsPageContainer";
 import NotFoundPage from './pages/NotFoundPage';
 import './App.css';
 
@@ -33,8 +33,8 @@ class App extends Component {
                   render={props => <HomePage {...props} />}
                 />
                 <Route
-                  path="/admin"
-                  render={props => <AdminPageContainer {...props} />}
+                  path="/settings"
+                  render={props => <SettingsPageContainer {...props} />}
                 />
                 <Route
                   exact

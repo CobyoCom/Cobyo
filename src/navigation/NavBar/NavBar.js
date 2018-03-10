@@ -11,7 +11,7 @@ const NavBar = () => (
     <Tab link="/events">
       <FaCalendarPlusO color="black" size={22} />
     </Tab>
-    <Tab link="/admin">
+    <Tab link="/settings">
       <FaList color="black" size={22} />
     </Tab>
   </div>

@@ -28,7 +28,6 @@ class HomePage extends Component {
           disabled={!this.state.code}
         />
         <RecentEventsContainer history={this.props.history} />
-        <span>{"3/10/18"}</span>
         <NavBar/>
       </div>
     );

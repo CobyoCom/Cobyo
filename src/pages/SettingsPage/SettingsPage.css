@@ -1,0 +1,19 @@
+.SettingsPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.SettingsPage-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0;
+}
+
+.SettingsPage-action {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}

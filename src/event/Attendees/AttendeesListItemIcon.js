@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 
 const RenderedElement = props => props.isClickable ? (
   <button
@@ -16,7 +17,12 @@ const RenderedElement = props => props.isClickable ? (
 
 const AttendeesListItemIcon = props => (
   <RenderedElement {...props}>
-    <div className="AttendeesListItem-icon">
+    <div className={cx(
+      'AttendeesListItem-icon',
+      {
+        'AttendeesListItem-icon--spinner': !props.icon
+      }
+    )}>
       {props.icon}
     </div>
     {props.subIcon && (
@@ -29,12 +35,13 @@ const AttendeesListItemIcon = props => (
 
 AttendeesListItemIcon.propTypes = {
   isClickable: PropTypes.bool.isRequired,
-  icon: PropTypes.node.isRequired,
+  icon: PropTypes.node,
   subIcon: PropTypes.node,
   onClick: PropTypes.func.isRequired
 };
 
 AttendeesListItemIcon.defaultProps = {
+  icon: null,
   subIcon: null
 };
 

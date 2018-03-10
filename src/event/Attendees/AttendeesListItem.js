@@ -8,8 +8,12 @@ import TravelModeSelect from '../TravelModeSelect/TravelModeSelect';
 import AttendeesListItemIcon from './AttendeesListItemIcon';
 import './AttendeesListItem.css';
 
-const getIcon = ({hasLeft, hasProbablyArrived, travelMode}) => {
+const getIcon = ({hasLeft, hasProbablyArrived, travelMode, isRefreshing}) => {
   if (hasProbablyArrived) {
+    if (isRefreshing) {
+      return null;
+    }
+
     return <FaFlagCheckered/>;
   }
 
@@ -102,6 +106,7 @@ export const AttendeeDefaultProps = {
 AttendeesListItem.propTypes = {
   ...AttendeePropTypes,
   isMe: PropTypes.bool.isRequired,
+  isRefreshing: PropTypes.bool.isRequired,
   isTravelModeOpen: PropTypes.bool.isRequired,
   hasProbablyArrived: PropTypes.bool.isRequired,
   durationStatus: PropTypes.string.isRequired,

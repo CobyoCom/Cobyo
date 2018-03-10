@@ -24,6 +24,7 @@
   margin: 0 10px 0 0;
   border: none;
   outline: none;
+  background-color: white;
 }
 
 .AttendeesListItem-icon,
@@ -39,6 +40,17 @@
   width: 10vw;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0 rgba(0,0,0,0.02);
   font-size: 150%;
+}
+
+.AttendeesListItem-icon--spinner {
+  border: 1px solid #d3d3d3;
+  border-top: 1px solid #009FB7;
+  animation: spin 2s linear infinite;
+  box-shadow: none;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .AttendeesListItem-subIcon {

@@ -5,7 +5,7 @@ import {selectErrorMessage} from '../errorSelectors';
 import ErrorBanner from './ErrorBanner';
 
 const ErrorBannerContainer = props => (
-  props.showError ?
+  !!props.errorMessage ?
     <ErrorBanner {...props} /> :
     null
 );

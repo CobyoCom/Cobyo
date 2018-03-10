@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {getItem} from '../../helpers/localStorage'
-import RecentEvents from "./RecentEvents";
+import RecentEvents from './RecentEvents';
 
 class RecentEventsContainer extends Component {
 

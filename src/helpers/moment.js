@@ -73,8 +73,7 @@ export function fromNow(start, format = DB_DATE_FORMAT) {
     return '-';
   }
 
-  const startMoment = moment(new Date(start), format);
-  const seconds = moment().diff(startMoment) / 1000;
+  const seconds = moment().diff(moment(start, format)) / 1000;
   if (seconds < 60) {
     return 'Just now';
   } else if (seconds < 120) {

@@ -1,4 +1,5 @@
 /*global google*/
+
 import {get, put} from '../helpers/axios';
 import {formatDate} from '../helpers/moment';
 import logger from '../helpers/logger';

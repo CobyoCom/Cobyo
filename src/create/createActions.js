@@ -1,6 +1,15 @@
 import {post} from '../helpers/axios';
+import logger from '../helpers/logger';
 
-export const createEvent = (placeValue, placeId, eventTime) => async () => {
+export const types = {
+  createEventFailure: 'CREATE_EVENT_FAILURE'
+};
+
+function createEventFailure() {
+  return {type: types.createEventFailure};
+}
+
+export const createEvent = (placeValue, placeId, eventTime) => async (dispatch) => {
   try {
     const response = await post('/api/events', {
       placeId,
@@ -15,6 +24,9 @@ export const createEvent = (placeValue, placeId, eventTime) => async () => {
 
     return Promise.reject();
   } catch(error) {
+    logger(`Failed to create event: ${error}`);
+    dispatch(createEventFailure());
+
     return Promise.reject();
   }
 };

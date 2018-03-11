@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {createEvent} from '../event/eventActions';
-import NavBar from '../navigation/NavBar/NavBar';
-import EventCreateForm from '../event/CreateForm/EventCreateForm';
-import './Page.css';
+import {createEvent} from '../../event/eventActions';
+import CreatePage from './CreatePage';
 
-class CreatePage extends Component {
+class CreatePageContainer extends Component {
+
   state = {
     placeValue: '',
     placeId: null,
@@ -26,16 +25,13 @@ class CreatePage extends Component {
 
   render() {
     return (
-      <div className="CreatePage">
-        <EventCreateForm
-          placeValue={this.state.placeValue}
-          disabled={!this.state.placeId}
-          onSubmit={this.handleSubmit}
-          onSelectPlace={this.handleSelectPlace}
-          onChangePlace={this.handleChangePlace}
-        />
-        <NavBar/>
-      </div>
+      <CreatePage
+        {...this.state}
+        disabled={!this.state.placeId}
+        onSubmit={this.handleSubmit}
+        onSelectPlace={this.handleSelectPlace}
+        onChangePlace={this.handleChangePlace}
+      />
     );
   }
 }
@@ -47,4 +43,4 @@ const mapDispatchToProps = {
 export default connect(
   null,
   mapDispatchToProps
-)(CreatePage);
+)(CreatePageContainer);

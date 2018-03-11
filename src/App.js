@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 import ErrorBannerContainer from './error/ErrorBanner/ErrorBannerContainer';
 import HomePage from './pages/HomePage';
-import CreatePage from './pages/CreatePage';
+import CreatePageContainer from './pages/CreatePage/CreatePageContainer';
 import EventPageContainer from './pages/EventPage/EventPageContainer';
 import SettingsPageContainer from "./pages/SettingsPage/SettingsPageContainer";
 import NotFoundPage from './pages/NotFoundPage';
@@ -39,7 +39,7 @@ class App extends Component {
                 <Route
                   exact
                   path="/events"
-                  render={props => <CreatePage {...props} />}
+                  render={props => <CreatePageContainer {...props} />}
                 />
                 <Route
                   path="/events/:eventId"

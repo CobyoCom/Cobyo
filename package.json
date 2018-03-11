@@ -23,6 +23,7 @@
     "reselect": "^3.0.1",
     "serve": "^6.5.3"
   },
+  "homepage": "https://cobyo.me",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

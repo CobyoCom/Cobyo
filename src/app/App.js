@@ -32,6 +32,7 @@ class App extends Component {
                   render={props => <HomePageContainer {...props} />}
                 />
                 <Route
+                  exact
                   path="/settings"
                   render={props => <SettingsPageContainer {...props} />}
                 />

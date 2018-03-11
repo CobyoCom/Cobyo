@@ -55,8 +55,11 @@ export const fetchEvent = (eventId) => async (dispatch) => {
       return;
     }
 
+    logger(`Failed to fetch event ${eventId}`);
     return Promise.reject('Event not found');
   } catch(error) {
+    logger(`Fetching event ${eventId} caused an error: ${error}`);
+
     return Promise.reject(error);
   }
 };

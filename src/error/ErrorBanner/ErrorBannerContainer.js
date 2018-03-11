@@ -1,8 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {clearError} from '../errorActions';
-import {selectErrorMessage} from '../errorSelectors';
+import {clearError} from '../errorBannerActions';
 import ErrorBanner from './ErrorBanner';
+import {selectErrorMessage} from '../../reducers/appState/appStateSelectors';
 
 const ErrorBannerContainer = props => (
   !!props.errorMessage ?

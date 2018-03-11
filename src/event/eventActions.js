@@ -8,7 +8,9 @@ import {
   selectTravelMode,
   selectUserName
 } from './activeEventSelectors';
+import {selectIsGoogleAPILoaded} from '../reducers/appState/appStateSelectors';
 import {fetchEventNotifications} from './notifications/eventNotificationsActions';
+import {initGoogleMapsAPI} from '../actions/googleMapsActions';
 
 export const types = {
   loginEventSuccess: 'LOGIN_EVENT_SUCCESS',
@@ -111,8 +113,13 @@ export const refreshEvent = () => (dispatch, getState) => new Promise(async (res
   const destinationPlaceId = selectPlaceId(state);
   const travelMode = selectTravelMode(state);
   const userName = selectUserName(state);
+  const isGoogleAPILoaded = selectIsGoogleAPILoaded(state);
 
   try {
+    if (!isGoogleAPILoaded) {
+      await dispatch(initGoogleMapsAPI())
+    }
+
     const duration = await fetchTravelDuration({
       eventId,
       coordinates,

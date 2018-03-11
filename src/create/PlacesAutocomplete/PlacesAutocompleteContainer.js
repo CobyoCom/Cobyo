@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {init} from '../../helpers/googlemaps';
+import {connect} from 'react-redux';
+import {initGoogleMapsAPI} from '../../actions/googleMapsActions';
+import {selectIsGoogleAPILoaded} from '../../reducers/appState/appStateSelectors';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import './PlacesAutocomplete.css';
 
@@ -9,7 +11,9 @@ class PlacesAutocompleteContainer extends Component {
     placeholder: PropTypes.string,
     placeValue: PropTypes.string.isRequired,
     onChangePlace: PropTypes.func.isRequired,
-    onSelectPlace: PropTypes.func.isRequired
+    onSelectPlace: PropTypes.func.isRequired,
+    isGoogleAPILoaded: PropTypes.bool.isRequired,
+    initGoogleMapsAPI: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -17,14 +21,12 @@ class PlacesAutocompleteContainer extends Component {
   };
 
   state = {
-    isLoadingGoogleMaps: true,
     showDefaultSearch: false
   };
 
   async componentDidMount() {
     try {
-      await init();
-      this.setState({isLoadingGoogleMaps: false})
+      await this.props.initGoogleMapsAPI();
     } catch(error) {
       this.setState({showDefaultSearch: true});
     }
@@ -32,9 +34,9 @@ class PlacesAutocompleteContainer extends Component {
 
   showDefaultSearch = () => this.state.showDefaultSearch;
 
-  showLoadingPlacesAutocomplete = () => !this.showDefaultSearch() && this.state.isLoadingGoogleMaps;
+  showLoadingPlacesAutocomplete = () => !this.showDefaultSearch() && !this.props.isGoogleAPILoaded;
 
-  showPlacesAutocomplete = () => !this.showDefaultSearch() && !this.state.isLoadingGoogleMaps;
+  showPlacesAutocomplete = () => !this.showDefaultSearch() && this.props.isGoogleAPILoaded;
 
   render() {
     return (
@@ -65,4 +67,15 @@ class PlacesAutocompleteContainer extends Component {
   }
 }
 
-export default PlacesAutocompleteContainer;
+const mapStateToProps = state => ({
+  isGoogleAPILoaded: selectIsGoogleAPILoaded(state)
+});
+
+const mapDispatchToProps = {
+  initGoogleMapsAPI
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PlacesAutocompleteContainer);

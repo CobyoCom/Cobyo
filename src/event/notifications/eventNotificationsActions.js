@@ -1,4 +1,4 @@
-import axios from 'axios';
+import {get} from '../../helpers/axios';
 import {selectEventId} from '../activeEventSelectors';
 
 export const types = {
@@ -31,7 +31,7 @@ export const fetchEventNotifications = () => async (dispatch, getState) => {
   dispatch(fetchEventNotificationsRequest(eventId));
 
   try {
-    const {data} = await axios.get(`/api/events/${eventId}/notifications`);
+    const {data} = await get(`/api/events/${eventId}/notifications`);
     dispatch(fetchEventNotificationsSuccess(eventId, data));
   } catch(error) {
     dispatch(fetchEventNotificationsFailure());

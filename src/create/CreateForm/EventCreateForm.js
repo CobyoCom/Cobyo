@@ -17,7 +17,6 @@ const EventCreateForm = props => (
     <Button
       onClick={props.onSubmit}
       disabled={props.disabled}
-
     >
       Continue
     </Button>

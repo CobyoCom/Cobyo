@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {init} from '../../helpers/googlemaps';
 import PlacesAutocomplete from 'react-places-autocomplete';
-
+import './PlacesAutocomplete.css';
 
 class PlacesAutocompleteContainer extends Component {
   static propTypes = {
@@ -49,6 +49,13 @@ class PlacesAutocompleteContainer extends Component {
               value: this.props.placeValue,
               onChange: this.props.onChangePlace,
               placeholder: this.props.placeholder
+            }}
+            classNames={{
+              root: 'PlacesAutocomplete-root',
+              input: 'PlacesAutocomplete-input',
+              autocompleteContainer: 'PlacesAutocomplete-autocompleteContainer',
+              autocompleteItem: 'PlacesAutocomplete-autocompleteItem',
+              autocompleteItemActive: 'PlacesAutocomplete-autocompleteItemActive'
             }}
             onSelect={this.props.onSelectPlace}
           />

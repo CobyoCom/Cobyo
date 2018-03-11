@@ -1,11 +1,8 @@
 .EventCreateForm {
-
+  display: flex;
+  flex-direction: column;
 }
 
 .EventCreateForm > * {
   margin: 10px;
-}
-
-.PlaceAutocomplete-root {
-
 }

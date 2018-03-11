@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {createEvent} from '../../event/eventActions';
+import {createEvent} from '../../create/createActions';
 import CreatePage from './CreatePage';
 
 class CreatePageContainer extends Component {

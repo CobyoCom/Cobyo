@@ -1,6 +1,7 @@
 /*global google*/
-import {get, post, put} from '../helpers/axios';
+import {get, put} from '../helpers/axios';
 import {formatDate} from '../helpers/moment';
+import logger from '../helpers/logger';
 import {
   selectDuration,
   selectEventId, selectEventLocation, selectHasLeft, selectLastUpdated,
@@ -14,42 +15,17 @@ import {initGoogleMapsAPI} from '../actions/googleMapsActions';
 
 export const types = {
   loginEventSuccess: 'LOGIN_EVENT_SUCCESS',
-  createEventRequest: 'CREATE_EVENT_REQUEST',
   fetchEventRequest: 'FETCH_EVENT_REQUEST',
   fetchEventSuccess: 'FETCH_EVENT_SUCCESS',
   refreshEventRequest: 'REFRESH_EVENT_REQUEST',
   refreshEventSuccess: 'REFRESH_EVENT_SUCCESS',
   refreshEventFailure: 'REFRESH_EVENT_FAILURE',
+  fetchTravelDurationFailure: 'FETCH_TRAVEL_DURATION_FAILURE',
   getAttendeesSuccess: 'GET_ATTENDEES_SUCCESS',
   getAttendeesFailure: 'GET_ATTENDEES_FAILURE',
   leaveForEventRequest: 'LEAVE_FOR_EVENT_REQUEST',
   leaveForEventFailure: 'LEAVE_FOR_EVENT_FAILURE',
   changeTravelModeSuccess: 'CHANGE_TRAVEL_MODE_SUCCESS'
-};
-
-/************ CREATE EVENT ************/
-
-const createEventRequest = () => ({
-  type: types.createEventRequest
-});
-
-export const createEvent = (placeValue, placeId, eventTime) => async (dispatch) => {
-  dispatch(createEventRequest());
-
-  try {
-    const response = await post('/api/events', {
-      placeId,
-      eventName: placeValue,
-      eventTime
-    });
-    if (response && response.data) {
-      const {id: eventId} = response.data;
-      return Promise.resolve(eventId);
-    }
-    return Promise.reject();
-  } catch(error) {
-    return Promise.reject();
-  }
 };
 
 /************ FETCH EVENT ************/
@@ -100,6 +76,10 @@ const refreshEventFailure = (eventId, duration, lastUpdated, hasLeft = false) =>
   payload: {eventId, duration, lastUpdated, hasLeft}
 });
 
+const fetchTravelDurationFailure = () => ({
+  type: types.fetchTravelDurationFailure
+});
+
 export const refreshEvent = () => (dispatch, getState) => new Promise(async (resolve, reject) => {
   dispatch(refreshEventRequest());
 
@@ -115,18 +95,29 @@ export const refreshEvent = () => (dispatch, getState) => new Promise(async (res
   const userName = selectUserName(state);
   const isGoogleAPILoaded = selectIsGoogleAPILoaded(state);
 
-  try {
-    if (!isGoogleAPILoaded) {
-      await dispatch(initGoogleMapsAPI())
+  if (!isGoogleAPILoaded) {
+    try {
+      await dispatch(initGoogleMapsAPI());
+    } catch (error) {
+      return;
     }
+  }
 
-    const duration = await fetchTravelDuration({
+  let duration;
+  try {
+    duration = await fetchTravelDuration({
       eventId,
       coordinates,
       destinationPlaceId,
       travelMode
     });
+  } catch (error) {
+    logger(`Failed to fetch travel duration: ${error}`);
+    dispatch(fetchTravelDurationFailure());
+    return;
+  }
 
+  try {
     const response = await put(`/api/events/${eventId}/users/${userName}`, {
       userName,
       duration,
@@ -142,6 +133,7 @@ export const refreshEvent = () => (dispatch, getState) => new Promise(async (res
     dispatch(fetchEventNotifications());
     resolve();
   } catch(error) {
+    logger(`Failed to refresh event: ${error}`);
     dispatch(refreshEventFailure(eventId, prevDuration, prevLastUpdated, prevHasLeft));
     reject();
   }
@@ -222,6 +214,7 @@ export const leaveForEvent = (hasLeft = true) => async (dispatch, getState) => {
       hasLeft
     });
   } catch(error) {
+    logger(`Failed to leave event: ${error}`);
     dispatch(leaveForEventFailure(eventId, prevHasLeft));
   }
 };

@@ -6,7 +6,18 @@ import {selectIsGoogleAPILoaded} from '../../reducers/appState/appStateSelectors
 import PlacesAutocomplete from 'react-places-autocomplete';
 import './PlacesAutocomplete.css';
 
+const PlacesAutocompleteSkeleton = () => (
+  <div className="PlacesAutocomplete-root">
+    <input
+      className="PlacesAutocomplete-input"
+      disabled
+      placeholder="Loading..."
+    />
+  </div>
+);
+
 class PlacesAutocompleteContainer extends Component {
+
   static propTypes = {
     placeholder: PropTypes.string,
     placeValue: PropTypes.string.isRequired,
@@ -40,30 +51,32 @@ class PlacesAutocompleteContainer extends Component {
 
   showPlacesAutocomplete = () => !this.showDefaultSearch() && this.props.isGoogleAPILoaded;
 
+  getPlacesAutocompleteInputProps = () => ({
+    value: this.props.placeValue,
+    onChange: this.props.onChangePlace,
+    placeholder: this.props.placeholder
+  });
+
+  getPlacesAutocompleteClassNames = () => ({
+    root: 'PlacesAutocomplete-root',
+    input: 'PlacesAutocomplete-input',
+    autocompleteContainer: 'PlacesAutocomplete-autocompleteContainer',
+    autocompleteItem: 'PlacesAutocomplete-autocompleteItem',
+    autocompleteItemActive: 'PlacesAutocomplete-autocompleteItemActive'
+  });
+
   render() {
     return (
       <div className="PlacesAutocomplete-wrapper">
-        {this.showDefaultSearch() &&
-          <input placeholder={this.props.placeholder} />
-        }
-        {this.showLoadingPlacesAutocomplete() && <div>Loading</div>}
-        {this.showPlacesAutocomplete() &&
+        {this.showDefaultSearch() && <input placeholder={this.props.placeholder} />}
+        {this.showLoadingPlacesAutocomplete() && <PlacesAutocompleteSkeleton/>}
+        {this.showPlacesAutocomplete() && (
           <PlacesAutocomplete
-            inputProps={{
-              value: this.props.placeValue,
-              onChange: this.props.onChangePlace,
-              placeholder: this.props.placeholder
-            }}
-            classNames={{
-              root: 'PlacesAutocomplete-root',
-              input: 'PlacesAutocomplete-input',
-              autocompleteContainer: 'PlacesAutocomplete-autocompleteContainer',
-              autocompleteItem: 'PlacesAutocomplete-autocompleteItem',
-              autocompleteItemActive: 'PlacesAutocomplete-autocompleteItemActive'
-            }}
+            inputProps={this.getPlacesAutocompleteInputProps()}
+            classNames={this.getPlacesAutocompleteClassNames()}
             onSelect={this.props.onSelectPlace}
           />
-        }
+        )}
       </div>
     );
   }

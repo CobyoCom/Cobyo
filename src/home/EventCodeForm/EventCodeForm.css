@@ -1,0 +1,11 @@
+.EventCodeForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+  margin: 0 0 20px;
+}
+
+.EventCodeForm > * {
+  margin: 10px 0;
+}

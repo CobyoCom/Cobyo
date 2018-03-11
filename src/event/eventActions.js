@@ -8,7 +8,7 @@ import {
   selectTravelMode,
   selectUserName
 } from './activeEventSelectors';
-import {fetchEventNotifications} from './EventNotifications/eventNotificationsActions';
+import {fetchEventNotifications} from './notifications/eventNotificationsActions';
 
 export const types = {
   loginEventSuccess: 'LOGIN_EVENT_SUCCESS',

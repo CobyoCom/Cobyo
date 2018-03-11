@@ -1,0 +1,19 @@
+.NotificationListItem {
+  border-top: 1px solid #EFF1F3;
+  padding: 10px 5px;
+  color: #696773;
+  font-size: 11pt;
+}
+
+.NotificationListItem-message {
+  margin-bottom: 5px;
+}
+
+.NotificationListItem-userName {
+  font-weight: bold;
+  color: black;
+}
+
+.NotificationListItem-timestamp {
+  font-size: 10pt;
+}

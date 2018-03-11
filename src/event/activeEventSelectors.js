@@ -1,9 +1,9 @@
 import {createSelector} from 'reselect';
 import {moduleName as eventsModuleName, eventInitialState} from '../reducers/entities/eventsReducer';
-import {moduleName as attendeesModuleName} from './Attendees/attendeesReducer';
+import {moduleName as attendeesModuleName} from './attendees/attendeesReducer';
 import {moduleName as uiEventModuleName} from '../reducers/ui/uiEventReducer';
 import {moduleName as activeEventModuleName} from './activeEventReducer';
-import {selectEventNotificationsById} from "./EventNotifications/eventNotificationsSelectors";
+import {selectEventNotificationsById} from "./notifications/eventNotificationsSelectors";
 
 /****** EVENT ENTITIES ******/
 

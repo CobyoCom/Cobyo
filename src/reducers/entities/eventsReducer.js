@@ -1,6 +1,6 @@
 import {types} from '../../event/eventActions';
-import {types as notificationTypes} from '../../event/EventNotifications/eventNotificationsActions';
-import {AttendeeDefaultProps} from '../../event/Attendees/AttendeesListItem';
+import {types as notificationTypes} from '../../event/notifications/eventNotificationsActions';
+import {AttendeeDefaultProps} from '../../event/attendees/AttendeesListItem/AttendeesListItem';
 
 export const moduleName = 'events';
 

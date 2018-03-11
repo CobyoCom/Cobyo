@@ -64,15 +64,17 @@ export function addTime(units, start = null, key = 's', format = DB_DATE_FORMAT)
  * Calculates the date difference and outputs a human readable string to describe the difference.
  *
  * @param {string} start
+ * @param {string} format
  *
  * @returns {string}
  */
-export function fromNow(start) {
+export function fromNow(start, format = DB_DATE_FORMAT) {
   if (!start) {
     return '-';
   }
 
-  const seconds = moment().diff(new Date(start)) / 1000;
+  const startMoment = moment(new Date(start), format);
+  const seconds = moment().diff(startMoment) / 1000;
   if (seconds < 60) {
     return 'Just now';
   } else if (seconds < 120) {
@@ -81,5 +83,5 @@ export function fromNow(start) {
     return `${Math.floor(seconds / 60)} minutes ago`;
   }
 
-  return `A while ago ${new Date()} ${(new Date()).toString()} ${start} ${(new Date(start)).toString()} ${moment(new Date(start).toString).format()}`;
+  return `A while ago`;
 }

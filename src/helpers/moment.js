@@ -81,5 +81,5 @@ export function fromNow(start) {
     return `${Math.floor(seconds / 60)} minutes ago`;
   }
 
-  return `A while ago ${seconds}`;
+  return `A while ago ${new Date()} ${(new Date()).toString()} ${start} ${(new Date(start)).toString()} ${moment(new Date(start).toString).format()}`;
 }

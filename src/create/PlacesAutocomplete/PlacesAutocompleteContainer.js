@@ -24,9 +24,11 @@ class PlacesAutocompleteContainer extends Component {
     showDefaultSearch: false
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     try {
-      await this.props.initGoogleMapsAPI();
+      if (!this.props.isGoogleAPILoaded) {
+        this.props.initGoogleMapsAPI();
+      }
     } catch(error) {
       this.setState({showDefaultSearch: true});
     }

@@ -3,19 +3,16 @@ import {types} from './errorActions';
 
 export const moduleName = 'error';
 
-export default function(state = null, {type, payload}) {
-  switch(type) {
+export default function(state = null, {type}) {
+  switch (type) {
     case eventActionTypes.refreshEventFailure: {
-      const {eventId, duration, lastUpdated, hasLeft} = payload;
-      return `${eventId} ${duration} ${lastUpdated} ${hasLeft}`;
+      return 'Unable to load event. Please try again.';
     }
     case eventActionTypes.getAttendeesFailure: {
-      const {eventId} = payload;
-      return `Get attendees failed ${eventId}`;
+      return 'Unable to load attendees. Please try again.';
     }
     case eventActionTypes.leaveForEventFailure: {
-      const {eventId, hasLeft} = payload;
-      return `Left for event failed for event: ${eventId} and ${hasLeft}`;
+      return 'Unable to register action. Please try again.';
     }
     case types.clearError: {
       return null;

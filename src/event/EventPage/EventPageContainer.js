@@ -55,7 +55,7 @@ class EventPageContainer extends Component {
         });
       }
     } catch(error) {
-      this.props.history.replace('/404');
+      this.props.history.replace('/404.html');
     }
   }
 

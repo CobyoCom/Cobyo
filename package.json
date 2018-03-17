@@ -20,14 +20,15 @@
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
-    "reselect": "^3.0.1"
+    "reselect": "^3.0.1",
+    "serve": "^6.5.3"
   },
   "scripts": {
-    "start": "HTTPS=true react-scripts start",
-    "build": "HTTPS=true react-scripts build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "serve": "node node_modules/serve/bin/serve.js -p 3000 build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "deploy": "aws s3 sync build/ s3://cobyo.frontend --delete"
-  },
-  "proxy": "http://localhost:3001"
+  }
 }

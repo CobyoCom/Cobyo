@@ -46,15 +46,13 @@ class App extends Component {
                 />
                 <Route
                   exact
-                  path="/404"
+                  path="/404.html"
                   component={NotFoundPage}
                 />
                 <Route
+                  exact
                   path="/:eventId"
                   render={props => <EventPageContainer {...props} {...extractParams(props)} />}
-                />
-                <Route
-                  component={NotFoundPage}
                 />
               </Switch>
             </Router>

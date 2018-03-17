@@ -89,7 +89,7 @@ const AttendeesListItem = props => (
 export const AttendeePropTypes = {
   userName: PropTypes.string,
   duration: PropTypes.number,
-  lastUpdated: PropTypes.string,
+  lastUpdated: PropTypes.number,
   travelMode: PropTypes.oneOf([WALKING, DRIVING, TRANSIT]),
   hasLeft: PropTypes.bool
 };

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {addTime, formatCalendar, fromNow} from '../../../helpers/moment';
+import {formatCalendar, fromNow} from '../../../helpers/moment';
 import {changeTravelMode, refreshEvent} from '../../eventActions';
 import AttendeesListItem, {AttendeePropTypes} from './AttendeesListItem';
 import {selectUserName, selectIsRefreshing, selectEventId} from "../../activeEventSelectors";
@@ -24,12 +24,12 @@ class AttendeesListItemContainer extends Component {
   getHasProbablyArrived = () => this.props.duration < 60;
 
   getDurationStatus = () => {
-    if (this.props.duration === null || isNaN(this.props.duration)) {
+    if (isNaN(this.props.duration)) {
       return '';
     }
 
     if (!this.props.hasLeft) {
-      const minutes = Math.floor(this.props.duration / 60);
+      const minutes = Math.floor(this.props.duration / (60 * 1000));
       if (minutes > 0) {
         return `${minutes} minutes away`;
       }
@@ -37,7 +37,8 @@ class AttendeesListItemContainer extends Component {
       const seconds = this.props.duration & 60;
       return `${seconds} seconds away`;
     }
-    const arrivalTime = addTime(this.props.duration, this.props.lastUpdated);
+
+    const arrivalTime = this.props.duration + this.props.lastUpdated;
     return formatCalendar(arrivalTime);
   };
 

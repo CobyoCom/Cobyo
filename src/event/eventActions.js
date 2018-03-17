@@ -1,7 +1,6 @@
 /*global google*/
 
 import {get, put} from '../helpers/axios';
-import {formatDate} from '../helpers/moment';
 import logger from '../helpers/logger';
 import {
   selectDuration,
@@ -231,8 +230,7 @@ const fetchLocation = () => new Promise((resolve, reject) => {
       (position) => {
         const {coords: {latitude, longitude}, timestamp} = position;
         const coordinates = {latitude, longitude};
-        const lastUpdated = formatDate(timestamp);
-        return resolve({coordinates, lastUpdated});
+        return resolve({coordinates, lastUpdated: timestamp});
       },
       () => {
         return reject();
@@ -269,7 +267,7 @@ const fetchTravelDuration = ({
     ) {
       const {duration, status} = response.rows[0].elements[0];
       if (status === 'OK') {
-        return resolve(duration.value);
+        return resolve(duration.value * 1000);
       }
 
       return reject();
@@ -298,8 +296,8 @@ const getAttendees = () => async (dispatch, getState) => {
 
   try {
     const response = await get(`/api/events/${eventId}/users?sortBy=userName&exclude=${userName}`);
-    const attendees = await response.data;
-    dispatch(getAttendeesSuccess(eventId, attendees));
+    const attendees = response.data;
+    dispatch(getAttendeesSuccess(eventId, attendees || []));
   } catch(error) {
     dispatch(getAttendeesFailure(eventId));
   }

@@ -5,13 +5,6 @@
 import moment from 'moment';
 
 /**
- * Default date format represented in the database.
- *
- * @type {string}
- */
-const DB_DATE_FORMAT = 'YYYY-MM-DD HH:mm';
-
-/**
  * Given a timestamp, output a formatted date string.
  *
  * @param {string} timestamp
@@ -19,23 +12,19 @@ const DB_DATE_FORMAT = 'YYYY-MM-DD HH:mm';
  *
  * @returns {string}
  */
-export function formatDate(timestamp, format = DB_DATE_FORMAT) {
-  if (!timestamp) {
-    return '';
-  }
-
-  return moment(new Date(timestamp)).format(format);
+export function formatDate(timestamp, format) {
+  return !!timestamp ? moment(new Date(timestamp)).format(format) : '';
 }
 
 /**
  * Given a timestamp, output a formatted calendar selected string.
  *
- * @param {string} timestamp
+ * @param {int} time Time represented in milliseconds
  *
  * @returns {string}
  */
-export function formatCalendar(timestamp) {
-  return moment(timestamp).calendar(null, {
+export function formatCalendar(time) {
+  return moment(time).calendar(null, {
     sameDay: 'h:mm a',
     nextDay: '[Tomorrow at ] h:mm a',
     nextWeek: 'dddd h:mm a',
@@ -46,34 +35,20 @@ export function formatCalendar(timestamp) {
 }
 
 /**
- * Add to given start time, output a formatted date string.
- *
- * @param {int}    units
- * @param {string} start
- * @param {string} key
- * @param {string} format
- *
- * @returns {string}
- */
-export function addTime(units, start = null, key = 's', format = DB_DATE_FORMAT) {
-  const m = start ? moment(new Date(start)) : moment();
-  return m.add(units, key).format(format);
-}
-
-/**
  * Calculates the date difference and outputs a human readable string to describe the difference.
  *
- * @param {string} start
- * @param {string} format
+ * @param {int} time Time represented in milliseconds
  *
  * @returns {string}
  */
-export function fromNow(start, format = DB_DATE_FORMAT) {
-  if (!start) {
+export function fromNow(time) {
+  if (!time) {
     return '-';
   }
 
-  const seconds = moment().diff(moment(start, format)) / 1000;
+  const now = (new Date()).getTime();
+  const seconds = (now - time) / 1000;
+
   if (seconds < 60) {
     return 'Just now';
   } else if (seconds < 120) {

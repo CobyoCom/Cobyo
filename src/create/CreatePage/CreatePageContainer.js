@@ -8,7 +8,7 @@ class CreatePageContainer extends Component {
   state = {
     placeValue: '',
     placeId: null,
-    eventTime: new Date()
+    eventTime: (new Date()).getTime()
   };
 
   handleSubmit = e => {

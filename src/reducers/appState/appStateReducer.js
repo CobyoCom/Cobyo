@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux';
 import error from './errorReducer';
+import createEventForm from '../../create/createEventFormReducer';
 import {types as googleMapsActionTypes} from '../../actions/googleMapsActions';
 
 function isGoogleAPILoaded(state = false, {type}) {
@@ -14,5 +15,6 @@ function isGoogleAPILoaded(state = false, {type}) {
 
 export default combineReducers({
   isGoogleAPILoaded,
-  error
+  error,
+  createEventForm
 });

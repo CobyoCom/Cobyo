@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {selectPlace} from '../createActions';
 import {initGoogleMapsAPI} from '../../actions/googleMapsActions';
 import {selectIsGoogleAPILoaded} from '../../reducers/appState/appStateSelectors';
 import PlacesAutocomplete from 'react-places-autocomplete';
@@ -20,9 +21,7 @@ class PlacesAutocompleteContainer extends Component {
 
   static propTypes = {
     placeholder: PropTypes.string,
-    placeValue: PropTypes.string.isRequired,
-    onChangePlace: PropTypes.func.isRequired,
-    onSelectPlace: PropTypes.func.isRequired,
+    selectPlace: PropTypes.func.isRequired,
     isGoogleAPILoaded: PropTypes.bool.isRequired,
     initGoogleMapsAPI: PropTypes.func.isRequired
   };
@@ -32,7 +31,8 @@ class PlacesAutocompleteContainer extends Component {
   };
 
   state = {
-    showDefaultSearch: false
+    showDefaultSearch: false,
+    placeName: ''
   };
 
   componentDidMount() {
@@ -52,8 +52,8 @@ class PlacesAutocompleteContainer extends Component {
   showPlacesAutocomplete = () => !this.showDefaultSearch() && this.props.isGoogleAPILoaded;
 
   getPlacesAutocompleteInputProps = () => ({
-    value: this.props.placeValue,
-    onChange: this.props.onChangePlace,
+    value: this.state.placeName,
+    onChange: this.handleChangeName,
     placeholder: this.props.placeholder
   });
 
@@ -65,6 +65,8 @@ class PlacesAutocompleteContainer extends Component {
     autocompleteItemActive: 'PlacesAutocomplete-autocompleteItemActive'
   });
 
+  handleChangeName = (placeName) => this.setState({placeName});
+
   render() {
     return (
       <div className="PlacesAutocomplete-wrapper">
@@ -74,7 +76,7 @@ class PlacesAutocompleteContainer extends Component {
           <PlacesAutocomplete
             inputProps={this.getPlacesAutocompleteInputProps()}
             classNames={this.getPlacesAutocompleteClassNames()}
-            onSelect={this.props.onSelectPlace}
+            onSelect={this.props.selectPlace}
           />
         )}
       </div>
@@ -87,6 +89,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  selectPlace,
   initGoogleMapsAPI
 };
 

@@ -1,20 +1,33 @@
 import {post} from '../helpers/axios';
 import logger from '../helpers/logger';
+import {selectPlaceId, selectPlaceName} from './createEventFormSelectors';
 
 export const types = {
+  selectPlace: 'SELECT_PLACE',
   createEventFailure: 'CREATE_EVENT_FAILURE'
 };
+
+export function selectPlace(placeName, placeId) {
+  return {
+    type: types.selectPlace,
+    payload: {placeName, placeId}
+  };
+}
 
 function createEventFailure() {
   return {type: types.createEventFailure};
 }
 
-export const createEvent = (placeValue, placeId, eventTime) => async (dispatch) => {
+export const createEvent = () => async (dispatch, getState) => {
+  const state = getState();
+  const placeId = selectPlaceId(state);
+  const placeName = selectPlaceName(state);
+
   try {
     const response = await post('/api/events', {
       placeId,
-      eventName: placeValue,
-      eventTime
+      eventName: placeName,
+      eventTime: new Date()
     });
 
     if (response && response.data) {

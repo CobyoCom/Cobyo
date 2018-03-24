@@ -14,22 +14,26 @@ const EventDetails = props => {
       <div className="EventDetails-location">
         {props.location.split(',')[0]}
       </div>
-      <div className="EventDetails-dateTime">
-        <div className="EventDetails-time">{time}</div>
-        <div className="EventDetails-date">{date}</div>
-      </div>
+      {props.showDateTime && (
+        <div className="EventDetails-dateTime">
+          <div className="EventDetails-time">{time}</div>
+          <div className="EventDetails-date">{date}</div>
+        </div>
+      )}
     </div>
   );
 };
 
 EventDetails.propTypes = {
   dateTime: PropTypes.number,
-  location: PropTypes.string
+  location: PropTypes.string,
+  showDateTime: PropTypes.bool
 };
 
 EventDetails.defaultProps = {
   dateTime: null,
-  location: ''
+  location: '',
+  showDateTime: false
 };
 
 const mapStateToProps = state => ({

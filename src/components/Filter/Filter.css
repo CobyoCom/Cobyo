@@ -1,0 +1,17 @@
+.Filter {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+}
+
+.FilterLabel {
+  font-size: 14pt;
+  border-radius: 5px;
+  background-color: #009FB7;
+  color: white;
+  padding: 5px 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}

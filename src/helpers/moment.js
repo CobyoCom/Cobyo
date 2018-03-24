@@ -1,7 +1,6 @@
 /**
  * Moment helper functions
  */
-
 import moment from 'moment';
 
 /**
@@ -58,4 +57,17 @@ export function fromNow(time) {
   }
 
   return `A while ago`;
+}
+
+/**
+ *
+ * @param startTime
+ * @param change
+ * @param key
+ * @returns {number}
+ */
+export function add(startTime = 0, change = 0, key = 'd') {
+  const start = startTime ? moment(startTime) : moment();
+
+  return start.add(change, key).valueOf();
 }

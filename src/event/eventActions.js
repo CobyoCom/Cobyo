@@ -164,17 +164,22 @@ export const loginEvent = (eventId, userName, travelMode) => (dispatch, getState
 
   if (localStorageEvents && localStorageEventIds) {
     const events = JSON.parse(localStorageEvents);
-    events[eventId] = {
-      ...events[eventId],
+    const eventIds = JSON.parse(localStorageEventIds).filter(id => id !== eventId);
+
+    localStorage.setItem('events', JSON.stringify({
+      ...events,
+      [eventId]: {
+        eventId,
+        userName,
+        travelMode,
+        location
+      }
+    }));
+
+    localStorage.setItem('eventIds', JSON.stringify([
       eventId,
-      userName,
-      travelMode,
-      location
-    };
-    localStorage.setItem('events', JSON.stringify(events));
-    localStorage.setItem('eventIds', JSON.stringify(
-      Object.values(events).map(event => event.eventId)
-    ));
+      ...eventIds
+    ]));
   } else {
     // Nothing in local storage
     localStorage.setItem('events', JSON.stringify({

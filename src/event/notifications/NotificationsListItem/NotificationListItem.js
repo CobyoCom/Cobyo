@@ -19,7 +19,7 @@ const NotificationListItem = props => (
 );
 
 NotificationListItem.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   timestamp: PropTypes.number.isRequired,
   userName: PropTypes.string,
   message: PropTypes.string

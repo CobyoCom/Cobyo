@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {selectPlace} from '../createActions';
 import {initGoogleMapsAPI} from '../../actions/googleMapsActions';
 import {selectIsGoogleAPILoaded} from '../../reducers/appState/appStateSelectors';
+import {selectPlaceName} from '../createEventFormSelectors';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import './PlacesAutocomplete.css';
 
@@ -21,18 +22,20 @@ class PlacesAutocompleteContainer extends Component {
 
   static propTypes = {
     placeholder: PropTypes.string,
+    placeName: PropTypes.string,
     selectPlace: PropTypes.func.isRequired,
     isGoogleAPILoaded: PropTypes.bool.isRequired,
     initGoogleMapsAPI: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    placeholder: 'Where to?'
+    placeholder: 'Where to?',
+    placeName: ''
   };
 
   state = {
     showDefaultSearch: false,
-    placeName: ''
+    placeName: this.props.placeName
   };
 
   componentDidMount() {
@@ -42,6 +45,12 @@ class PlacesAutocompleteContainer extends Component {
       }
     } catch(error) {
       this.setState({showDefaultSearch: true});
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.placeName !== this.state.placeName) {
+      this.setState({placeName: nextProps.placeName});
     }
   }
 
@@ -85,7 +94,8 @@ class PlacesAutocompleteContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  isGoogleAPILoaded: selectIsGoogleAPILoaded(state)
+  isGoogleAPILoaded: selectIsGoogleAPILoaded(state),
+  placeName: selectPlaceName(state)
 });
 
 const mapDispatchToProps = {

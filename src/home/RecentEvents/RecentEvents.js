@@ -25,7 +25,9 @@ RecentEvent.propTypes = {
 
 const RecentEvents = props => (
   <div className="RecentEvents">
-    <p>Back to</p>
+    {!!props.events.length && (
+      <p>Back to</p>
+    )}
     {props.events.map(event =>
       <RecentEvent
         key={event.eventId}

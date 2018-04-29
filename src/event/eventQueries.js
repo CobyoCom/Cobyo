@@ -1,34 +1,39 @@
+/**
+ * GraphQL queries for the Event page
+ *
+ * @module eventQueries.js
+ */
 import gql from 'graphql-tag'
 import {
   eventFragment,
-  eventUserEdgeFragment,
-  eventNotificationFragment
+  eventUserFragment,
+  notificationFragment
 } from './eventQueryFragments';
 
 export const eventQuery = gql`
-  {
-    event(id: $id) {
+  query eventQuery($eventId: Int!) {
+    event(id: $eventId) {
       ...event
     }
   }
 ${eventFragment}`;
 
-export const eventDetailsQuery = gql`
-  {
-    event(id: $id) {
-      eventUserEdges {
-        ...eventUserEdge
+export const eventUsersQuery = gql`
+  query eventUsersQuery($eventId: Int!) {
+    event(id: $eventId) {
+      eventUsers {
+        ...eventUser
       }
     }
   }
-${eventUserEdgeFragment}`;
+${eventUserFragment}`;
 
 export const eventNotificationsQuery = gql`
-  {
-    event(id: $id) {
+  query eventNotificationsQuery($eventId: Int!) {
+    event(id: $eventId) {
       notifications {
-        ...eventNotification
+        ...notification
       }
     }
   }
-${eventNotificationFragment}`;
+${notificationFragment}`;

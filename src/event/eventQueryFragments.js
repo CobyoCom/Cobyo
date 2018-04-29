@@ -1,3 +1,8 @@
+/**
+ * GraphQL fragments for the Event Page
+ *
+ * @module eventQueryFragments.js
+ */
 import gql from 'graphql-tag'
 
 export const eventFragment = gql`
@@ -17,19 +22,32 @@ export const userFragment = gql`
   }
 `;
 
-export const eventUserEdgeFragment = gql`
-  fragment eventUserEdge on EventUserEdge {
-    lastUpdatedTime
-    estimatedTimeArrival
-    users {
+export const eventUserFragment = gql`
+  fragment eventUser on EventUser {
+    updatedAt
+    duration
+    user {
       ...user
     }
   }
 ${userFragment}`;
 
-export const eventNotificationFragment = gql`
-  fragment eventNotification on EventNotification {
-    message
-    dateCreated
+export const reactionFragment = gql`
+  fragment reaction on Reaction {
+    emoji
+    user {
+      ...user
+    }
   }
-`;
+${userFragment}`;
+
+export const notificationFragment = gql`
+  fragment notification on Notification {
+    notificationId
+    message
+    createdAt
+    reactions {
+      ...reaction
+    }
+  }
+${reactionFragment}`;

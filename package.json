@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "classnames": "^2.2.5",
+    "graphql-tag": "^2.9.1",
     "load-google-maps-api": "^1.0.1",
     "moment": "^2.20.1",
     "prop-types": "^15.6.0",

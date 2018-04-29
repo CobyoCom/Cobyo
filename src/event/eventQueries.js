@@ -6,7 +6,7 @@ import {
 } from './eventQueryFragments';
 
 export const eventQuery = gql`
-  query {
+  {
     event(id: $id) {
       ...event
     }
@@ -14,7 +14,7 @@ export const eventQuery = gql`
 ${eventFragment}`;
 
 export const eventDetailsQuery = gql`
-  query {
+  {
     event(id: $id) {
       eventUserEdges {
         ...eventUserEdge
@@ -24,7 +24,7 @@ export const eventDetailsQuery = gql`
 ${eventUserEdgeFragment}`;
 
 export const eventNotificationsQuery = gql`
-  query {
+  {
     event(id: $id) {
       notifications {
         ...eventNotification

@@ -26,9 +26,9 @@ class App extends Component {
 
   componentDidMount() {
     if ('standalone' in window.navigator && window.navigator.standalone) {
-      console.log("You are running standalone app!");
+      alert("You are running standalone app!");
     } else {
-      console.log("You are not in standalone mode");
+      alert("You are not in standalone mode");
     }
   }
 

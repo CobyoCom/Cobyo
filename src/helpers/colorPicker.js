@@ -7,13 +7,13 @@ export function getGradientByTime(milliseconds = (new Date()).getTime()) {
   const hour = (new Date(milliseconds)).getHours();
 
   if (hour <= 6) { // Night
-    return BASE_GRADIENTS;
+    return DARK_GREEN_GRADIENTS;
   } else if (hour <= 12) { // Morning
     return DARK_GREEN_GRADIENTS;
   } else if (hour <= 18) { // Afternoon
     return DARK_BLUE_GRADIENTS;
   } else if (hour <= 24) { // Evening
-    return BASE_GRADIENTS;
+    return DARK_GREEN_GRADIENTS;
   }
 
   return BASE_GRADIENTS;

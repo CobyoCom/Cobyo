@@ -24,6 +24,14 @@ class App extends Component {
     document.body.style.backgroundImage = getGradientCSS(getGradientByTime());
   }
 
+  componentDidMount() {
+    if ('standalone' in window.navigator && window.navigator.standalone) {
+      console.log("You are running standalone app!");
+    } else {
+      console.log("You are not in standalone mode");
+    }
+  }
+
   componentWillUnmount() {
     document.body.style.backgroundImage = null;
   }

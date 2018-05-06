@@ -1,26 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {formatDate} from '../../helpers/moment';
-import {selectEventId, selectEventTime, selectEventLocation} from '../activeEventSelectors';
+import {
+  selectEventId,
+  selectEventTime,
+  selectEventLocation,
+  selectNumEventAttendees
+} from '../activeEventSelectors';
 import './EventDetails.css';
 
 const EventDetails = props => {
-  const time = formatDate(props.dateTime, 'h:mm A');
-  const date = formatDate(props.dateTime, 'ddd');
-
   return (
     <div className="EventDetails">
+      <div className="EventDetails-eventId">
+        {props.eventId}
+      </div>
       <div className="EventDetails-location">
         {props.location.split(',')[0]}
       </div>
-      {props.eventId}
-      {props.showDateTime && (
-        <div className="EventDetails-dateTime">
-          <div className="EventDetails-time">{time}</div>
-          <div className="EventDetails-date">{date}</div>
-        </div>
-      )}
+      <div className="EventDetails-numAttendees">
+        {`${props.numAttendees} going`}
+      </div>
     </div>
   );
 };
@@ -41,7 +41,8 @@ EventDetails.defaultProps = {
 const mapStateToProps = state => ({
   eventId: selectEventId(state),
   dateTime: selectEventTime(state),
-  location: selectEventLocation(state)
+  location: selectEventLocation(state),
+  numAttendees: selectNumEventAttendees(state)
 });
 
 export default connect(

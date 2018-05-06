@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import configureStore from '../reducers/configureStore';
+import {getGradientByTime, getGradientCSS} from '../helpers/colorPicker';
 import {
   BrowserRouter as Router,
   Route,
@@ -17,13 +18,22 @@ import NotFoundPage from '../pages/NotFoundPage';
 const store = configureStore();
 const extractParams = props => props.match.params;
 
+
 class App extends Component {
+  componentWillMount() {
+    document.body.style.backgroundImage = getGradientCSS(getGradientByTime());
+  }
+
+  componentWillUnmount() {
+    document.body.style.backgroundImage = null;
+  }
+
   render() {
     return (
       <Provider store={store}>
-        <div>
+        <div className="Page">
           <ErrorBannerContainer/>
-          <div className="Page">
+          <div>
             <Router>
               <Switch>
                 <Route
@@ -43,7 +53,7 @@ class App extends Component {
                 />
                 <Route
                   path="/events/:eventId"
-                  render={props => <Redirect to={`/${extractParams(props).eventId}`} />}
+                  render={props => <Redirect to={`/${extractParams(props).eventId}`}/>}
                 />
                 <Route
                   exact
@@ -63,5 +73,6 @@ class App extends Component {
     );
   }
 }
+
 
 export default App;

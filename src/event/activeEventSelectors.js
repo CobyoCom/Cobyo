@@ -24,6 +24,7 @@ export const selectEventTime = state => selectActiveEvent(state).eventTime;
 export const selectMe = state => selectActiveEvent(state).me;
 const selectEventNotificationIds = state => selectActiveEvent(state).eventNotificationIds;
 const selectEventAttendeeIds = state => selectActiveEvent(state).attendeeIds;
+export const selectNumEventAttendees = state => selectEventAttendeeIds(state).length + (selectIsLoggedIn(state) ? 1 : 0);
 
 export const selectIsLoggedIn = state => !!selectMe(state).userName;
 export const selectUserName = state => selectMe(state).userName;

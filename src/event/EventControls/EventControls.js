@@ -8,7 +8,7 @@ const EventControls = props => (
   <div className="EventControls">
     <Button
       icon={<FaLocationArrow/>}
-      size="small"
+      size="medium"
       disabled={props.isRefreshing}
       onClick={props.onClickRefresh}
     >
@@ -16,7 +16,7 @@ const EventControls = props => (
     </Button>
     {props.hasLeft ? (
       <Button
-        size="small"
+        size="medium"
         disabled={props.isRefreshing}
         onClick={props.onClickCancel}
       >
@@ -24,11 +24,11 @@ const EventControls = props => (
       </Button>
     ): (
       <Button
-        size="small"
+        size="medium"
         disabled={props.isRefreshing}
         onClick={props.onClickGo}
       >
-        Leave
+        Depart
       </Button>
     )}
   </div>

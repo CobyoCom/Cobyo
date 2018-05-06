@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import {getColorByTime} from '../../helpers/colorPicker';
 import './Button.css';
 
 const buttonClassNames = props => cx(
@@ -23,6 +24,9 @@ const Button = props => (
     disabled={props.disabled}
     onClick={props.onClick}
     autoFocus={props.autoFocus}
+    style={props.useTimeColor ? {
+      backgroundColor: getColorByTime()
+    } : {}}
   >
     {props.icon && (
       <div className="Button-icon">
@@ -45,6 +49,7 @@ Button.propTypes = {
   type: PropTypes.oneOf(['button', 'submit']),
   autoFocus: PropTypes.bool,
   disabled: PropTypes.bool,
+  useTimeColor: PropTypes.bool,
   onClick: PropTypes.func
 };
 
@@ -56,6 +61,7 @@ Button.defaultProps = {
   type: 'button',
   autoFocus: false,
   disabled: false,
+  useTimeColor: true,
   onClick: () => {}
 };
 

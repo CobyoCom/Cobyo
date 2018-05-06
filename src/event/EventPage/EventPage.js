@@ -27,9 +27,9 @@ const EventPage = props => (
         />
       </Modal>
     )}
-    {props.isLoggedIn && <EventControlsContainer/>}
     {props.isLoggedIn && <AttendeesListContainer/>}
     {props.isLoggedIn && <NotificationsListContainer/>}
+    {props.isLoggedIn && <EventControlsContainer/>}
     <NavBar/>
   </div>
 );

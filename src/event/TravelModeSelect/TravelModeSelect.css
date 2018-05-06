@@ -1,3 +1,7 @@
+.TravelModeSelect {
+  color: black;
+}
+
 .TravelModeSelect-list {
   display: flex;
   flex-direction: row;

@@ -1,13 +1,21 @@
 .EventDetails {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   padding: 20px 10px 5px;
-  border-bottom: 1px solid #EFF1F3;
+}
+
+.EventDetails-location,
+.EventDetails-numAttendees {
+  text-align: center;
+}
+
+.EventDetails-eventId {
+  position: absolute;
+  right: 10px;
 }
 
 .EventDetails-location {
   font-size: 20pt;
+  text-align: center;
+  font-weight: bold;
 }
 
 .EventDetails-dateTime {

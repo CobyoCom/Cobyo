@@ -18,9 +18,11 @@ const EventDetails = props => {
       <div className="EventDetails-location">
         {props.location.split(',')[0]}
       </div>
-      <div className="EventDetails-numAttendees">
-        {`${props.numAttendees} going`}
-      </div>
+      {!!props.numAttendees && (
+        <div className="EventDetails-numAttendees">
+          {`${props.numAttendees} going`}
+        </div>
+      )}
     </div>
   );
 };

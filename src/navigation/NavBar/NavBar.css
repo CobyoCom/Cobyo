@@ -5,10 +5,9 @@
   position: fixed;
   bottom: 0;
   left: 0;
-  height: 50px;
+  height: 45px;
   width: 100%;
-  border-top: 1px solid #EFF1F3;
-  background-color: white;
+  background-color: #292929;
 }
 
 .NavBar > * {

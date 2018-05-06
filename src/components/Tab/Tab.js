@@ -6,17 +6,24 @@ import './Tab.css';
 const Tab = props => (
   <div className="Tab">
     <Link to={props.link}>
-      {props.children}
+      <div className="Tab-content">
+        {props.icon}
+        <span className="Tab-text">{props.text}</span>
+      </div>
     </Link>
   </div>
 );
 
 Tab.propTypes = {
   children: PropTypes.node,
+  icon: PropTypes.node,
+  text: PropTypes.string,
   link: PropTypes.string
 };
 
 Tab.defaultProps = {
+  icon: null,
+  text: '',
   link: '/'
 };
 

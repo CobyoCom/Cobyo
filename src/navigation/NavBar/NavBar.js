@@ -5,15 +5,21 @@ import './NavBar.css';
 
 const NavBar = () => (
   <div className="NavBar">
-    <Tab link="/">
-      <FaHome color="black" size={24} />
-    </Tab>
-    <Tab link="/events">
-      <FaCalendarPlusO color="black" size={22} />
-    </Tab>
-    <Tab link="/settings">
-      <FaList color="black" size={22} />
-    </Tab>
+    <Tab
+      link="/"
+      icon={<FaHome color="#808080" size={24} />}
+      text="Home"
+    />
+    <Tab
+      link="/events"
+      icon={<FaCalendarPlusO color="#808080" size={22} />}
+      text="Create"
+    />
+    <Tab
+      link="/settings"
+      icon={<FaList color="#808080" size={22} />}
+      text="Settings"
+    />
   </div>
 );
 

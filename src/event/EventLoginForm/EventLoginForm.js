@@ -12,6 +12,7 @@ const EventLoginForm = props => (
     onSubmit={props.onSubmit}
   >
     <Input
+      size="medium"
       maxLength={24}
       value={props.nameValue}
       placeholder={"Enter name..."}

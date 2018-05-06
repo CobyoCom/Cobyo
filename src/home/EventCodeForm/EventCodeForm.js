@@ -9,14 +9,15 @@ const EventCodeForm = props => (
     className="EventCodeForm"
     onSubmit={props.onSubmit}
   >
-    <h1>Enter event code</h1>
+    <h2>Enter event code</h2>
     <Input
-      size="large"
+      size="medium"
       maxLength={4}
       value={props.value}
       onChange={props.onChange}
     />
     <Button
+      size="small"
       disabled={props.disabled}
     >
       Continue

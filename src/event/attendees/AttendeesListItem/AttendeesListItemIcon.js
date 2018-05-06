@@ -17,12 +17,18 @@ const RenderedElement = props => props.isClickable ? (
 
 const AttendeesListItemIcon = props => (
   <RenderedElement {...props}>
-    <div className={cx(
-      'AttendeesListItem-icon',
-      {
-        'AttendeesListItem-icon--spinner': !props.icon
-      }
-    )}>
+    <div
+      className={cx(
+        'AttendeesListItem-icon',
+        {
+          'AttendeesListItem-icon--spinner': !props.icon
+        }
+      )}
+      style={{
+        backgroundColor: props.backgroundColor,
+        color: props.color
+      }}
+    >
       {props.icon}
     </div>
     {props.subIcon && (
@@ -37,12 +43,16 @@ AttendeesListItemIcon.propTypes = {
   isClickable: PropTypes.bool.isRequired,
   icon: PropTypes.node,
   subIcon: PropTypes.node,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  backgroundColor: PropTypes.string,
+  color: PropTypes.string
 };
 
 AttendeesListItemIcon.defaultProps = {
   icon: null,
-  subIcon: null
+  subIcon: null,
+  backgroundColor: 'white',
+  color: 'black'
 };
 
 export default AttendeesListItemIcon;

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import EventCodeFormContainer from '../EventCodeForm/EventCodeFormContainer';
 import RecentEventsContainer from '../RecentEvents/RecentEventsContainer';
 import NavBar from '../../navigation/NavBar/NavBar';
+import './HomePage.css';
 
 const HomePage = props => (
   <div className="HomePage">

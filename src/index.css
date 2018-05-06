@@ -5,3 +5,9 @@ body {
   margin: 0;
   padding: 0;
 }
+
+html {
+  /*background: linear-gradient(to bottom, blue, black);*/
+  background-size: cover;
+  height: 100%;
+}

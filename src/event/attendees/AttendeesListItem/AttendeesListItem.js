@@ -43,7 +43,7 @@ const getTravelModeIcon = (travelMode) => {
 
 const AttendeesListItem = props => (
   <div className={cx("AttendeesListItem", {
-    'AttendeesListItem-me': props.isMe
+    'AttendeesListItem--me': props.isMe
   })}>
     <div className="AttendeesListItem-content">
       <div>

@@ -7,7 +7,7 @@ import {selectEventNotificationsById} from "./notifications/eventNotificationsSe
 
 /****** EVENT ENTITIES ******/
 
-const selectActiveEventId = state => state[activeEventModuleName];
+export const selectActiveEventId = state => state[activeEventModuleName];
 const selectEventsById = state => state.entities[eventsModuleName];
 const selectEventAttendeesById = state => state.entities[attendeesModuleName];
 

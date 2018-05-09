@@ -43,17 +43,22 @@ class App extends Component {
                 />
                 <Route
                   exact
+                  path="/events"
+                  render={props => console.log(props) || <div>hi</div>}
+                />
+                <Route
+                  exact
                   path="/settings"
                   render={props => <SettingsPageContainer {...props} />}
                 />
                 <Route
                   exact
-                  path="/events"
+                  path="/create"
                   render={props => <CreatePageContainer {...props} />}
                 />
                 <Route
                   path="/events/:eventId"
-                  render={props => <Redirect to={`/${extractParams(props).eventId}`}/>}
+                  render={props => <Redirect to={`/${extractParams(props).eventId}`} />}
                 />
                 <Route
                   exact

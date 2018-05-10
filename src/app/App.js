@@ -44,7 +44,7 @@ class App extends Component {
                 <Route
                   exact
                   path="/events"
-                  render={props => console.log(props) || <div>hi</div>}
+                  render={() => <div>hi</div>}
                 />
                 <Route
                   exact

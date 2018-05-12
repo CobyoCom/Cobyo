@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {
   refreshEvent,
   leaveForEvent
-} from '../eventActions';
+} from '../eventUserActions';
 import {selectHasLeft, selectIsRefreshing} from '../activeEventSelectors';
 import EventControls from './EventControls';
 

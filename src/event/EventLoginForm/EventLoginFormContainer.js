@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {DEFAULT_TRAVEL_MODE} from '../../helpers/globalConstants';
-import {loginEvent} from '../../event/eventActions';
+import {loginEvent} from '../eventUserActions';
 import {selectEventId} from '../activeEventSelectors';
 import EventLoginForm from './EventLoginForm';
 

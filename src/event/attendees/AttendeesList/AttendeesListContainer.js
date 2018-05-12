@@ -5,7 +5,7 @@ import {
   selectEventAttendees,
   selectMe
 } from '../../activeEventSelectors';
-import {refreshEvent} from '../../eventActions';
+import {refreshEvent} from '../../eventUserActions';
 import {AttendeePropTypes} from '../AttendeesListItem/AttendeesListItem';
 import AttendeesList from './AttendeesList';
 

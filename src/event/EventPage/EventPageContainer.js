@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {getItem} from '../../helpers/localStorage';
-import {fetchEvent} from '../eventActions';
+import {fetchEvent} from '../eventUserActions';
 import {selectEventId, selectIsLoggedIn} from '../activeEventSelectors';
 import EventPage from './EventPage';
 

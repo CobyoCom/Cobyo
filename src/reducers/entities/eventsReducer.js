@@ -1,4 +1,4 @@
-import {types} from '../../event/eventActions';
+import {types} from '../../event/eventUserActions';
 import {types as notificationTypes} from '../../event/notifications/eventNotificationsActions';
 import {AttendeeDefaultProps} from '../../event/attendees/AttendeesListItem/AttendeesListItem';
 

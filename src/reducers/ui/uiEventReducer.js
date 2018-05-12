@@ -1,4 +1,4 @@
-import {types} from '../../event/eventActions';
+import {types} from '../../event/eventUserActions';
 
 export const moduleName = 'uiEvent';
 

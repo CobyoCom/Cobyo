@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {selectEventId} from '../activeEventSelectors';
-import {loginEvent} from '../eventActions';
+import {loginEvent} from '../eventUserActions';
 import QuickLogin from "./QuickLogin";
 
 class QuickLoginContainer extends Component {

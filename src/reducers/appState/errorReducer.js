@@ -1,4 +1,4 @@
-import {types as eventActionTypes} from '../../event/eventActions';
+import {types as eventActionTypes} from '../../event/eventUserActions';
 import {types as errorBannerActionTypes} from '../../error/errorBannerActions';
 import {types as createActionTypes} from '../../create/createActions';
 import {types as googleMapsActionTypes} from '../../actions/googleMapsActions';

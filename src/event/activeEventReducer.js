@@ -1,4 +1,4 @@
-import {types} from './eventActions';
+import {types} from './eventUserActions';
 
 export const moduleName = 'activeEvent';
 

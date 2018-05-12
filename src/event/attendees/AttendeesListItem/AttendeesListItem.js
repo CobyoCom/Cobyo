@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {FaMale, FaCab, FaSubway, FaHome, FaFlagCheckered} from 'react-icons/lib/fa';
-import Modal from 'react-responsive-modal';
 import {WALKING, DRIVING, TRANSIT, DEFAULT_TRAVEL_MODE} from '../../../helpers/globalConstants';
-import TravelModeSelect from '../../TravelModeSelect/TravelModeSelect';
+import TravelModeSelectModal from '../../TravelModeSelect/TravelModeSelectModal';
 import AttendeesListItemIcon from './AttendeesListItemIcon';
 import './AttendeesListItem.css';
 
@@ -70,19 +69,12 @@ const AttendeesListItem = props => (
         }
       </div>
     </div>
-
-    <Modal
-      little
-      showCloseIcon={false}
-      closeOnOverlayClick={true}
-      open={props.isTravelModeOpen}
+    <TravelModeSelectModal
+      isOpen={props.isTravelModeOpen}
       onClose={props.onCloseTravelMode}
-    >
-      <TravelModeSelect
-        onChange={props.onChangeTravelMode}
-        travelModeValue={props.travelMode}
-      />
-    </Modal>
+      onChange={props.onChangeTravelMode}
+      travelModeValue={props.travelMode}
+    />
   </div>
 );
 

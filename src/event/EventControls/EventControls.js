@@ -7,21 +7,21 @@ import './EventControls.css';
 const EventControls = props => (
   <div className="EventControls">
     <Button
-      icon={<FaRefresh color="white" size={27} />}
+      icon={<FaRefresh color="white" size={26} />}
       iconOnly
       disabled={props.isRefreshing}
       onClick={props.onClickRefresh}
     />
     {props.hasLeft ? (
       <Button
-        icon={<FaPause color="#FFFFF" size={30} />}
+        icon={<FaPause color="#FFFFF" size={26} />}
         iconOnly
         disabled={props.isRefreshing}
         onClick={props.onClickCancel}
       />
     ): (
       <Button
-        icon={<FaPlay color="white" size={28} />}
+        icon={<FaPlay color="white" size={26} />}
         iconOnly
         disabled={props.isRefreshing}
         onClick={props.onClickGo}

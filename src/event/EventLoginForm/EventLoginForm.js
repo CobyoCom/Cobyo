@@ -1,9 +1,8 @@
 import React  from 'react';
 import PropTypes from 'prop-types';
-import Modal from 'react-responsive-modal';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
-import TravelModeSelect from '../TravelModeSelect/TravelModeSelect';
+import TravelModeSelectModal from '../TravelModeSelect/TravelModeSelectModal';
 import './EventLoginForm.css';
 
 const EventLoginForm = props => (
@@ -24,20 +23,13 @@ const EventLoginForm = props => (
     >
       Continue
     </Button>
-
-    <Modal
-      little
-      open={props.isModalOpen}
-      showCloseIcon={false}
-      closeOnOverlayClick={false}
+    <TravelModeSelectModal
+      isLoading={props.isLoading}
+      isOpen={props.isModalOpen}
       onClose={props.onCloseModal}
-    >
-      <TravelModeSelect
-        isLoading={props.isLoading}
-        travelModeValue={props.travelModeValue}
-        onChange={props.onChangeTravelMode}
-      />
-    </Modal>
+      onChange={props.onChangeTravelMode}
+      travelModeValue={props.travelModeValue}
+    />
   </form>
 );
 

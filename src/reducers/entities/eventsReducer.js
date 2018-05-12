@@ -1,5 +1,6 @@
-import {types} from '../../event/eventUserActions';
-import {types as notificationTypes} from '../../event/notifications/eventNotificationsActions';
+import {types as eventTypes} from '../../event/eventActions';
+import {types as eventUserTypes} from '../../event/eventUserActions';
+import {types as eventNotificationTypes} from '../../event/notifications/eventNotificationsActions';
 import {AttendeeDefaultProps} from '../../event/attendees/AttendeesListItem/AttendeesListItem';
 
 export const moduleName = 'events';
@@ -18,8 +19,8 @@ export const eventInitialState = {
 };
 
 export default function events(state = initialState, {type, payload}) {
-  switch(type) {
-    case types.fetchEventRequest: {
+  switch (type) {
+    case eventTypes.fetchEventRequest: {
       const {eventId} = payload;
       return {
         ...state,
@@ -29,7 +30,7 @@ export default function events(state = initialState, {type, payload}) {
         }
       };
     }
-    case types.fetchEventSuccess: {
+    case eventTypes.fetchEventSuccess: {
       const {eventId, location, placeId, eventTime} = payload;
       return {
         ...state,
@@ -42,7 +43,7 @@ export default function events(state = initialState, {type, payload}) {
         }
       };
     }
-    case types.loginEventSuccess: {
+    case eventUserTypes.loginEventSuccess: {
       const {eventId, userName, travelMode} = payload;
       return {
         ...state,
@@ -56,8 +57,8 @@ export default function events(state = initialState, {type, payload}) {
         }
       };
     }
-    case types.refreshEventSuccess:
-    case types.refreshEventFailure: {
+    case eventUserTypes.refreshEventSuccess:
+    case eventUserTypes.refreshEventFailure: {
       const {eventId, duration, lastUpdated, hasLeft} = payload;
       return {
         ...state,
@@ -72,7 +73,7 @@ export default function events(state = initialState, {type, payload}) {
         }
       };
     }
-    case types.getAttendeesSuccess: {
+    case eventUserTypes.getAttendeesSuccess: {
       const {eventId, attendees} = payload;
       return {
         ...state,
@@ -82,8 +83,8 @@ export default function events(state = initialState, {type, payload}) {
         }
       };
     }
-    case types.leaveForEventRequest:
-    case types.leaveForEventFailure: {
+    case eventUserTypes.leaveForEventRequest:
+    case eventUserTypes.leaveForEventFailure: {
       const {eventId, hasLeft} = payload;
       return {
         ...state,
@@ -96,7 +97,7 @@ export default function events(state = initialState, {type, payload}) {
         }
       };
     }
-    case types.changeTravelModeSuccess: {
+    case eventUserTypes.changeTravelModeSuccess: {
       const {eventId, travelMode} = payload;
       return {
         ...state,
@@ -109,7 +110,7 @@ export default function events(state = initialState, {type, payload}) {
         }
       };
     }
-    case notificationTypes.fetchEventNotificationsSuccess: {
+    case eventNotificationTypes.fetchEventNotificationsSuccess: {
       const {eventId, notifications} = payload;
       return {
         ...state,

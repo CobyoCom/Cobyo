@@ -1,5 +1,7 @@
 /*global google*/
-
+/**
+ * Event actions specific to a user
+ */
 import {get, put} from '../helpers/axios';
 import logger from '../helpers/logger';
 import {
@@ -15,8 +17,6 @@ import {initGoogleMapsAPI} from '../actions/googleMapsActions';
 
 export const types = {
   loginEventSuccess: 'LOGIN_EVENT_SUCCESS',
-  fetchEventRequest: 'FETCH_EVENT_REQUEST',
-  fetchEventSuccess: 'FETCH_EVENT_SUCCESS',
   refreshEventRequest: 'REFRESH_EVENT_REQUEST',
   refreshEventSuccess: 'REFRESH_EVENT_SUCCESS',
   refreshEventFailure: 'REFRESH_EVENT_FAILURE',
@@ -26,41 +26,6 @@ export const types = {
   leaveForEventRequest: 'LEAVE_FOR_EVENT_REQUEST',
   leaveForEventFailure: 'LEAVE_FOR_EVENT_FAILURE',
   changeTravelModeSuccess: 'CHANGE_TRAVEL_MODE_SUCCESS'
-};
-
-/************ FETCH EVENT ************/
-
-const fetchEventRequest = (eventId) => ({
-  type: types.fetchEventRequest,
-  payload: {eventId}
-});
-
-const fetchEventSuccess = (eventId, location, placeId, eventTime) => ({
-  type: types.fetchEventSuccess,
-  payload: {eventId, location, placeId, eventTime}
-});
-
-export const fetchEvent = (eventId) => async (dispatch) => {
-  dispatch(fetchEventRequest(eventId));
-
-  try {
-    const response = await get(`/api/events/${eventId}`);
-    if (response &&
-        response.data &&
-        Object.keys(response.data).length
-    ) {
-      const {eventName, placeId, eventTime} = response.data;
-      dispatch(fetchEventSuccess(eventId, eventName, placeId, eventTime));
-      return;
-    }
-
-    logger(`Failed to fetch event ${eventId}`);
-    return Promise.reject('Event not found');
-  } catch(error) {
-    logger(`Fetching event ${eventId} caused an error: ${error}`);
-
-    return Promise.reject(error);
-  }
 };
 
 /************ REFRESH EVENT ************/

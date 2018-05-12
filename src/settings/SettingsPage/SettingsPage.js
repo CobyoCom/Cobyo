@@ -18,7 +18,7 @@ const SettingsPage = props => (
         </Button>
       </li>
     </ul>
-    <NavBar/>
+    <NavBar activeTab="Settings"/>
   </div>
 );
 

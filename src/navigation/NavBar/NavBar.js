@@ -12,31 +12,37 @@ const NavBar = props => (
       link="/"
       icon={<FaHome color="#808080" size={24} />}
       text="Home"
+      isActive={props.activeTab === "Home"}
     />
     <Tab
       link={props.activeEventId ? `/events/${props.activeEventId}` : '/events'}
       icon={<FaCalendarCheckO color="#808080" size={22} />}
       text="Events"
+      isActive={props.activeTab === "Events"}
     />
     <Tab
       link="/create"
       icon={<FaPlusSquare color="#808080" size={22} />}
       text="Create"
+      isActive={props.activeTab === "Create"}
     />
     <Tab
       link="/settings"
       icon={<FaList color="#808080" size={22} />}
       text="Settings"
+      isActive={props.activeTab === "Settings"}
     />
   </div>
 );
 
 NavBar.propTypes = {
-  activeEventId: PropTypes.number
+  activeEventId: PropTypes.number,
+  activeTab: PropTypes.oneOf(["Home", "Events", "Create", "Settings"])
 };
 
 NavBar.defaultProps = {
-  activeEventId: null
+  activeEventId: null,
+  activeTab: null
 };
 
 const mapStateToProps = state => ({

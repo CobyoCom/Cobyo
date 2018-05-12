@@ -9,7 +9,7 @@ const HomePage = props => (
   <div className="HomePage">
     <EventCodeFormContainer history={props.history} />
     <RecentEventsContainer history={props.history} />
-    <NavBar/>
+    <NavBar activeTab="Home"/>
   </div>
 );
 

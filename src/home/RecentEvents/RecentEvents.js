@@ -1,20 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from '../../components/Button/Button';
 import './RecentEvents.css';
 
 const getFormattedLocation = location => location && location.split(',')[0];
 
+// const RecentEvent = props => (
+//   <div
+//     role="button"
+//     tabIndex={0}
+//     className="RecentEvent"
+//     onClick={() => props.history.push(`/${props.eventId}`)}
+//     onKeyPress={e => props.history.push(`/${e.target.dataset.eventId}`)}
+//     data-event-id={props.eventId}
+//   >
+//     {getFormattedLocation(props.location)}
+//   </div>
+// );
+
 const RecentEvent = props => (
-  <div
-    role="button"
-    tabIndex={0}
-    className="RecentEvent"
+  <Button
     onClick={() => props.history.push(`/${props.eventId}`)}
-    onKeyPress={e => props.history.push(`/${e.target.dataset.eventId}`)}
-    data-event-id={props.eventId}
+    size="small"
   >
     {getFormattedLocation(props.location)}
-  </div>
+  </Button>
 );
 
 RecentEvent.propTypes = {

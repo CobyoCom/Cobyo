@@ -8,4 +8,9 @@
   color: white;
   text-decoration: none;
   font-size: 8pt;
+  color: #808080;
+}
+
+.Tab-text--active {
+  color: white;
 }

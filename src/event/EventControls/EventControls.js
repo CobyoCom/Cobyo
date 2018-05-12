@@ -1,35 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FaLocationArrow} from 'react-icons/lib/fa';
+import {FaRefresh, FaPlay, FaPause} from 'react-icons/lib/fa';
 import Button from '../../components/Button/Button';
 import './EventControls.css';
 
 const EventControls = props => (
   <div className="EventControls">
     <Button
-      icon={<FaLocationArrow/>}
-      size="small"
+      icon={<FaRefresh color="white" size={27} />}
+      iconOnly
       disabled={props.isRefreshing}
       onClick={props.onClickRefresh}
-    >
-      Update
-    </Button>
+    />
     {props.hasLeft ? (
       <Button
-        size="small"
+        icon={<FaPause color="#FFFFF" size={30} />}
+        iconOnly
         disabled={props.isRefreshing}
         onClick={props.onClickCancel}
-      >
-        Pause
-      </Button>
+      />
     ): (
       <Button
-        size="small"
+        icon={<FaPlay color="white" size={28} />}
+        iconOnly
         disabled={props.isRefreshing}
         onClick={props.onClickGo}
-      >
-        Depart
-      </Button>
+      />
     )}
   </div>
 );

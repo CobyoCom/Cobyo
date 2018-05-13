@@ -12,16 +12,10 @@ import './EventDetails.css';
 const EventDetails = props => {
   return (
     <div className="EventDetails">
-      <div className="EventDetails-eventId">
-        {props.eventId}
-      </div>
-      <div className="EventDetails-location">
-        {props.location.split(',')[0]}
-      </div>
+      <div className="EventDetails-eventId">{props.eventId}</div>
+      <div className="EventDetails-location">{props.location.split(',')[0]}</div>
       {!!props.numAttendees && (
-        <div className="EventDetails-numAttendees">
-          {`${props.numAttendees} going`}
-        </div>
+        <div className="EventDetails-numAttendees">{`${props.numAttendees} going`}</div>
       )}
     </div>
   );

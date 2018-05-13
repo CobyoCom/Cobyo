@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Modal from 'react-responsive-modal';
 import EventDetails from '../EventDetails/EventDetails';
 import EventLoginFormContainer from '../EventLoginForm/EventLoginFormContainer';
 import EventControlsContainer from '../EventControls/EventControlsContainer';
 import AttendeesListContainer from '../attendees/AttendeesList/AttendeesListContainer';
 import NotificationsListContainer from '../notifications/NotificationsList/NotificationsListContainer';
-import QuickLoginContainer from '../QuickLogin/QuickLoginContainer';
+import QuickLoginModal from '../QuickLogin/QuickLoginModal';
 import NavBar from '../../navigation/NavBar/NavBar';
 import './EventPage.css';
 
@@ -15,17 +14,12 @@ const EventPage = props => (
     <EventDetails/>
     {props.isEventLoaded && !props.isLoggedIn && <EventLoginFormContainer/>}
     {props.isEventLoaded && !props.isLoggedIn && !!props.localStorageLogin && (
-      <Modal
-        little
-        open={props.isQuickLoginModalOpen}
-        showCloseIcon={false}
+      <QuickLoginModal
+        isOpen={props.isQuickLoginModalOpen}
         onClose={props.onCloseQuickLoginModal}
-      >
-        <QuickLoginContainer
-          userName={props.localStorageLogin.userName}
-          travelMode={props.localStorageLogin.travelMode}
-        />
-      </Modal>
+        userName={props.localStorageLogin.userName}
+        travelMode={props.localStorageLogin.travelMode}
+      />
     )}
     {props.isLoggedIn && <AttendeesListContainer/>}
     {props.isLoggedIn && <NotificationsListContainer/>}

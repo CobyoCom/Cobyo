@@ -8,12 +8,20 @@ const SettingsPage = props => (
   <div className="SettingsPage">
     <ul className="SettingsPage-actions">
       <li className="SettingsPage-action">
-        <Button size="small" onClick={props.onCacheClick}>
+        <Button
+          size="small"
+          variation="secondary"
+          onClick={props.onCacheClick}
+        >
           Clear cache
         </Button>
       </li>
       <li className="SettingsPage-action">
-        <Button size="small" onClick={props.onFeedbackClick}>
+        <Button
+          size="small"
+          variation="secondary"
+          onClick={props.onFeedbackClick}
+        >
           Send feedback
         </Button>
       </li>

@@ -29,8 +29,13 @@ class PlaceSuggestionsContainer extends Component {
   }
 
   render() {
+    if (!this.state.places.length) {
+      return null;
+    }
+
     return (
-      <div>
+      <div className="PlaceSuggestions">
+        <h3 className="PlaceSuggestions-header">Suggestions</h3>
         {this.state.places.map(place =>
           <PlaceSuggestion
             key={place.placeName}

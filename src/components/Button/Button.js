@@ -18,26 +18,31 @@ const iconClassNames = props => cx(
   `Icon-${props.disabled}`
 );
 
+const inlineStyles = props => {
+  const styles = {};
+  if (props.variation === 'primary') {
+    styles.backgroundColor = getColorByTime();
+  } else if (props.variation === 'secondary') {
+    styles.backgroundColor = 'rgba(0, 0, 0, .2)';
+  }
+
+  return styles;
+};
+
 const Button = props => (
   <button
     className={props.iconOnly ? iconClassNames(props) : buttonClassNames(props)}
     disabled={props.disabled}
     onClick={props.onClick}
     autoFocus={props.autoFocus}
-    style={props.useTimeColor ? {
-      backgroundColor: getColorByTime()
-    } : {}}
+    style={inlineStyles(props)}
   >
     {props.icon && (
       <div className="Button-icon">
         {props.icon}
       </div>
     )}
-    {props.children && (
-      <div className="Button-children">
-        {props.children}
-      </div>
-    )}
+    {props.children}
   </button>
 );
 
@@ -47,9 +52,9 @@ Button.propTypes = {
   iconOnly: PropTypes.bool,
   size: PropTypes.oneOf(['small', 'medium', 'large']),
   type: PropTypes.oneOf(['button', 'submit']),
+  variation: PropTypes.oneOf(['primary', 'secondary']),
   autoFocus: PropTypes.bool,
   disabled: PropTypes.bool,
-  useTimeColor: PropTypes.bool,
   onClick: PropTypes.func
 };
 
@@ -59,9 +64,9 @@ Button.defaultProps = {
   iconOnly: false,
   size: 'medium',
   type: 'button',
+  variation: 'primary',
   autoFocus: false,
   disabled: false,
-  useTimeColor: true,
   onClick: () => {}
 };
 

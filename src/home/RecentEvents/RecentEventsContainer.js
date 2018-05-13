@@ -23,13 +23,7 @@ class RecentEventsContainer extends Component {
     }
   }
 
-  getEvents = () => {
-    if (this.state.events.length > 0) {
-      return [this.state.events[0]];
-    }
-
-    return this.state.events;
-  };
+  getEvents = () => this.state.events.slice(0, 3);
 
   render() {
     return (

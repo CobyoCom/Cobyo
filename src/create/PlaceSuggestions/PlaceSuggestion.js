@@ -1,16 +1,20 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import Button from '../../components/Button/Button';
 import {selectPlace} from '../createActions';
 
+const getFormattedName = name => name && name.split(',')[0];
+
 const PlaceSuggestion = props => (
-  <div
-    role="button"
-    tabIndex={0}
-    className="PlaceSuggestion"
-    onClick={props.onClick}
-  >
-    {props.placeName}
+  <div className="PlaceSuggestion">
+    <Button
+      onClick={props.onClick}
+      size="small"
+      variation="secondary"
+    >
+      {getFormattedName(props.placeName)}
+    </Button>
   </div>
 );
 
@@ -21,7 +25,10 @@ PlaceSuggestion.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onClick: () => dispatch(selectPlace(ownProps.placeName, ownProps.placeId))
+  onClick: (e) => {
+    e.preventDefault();
+    dispatch(selectPlace(ownProps.placeName, ownProps.placeId));
+  }
 });
 
 export default connect(

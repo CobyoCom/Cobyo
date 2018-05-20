@@ -1,4 +1,5 @@
 /*global google*/
+/* global process */
 /**
  * Event actions specific to a user
  */
@@ -195,6 +196,16 @@ export const leaveForEvent = (hasLeft = true) => async (dispatch, getState) => {
 /************ GET CURRENT USERS LOCATION ************/
 
 const fetchLocation = () => new Promise((resolve, reject) => {
+  if (process.env.NODE_ENV === 'development') {
+    return resolve({
+      coordinates: {
+        latitude: 42.34380900000001,
+        longitude: -71.1007175
+      },
+      lastUpdated: (new Date()).getTime()
+    });
+  }
+
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {

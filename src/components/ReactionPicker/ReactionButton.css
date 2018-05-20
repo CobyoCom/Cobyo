@@ -1,0 +1,35 @@
+.ReactionButton {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.ReactionPicker {
+  position: absolute;
+  bottom: 0;
+  right: 100%;
+  display: flex;
+  flex-direction: row;
+  background-color: black;
+  border-radius: 15px 0 0 15px;
+  opacity: 0;
+  transition: opacity .5s ease;
+  height: 100%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0 rgba(0,0,0,0.02);
+}
+
+.ReactionPicker-open {
+  opacity: 1;
+}
+
+.ReactionPicker-emoji {
+  background-color: transparent;
+  border: none;
+  font-size: 18pt;
+}
+
+.ReactionButton .ReactionPicker-open + .Button {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  background-color: black;
+}

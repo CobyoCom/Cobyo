@@ -1,7 +1,7 @@
 // 50% 25% black black
 const DARK_GREEN_GRADIENTS = ['#537953', '#3e5b3e', '#293d29', '#151e15', 'black', 'black'];
 const DARK_BLUE_GRADIENTS = ['#4a6c82', '#385161', '#253641', '#131b20', 'black', 'black'];
-const DARK_YELLOW_GRADIENTS = ['#cbc134', '#7a741f', '#514d15', '#29270a', 'black', 'black']
+const DARK_YELLOW_GRADIENTS = ['#cbc134', '#7a741f', '#514d15', '#29270a', 'black'];
 const BASE_GRADIENTS = ['black'];
 
 export function getGradientByTime(milliseconds = (new Date()).getTime()) {

@@ -6,7 +6,8 @@ import './Button.css';
 
 const buttonClassNames = props => cx(
   'Button',
-  `Button-${props.size}`,
+  `Button--${props.size}`,
+  `Button--${props.variation}`,
   {
     'Button--disabled': props.disabled
   }
@@ -14,16 +15,14 @@ const buttonClassNames = props => cx(
 
 const iconClassNames = props => cx(
   'Icon',
-  `Icon-${props.size}`,
-  `Icon-${props.disabled}`
+  `Icon--${props.size}`,
+  `Icon--${props.disabled}`
 );
 
 const inlineStyles = props => {
   const styles = {};
   if (props.variation === 'primary') {
     styles.backgroundColor = getColorByTime();
-  } else if (props.variation === 'secondary') {
-    styles.backgroundColor = 'rgba(0, 0, 0, .2)';
   }
 
   return styles;

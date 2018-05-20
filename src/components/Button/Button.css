@@ -14,18 +14,23 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  outline: none;
 }
 
-.Button-small {
+.Button--small {
   font-size: 14pt;
 }
 
-.Button-medium {
+.Button--medium {
   font-size: 20pt;
 }
 
-.Button-large {
+.Button--large {
   font-size: 32pt;
+}
+
+.Button--secondary {
+  background-color: rgba(0, 0, 0, .2);
 }
 
 .Button--disabled {
@@ -43,7 +48,7 @@
   border-radius: 50vh;
 }
 
-.Icon-small {
+.Icon--small {
   width: 25px;
   height: 25px;
 }

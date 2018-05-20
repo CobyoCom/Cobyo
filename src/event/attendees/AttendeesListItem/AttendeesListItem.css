@@ -18,6 +18,7 @@
 .AttendeesListItem-content > div {
   display: flex;
   flex-direction: row;
+  max-width: 60%;
 }
 
 .AttendeesListItem-iconButton {

@@ -1,14 +1,18 @@
 .NotificationListItem {
   padding: 10px 5px;
   font-size: 11pt;
+  display: flex;
+  flex-direction: column;
 }
 
-.NotificationListItem-message {
+.NotificationListItem > * {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.NotificationListItem-header {
   margin-bottom: 5px;
-}
-
-.NotificationListItem-userName {
-  font-weight: bold;
 }
 
 .NotificationListItem-timestamp {

@@ -1,10 +1,11 @@
 import {get} from '../../helpers/axios';
-import {selectEventId} from '../activeEventSelectors';
+import {selectEventId, selectUserName} from '../activeEventSelectors';
 
 export const types = {
   fetchEventNotificationsRequest: 'FETCH_EVENT_NOTIFICATIONS_REQUEST',
   fetchEventNotificationsSuccess: 'FETCH_EVENT_NOTIFICATIONS_SUCCESS',
-  fetchEventNotificationsFailure: 'FETCH_EVENT_NOTIFICATIONS_FAILURE'
+  fetchEventNotificationsFailure: 'FETCH_EVENT_NOTIFICATIONS_FAILURE',
+  reactToEventNotificationRequest: 'REACT_TO_EVENT_NOTIFICATION_REQUEST'
 };
 
 /************ FETCH EVENT NOTIFICATIONS ************/
@@ -36,4 +37,19 @@ export const fetchEventNotifications = () => async (dispatch, getState) => {
   } catch(error) {
     dispatch(fetchEventNotificationsFailure());
   }
+};
+
+
+/************ REACT TO EVENT NOTIFICATIONS ************/
+
+const reactToEventNotificationRequest = (notificationId, emoji, userName) => ({
+  type: types.reactToEventNotificationRequest,
+  payload: {notificationId, emoji, userName}
+});
+
+export const reactToEventNotification = (notificationId, emoji) => async (dispatch, getState) => {
+  const state = getState();
+  const userName = selectUserName(state);
+
+  dispatch(reactToEventNotificationRequest(notificationId, emoji, userName));
 };

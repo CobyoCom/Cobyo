@@ -5,9 +5,7 @@ export const moduleName = 'eventNotifications';
 const initialState = {};
 
 const eventNotificationInitialState = {
-  eventId: null,
-  message: null,
-  timestamp: null
+  reactions: {}
 };
 
 export default function eventNotifications(state = initialState, {type, payload}) {

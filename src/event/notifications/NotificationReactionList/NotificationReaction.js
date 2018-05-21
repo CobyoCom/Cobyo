@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import cx from 'classnames';
+import {reactToEventNotification} from '../eventNotificationsActions';
 import Button from '../../../components/Button/Button';
 
 const NotificationReaction = props => (
@@ -11,6 +12,7 @@ const NotificationReaction = props => (
     <Button
       size="small"
       variation={props.isSelected ? "primary" : "secondary"}
+      onClick={props.onClick}
     >
       <span className="NotificationReaction-emoji">{props.emoji}</span>
       <span className="NotificationReaction-count">{props.count}</span>
@@ -19,9 +21,11 @@ const NotificationReaction = props => (
 );
 
 NotificationReaction.propTypes = {
+  notificationId: PropTypes.string.isRequired,
   emoji: PropTypes.string.isRequired,
   count: PropTypes.number.isRequired,
-  isSelected: PropTypes.bool
+  isSelected: PropTypes.bool,
+  onClick: PropTypes.func.isRequired
 };
 
 NotificationReaction.defaultProps = {
@@ -32,6 +36,11 @@ const mapStateToProps = state => ({
   count: 1
 });
 
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  onClick: () => dispatch(reactToEventNotification(ownProps.notificationId, ownProps.emoji))
+});
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(NotificationReaction);

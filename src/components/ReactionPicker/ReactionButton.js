@@ -7,7 +7,7 @@ import './ReactionButton.css';
 class ReactionButton extends Component {
 
   static propTypes = {
-
+    onEmojiClick: PropTypes.func.isRequired
   };
 
   state = {
@@ -22,10 +22,18 @@ class ReactionButton extends Component {
     }));
   };
 
+  handleEmojiClick = (emoji) => {
+    this.props.onEmojiClick(emoji);
+    this.setState({isPickerOpen: false});
+  };
+
   render() {
     return (
       <div className="ReactionButton">
-        <ReactionPicker isOpen={this.state.isPickerOpen}/>
+        <ReactionPicker
+          isOpen={this.state.isPickerOpen}
+          onEmojiClick={this.handleEmojiClick}
+        />
         <Button
           size="small"
           variation="secondary"

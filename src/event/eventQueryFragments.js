@@ -8,10 +8,8 @@ import gql from 'graphql-tag'
 export const eventFragment = gql`
   fragment event on Event {
     eventId
-    location {
-      name
-      placeId
-    }
+    eventName
+    placeId
   }
 `;
 
@@ -24,13 +22,12 @@ export const userFragment = gql`
 
 export const eventUserFragment = gql`
   fragment eventUser on EventUser {
-    updatedAt
+    lastUpdated: updatedAt
     duration
-    user {
-      ...user
-    }
+    hasLeft
+    userName
   }
-${userFragment}`;
+`;
 
 export const reactionFragment = gql`
   fragment reaction on Reaction {
@@ -46,8 +43,5 @@ export const notificationFragment = gql`
     notificationId
     message
     createdAt
-    reactions {
-      ...reaction
-    }
   }
-${reactionFragment}`;
+`;

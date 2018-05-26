@@ -1,5 +1,5 @@
-import {get} from '../helpers/axios';
-import logger from '../helpers/logger';
+import {fetchEventApi} from './eventApi';
+import {getItem} from "../helpers/localStorage";
 
 export const types = {
   fetchEventRequest: 'FETCH_EVENT_REQUEST',
@@ -18,25 +18,38 @@ const fetchEventSuccess = (eventId, location, placeId, eventTime) => ({
   payload: {eventId, location, placeId, eventTime}
 });
 
-export const fetchEvent = (eventId) => async (dispatch) => {
-  dispatch(fetchEventRequest(eventId));
+export function fetchEvent(eventId) {
+  return async (dispatch) => {
+    dispatch(fetchEventRequest(eventId));
 
-  try {
-    const response = await get(`/api/events/${eventId}`);
-    if (response &&
-      response.data &&
-      Object.keys(response.data).length
-    ) {
-      const {eventName, placeId, eventTime} = response.data;
-      dispatch(fetchEventSuccess(eventId, eventName, placeId, eventTime));
-      return;
+    try {
+      const response = await fetchEventApi(eventId);
+      if (response &&
+          !response.errors &&
+          response.data &&
+          response.data.event
+      ) {
+        const {eventId, eventName, placeId} = response.data.event;
+        dispatch(fetchEventSuccess(eventId, eventName, placeId));
+
+        const localStorageData = {};
+        const localStorageEvents = getItem('events', true);
+        const localStorageUserName = getItem('userName');
+
+        const localStorageEvent = !!localStorageEvents && localStorageEvents[eventId];
+        if (!!localStorageEvent && localStorageEvent.userName === localStorageUserName) {
+          localStorageData.localStorageEvent = localStorageEvent;
+        }
+        if (!!localStorageUserName) {
+          localStorageData.localStorageUserName = localStorageUserName;
+        }
+
+        return Promise.resolve(localStorageData);
+      }
+
+      return Promise.reject();
+    } catch (error) {
+      return Promise.reject(error);
     }
-
-    logger(`Failed to fetch event ${eventId}`);
-    return Promise.reject('Event not found');
-  } catch(error) {
-    logger(`Fetching event ${eventId} caused an error: ${error}`);
-
-    return Promise.reject(error);
-  }
-};
+  };
+}

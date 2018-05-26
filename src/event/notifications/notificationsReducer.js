@@ -1,20 +1,20 @@
-import {types} from './eventNotificationsActions';
+import {types} from './notificationsActions';
 
-export const moduleName = 'eventNotifications';
+export const moduleName = 'notifications';
 
 const initialState = {};
 
-const eventNotificationInitialState = {
+const notificationInitialState = {
   reactions: {}
 };
 
-export default function eventNotifications(state = initialState, {type, payload}) {
+export default function notifications(state = initialState, {type, payload}) {
   switch(type) {
-    case types.fetchEventNotificationsSuccess: {
+    case types.fetchNotificationsSuccess: {
       const {notifications} = payload;
       return notifications.reduce((byId, notification) => {
         byId[notification.id] = {
-          ...eventNotificationInitialState,
+          ...notificationInitialState,
           ...byId[notification.id],
           ...notification
         };

@@ -1,9 +1,8 @@
 /*global google*/
-/* global process */
+/*global process*/
 /**
  * Event actions specific to a user
  */
-import {get, put} from '../helpers/axios';
 import logger from '../helpers/logger';
 import {
   selectDuration,
@@ -13,8 +12,9 @@ import {
   selectUserName
 } from './activeEventSelectors';
 import {selectIsGoogleAPILoaded} from '../reducers/appState/appStateSelectors';
-import {fetchEventNotifications} from './notifications/eventNotificationsActions';
+import {fetchNotifications} from './notifications/notificationsActions';
 import {initGoogleMapsAPI} from '../actions/googleMapsActions';
+import {updateEventUserApi, fetchEventUsersApi} from './eventApi';
 
 export const types = {
   loginEventSuccess: 'LOGIN_EVENT_SUCCESS',
@@ -87,24 +87,25 @@ export const refreshEvent = () => (dispatch, getState) => new Promise(async (res
   }
 
   try {
-    const response = await put(`/api/events/${eventId}/users/${userName}`, {
-      userName,
-      duration,
-      lastUpdated,
-      travelMode
-    });
-
-    dispatch(refreshEventSuccess(eventId, response.data.duration, response.data.lastUpdated, response.data.hasLeft));
-
+    // TODO: cleanup and replace lastUpdated with updatedAt
+    const response = await updateEventUserApi({eventId, userName, duration, lastUpdated, travelMode});
+    if (response &&
+      !response.errors &&
+      response.data &&
+      response.data.updateEventUser
+    ) {
+      const {duration, lastUpdated, hasLeft} = response.data.updateEventUser;
+      dispatch(refreshEventSuccess(eventId, duration || prevDuration, lastUpdated || prevLastUpdated, hasLeft || prevHasLeft));
+    }
     // When we want to get attendees and notifications async outside the control of clicking refresh, move this to its
     // respective components' componentDidMount functions
     dispatch(getAttendees());
-    dispatch(fetchEventNotifications());
-    resolve();
+    dispatch(fetchNotifications());
+    return resolve();
   } catch(error) {
     logger(`Failed to refresh event: ${error}`);
     dispatch(refreshEventFailure(eventId, prevDuration, prevLastUpdated, prevHasLeft));
-    reject();
+    return reject();
   }
 });
 
@@ -161,7 +162,7 @@ export const loginEvent = (eventId, userName, travelMode) => (dispatch, getState
 
   localStorage.setItem('userName', userName);
   dispatch(loginEventSuccess(eventId, userName, travelMode));
-  resolve();
+  return resolve();
 });
 
 /************ USER LEAVES FOR EVENT ************/
@@ -176,7 +177,7 @@ const leaveForEventFailure = (eventId, hasLeft) => ({
   payload: {eventId, hasLeft}
 });
 
-export const leaveForEvent = (hasLeft = true) => async (dispatch, getState) => {
+export const leaveForEvent = (hasLeft = true) => (dispatch, getState) => new Promise(async (resolve, reject) => {
   const state = getState();
   const prevHasLeft = selectHasLeft(state);
   const eventId = selectEventId(state);
@@ -184,19 +185,28 @@ export const leaveForEvent = (hasLeft = true) => async (dispatch, getState) => {
   dispatch(leaveForEventRequest(eventId, hasLeft));
 
   try {
-    await put(`/api/events/${eventId}/users/${userName}`, {
-      hasLeft
-    });
-  } catch(error) {
-    logger(`Failed to leave event: ${error}`);
+    const response = await updateEventUserApi({eventId, userName, hasLeft: true});
+    if (response &&
+      !response.errors &&
+      response.data &&
+      response.data.updateEventUser
+    ) {
+      const {hasLeft} = response.data.updateEventUser;
+      return resolve(hasLeft);
+    }
+
     dispatch(leaveForEventFailure(eventId, prevHasLeft));
+    return reject();
+  } catch (error) {
+    dispatch(leaveForEventFailure(eventId, prevHasLeft));
+    return reject();
   }
-};
+});
 
 /************ GET CURRENT USERS LOCATION ************/
 
 const fetchLocation = () => new Promise((resolve, reject) => {
-  if (process.env.NODE_ENV === 'development') {
+  if (false && process.env.NODE_ENV === 'development') {
     return resolve({
       coordinates: {
         latitude: 42.34380900000001,
@@ -273,12 +283,17 @@ const getAttendeesFailure = (eventId) => ({
 const getAttendees = () => async (dispatch, getState) => {
   const state = getState();
   const eventId = selectEventId(state);
-  const userName = selectUserName(state);
 
   try {
-    const response = await get(`/api/events/${eventId}/users?sortBy=userName&exclude=${userName}`);
-    const attendees = response.data;
-    dispatch(getAttendeesSuccess(eventId, attendees || []));
+    const response = await fetchEventUsersApi(eventId);
+    if (response &&
+      !response.errors &&
+      response.data &&
+      response.data.event
+    ) {
+      dispatch(getAttendeesSuccess(eventId, response.data.event.eventUsers));
+    }
+    getAttendeesFailure(eventId);
   } catch(error) {
     dispatch(getAttendeesFailure(eventId));
   }
@@ -291,7 +306,7 @@ const changeTravelModeSuccess = (eventId, travelMode) => ({
   payload: {eventId, travelMode}
 });
 
-export const changeTravelMode = (eventId, travelMode) => (dispatch) => new Promise((resolve) => {
+export const changeTravelMode = (eventId, travelMode) => (dispatch) => new Promise(async (resolve) => {
   const localStorageEvents = localStorage.getItem('events');
   if (localStorageEvents) {
     const events = JSON.parse(localStorageEvents);
@@ -304,7 +319,8 @@ export const changeTravelMode = (eventId, travelMode) => (dispatch) => new Promi
     }
   }
 
-  dispatch(changeTravelModeSuccess(eventId, travelMode));
+  await dispatch(changeTravelModeSuccess(eventId, travelMode));
+  dispatch(refreshEvent());
   resolve();
 });
 

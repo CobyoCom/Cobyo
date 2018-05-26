@@ -4,22 +4,28 @@
  * @module eventMutations.js
  */
 import gql from "graphql-tag";
-import {eventFragment, reactionFragment} from './eventQueryFragments';
+import {eventFragment, eventUserFragment, reactionFragment} from './eventQueryFragments';
 
 export const createEventMutation = gql`
-  mutation createEventMutation($placeId: String!) {
-    createEvent(placeId: $placeId) {
+  mutation createEvent(
+    $placeId: String!,
+    $eventName: String!
+  ) {
+    createEvent(
+      placeId: $placeId,
+      eventName: $eventName
+    ) {
       ...event
     }
   }
 ${eventFragment}`;
 
 export const updateEventUserMutation = gql`
-  mutation updateEventUserMutation(
-    $eventId: Int!,
+  mutation updateEventUser(
+    $eventId: String!,
     $userName: String!,
     $duration: Int,
-    $lastUpdated: Int,
+    $updatedAt: Int,
     $travelMode: String,
     $hasLeft: Boolean
   ) {
@@ -27,17 +33,17 @@ export const updateEventUserMutation = gql`
       eventId: $eventId,
       userName: $userName,
       duration: $duration,
-      lastUpdated: $lastUpdated,
+      updatedAt: $updatedAt,
       travelMode: $travelMode,
       hasLeft: $hasLeft
     ) {
       ...eventUser
     }
   }
-`;
+${eventUserFragment}`;
 
 export const createReactionMutation = gql`
-  mutation createReactionMutation(
+  mutation createReaction(
     $notificationId: Int!, 
     $userName: String!, 
     $emoji: String!
@@ -53,7 +59,7 @@ export const createReactionMutation = gql`
 ${reactionFragment}`;
 
 export const deleteReactionMutation = gql`
-  mutation deleteReactionMutation(
+  mutation deleteReaction(
     $notificationId: Int!,
     $userName: String!,
     $emoji: String!

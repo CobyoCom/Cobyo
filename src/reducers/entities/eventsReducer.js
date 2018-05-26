@@ -1,6 +1,6 @@
 import {types as eventTypes} from '../../event/eventActions';
 import {types as eventUserTypes} from '../../event/eventUserActions';
-import {types as eventNotificationTypes} from '../../event/notifications/eventNotificationsActions';
+import {types as notificationTypes} from '../../event/notifications/notificationsActions';
 import {AttendeeDefaultProps} from '../../event/attendees/AttendeesListItem/AttendeesListItem';
 
 export const moduleName = 'events';
@@ -13,7 +13,7 @@ export const eventInitialState = {
   location: '',
   eventTime: null,
   attendeeIds: [],
-  eventNotificationIds: [],
+  notificationIds: [],
   me: AttendeeDefaultProps,
   isRefreshing: false
 };
@@ -79,7 +79,7 @@ export default function events(state = initialState, {type, payload}) {
         ...state,
         [eventId]: {
           ...state[eventId],
-          attendeeIds: attendees.map(attendee => attendee.id)
+          attendeeIds: attendees.map(attendee => attendee.userName)
         }
       };
     }
@@ -110,13 +110,13 @@ export default function events(state = initialState, {type, payload}) {
         }
       };
     }
-    case eventNotificationTypes.fetchEventNotificationsSuccess: {
+    case notificationTypes.fetchNotificationsSuccess: {
       const {eventId, notifications} = payload;
       return {
         ...state,
         [eventId]: {
           ...state[eventId],
-          eventNotificationIds: notifications.map(({id}) => id)
+          notificationIds: notifications.map(({id}) => id)
         }
       };
     }

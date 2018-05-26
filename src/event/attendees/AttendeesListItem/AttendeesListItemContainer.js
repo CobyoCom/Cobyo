@@ -60,9 +60,7 @@ class AttendeesListItemContainer extends Component {
 
   handleChangeTravelMode = async (e) => {
     this.handleCloseTravelMode();
-
     this.props.changeTravelMode(this.props.eventId, e);
-    this.props.refreshEvent();
   };
 
   render() {

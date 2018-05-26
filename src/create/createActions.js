@@ -1,7 +1,7 @@
-import {post} from '../helpers/axios';
 import logger from '../helpers/logger';
 import {getItem} from '../helpers/localStorage';
 import {selectPlaceId, selectPlaceName} from './createEventFormSelectors';
+import {createEventApi} from '../event/eventApi';
 
 export const types = {
   selectPlace: 'SELECT_PLACE',
@@ -30,28 +30,27 @@ export const createEvent = () => async (dispatch, getState) => {
   const placeName = selectPlaceName(state);
 
   try {
-    const eventTime = (new Date()).getTime();
-    const response = await post('/api/events', {
-      placeId,
-      eventName: placeName,
-      eventTime
-    });
+    const response = await createEventApi(placeId, placeName);
+    if (response &&
+      !response.errors &&
+      response.data &&
+      response.data.createEvent
+    ) {
+      const {eventId, eventName, placeId} = response.data.createEvent;
+      dispatch(createEventSuccess());
 
-    if (response && response.data) {
-      const {id: eventId} = response.data;
       const localStoragePlaces = {
         ...getItem('places', true),
-        [placeName]: {
-          placeId,
-          eventTime
+        [eventName]: {
+          placeId
         }
       };
       localStorage.setItem('places', JSON.stringify(localStoragePlaces));
-      dispatch(createEventSuccess());
 
       return Promise.resolve(eventId);
     }
 
+    dispatch(createEventFailure());
     return Promise.reject();
   } catch(error) {
     logger(`Failed to create event: ${error}`);

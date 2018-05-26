@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {selectEventNotifications} from '../../activeEventSelectors';
+import {selectNotifications} from '../../activeEventSelectors';
 import NotificationsList from './NotificationsList';
 
 class NotificationsListContainer extends Component {
@@ -20,7 +20,7 @@ class NotificationsListContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  notifications: selectEventNotifications(state)
+  notifications: selectNotifications(state)
 });
 
 

@@ -5,11 +5,14 @@ import CreatePage from './CreatePage';
 
 class CreatePageContainer extends Component {
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
     e.preventDefault();
-    this.props.createEvent().then(eventId =>
-      this.props.history.push(`/${eventId}`)
-    );
+    try {
+      const eventId = await this.props.createEvent();
+      this.props.history.push(`/${eventId}`);
+    } catch (error) {
+      console.error('Failed to create event.');
+    }
   };
 
   render() {

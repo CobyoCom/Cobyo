@@ -10,9 +10,9 @@ export default function attendees(state = initialState, {type, payload}) {
     case types.getAttendeesSuccess: {
       const {attendees} = payload;
       return attendees.reduce((byId, attendee) => {
-        byId[attendee.id] = {
+        byId[attendee.userName] = {
           ...AttendeeDefaultProps,
-          ...byId[attendee.id],
+          ...(byId[attendee.userName] || {}),
           ...attendee
         };
 

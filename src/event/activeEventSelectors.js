@@ -3,26 +3,24 @@ import {moduleName as eventsModuleName, eventInitialState} from '../reducers/ent
 import {moduleName as attendeesModuleName} from './attendees/attendeesReducer';
 import {moduleName as uiEventModuleName} from '../reducers/ui/uiEventReducer';
 import {moduleName as activeEventModuleName} from './activeEventReducer';
-import {selectEventNotificationsById} from "./notifications/eventNotificationsSelectors";
+import {selectNotificationsById} from "./notifications/notificationsSelectors";
 
 /****** EVENT ENTITIES ******/
 
 export const selectActiveEventId = state => state[activeEventModuleName];
 const selectEventsById = state => state.entities[eventsModuleName];
 const selectEventAttendeesById = state => state.entities[attendeesModuleName];
-
 const selectActiveEvent = createSelector(
   selectActiveEventId,
   selectEventsById,
   (eventId, eventsById) => eventsById[eventId] || eventInitialState
 );
-
 export const selectEventId = state => selectActiveEvent(state).eventId;
 export const selectPlaceId = state => selectActiveEvent(state).placeId;
 export const selectEventLocation = state => selectActiveEvent(state).location;
 export const selectEventTime = state => selectActiveEvent(state).eventTime;
 export const selectMe = state => selectActiveEvent(state).me;
-const selectEventNotificationIds = state => selectActiveEvent(state).eventNotificationIds;
+const selectNotificationIds = state => selectActiveEvent(state).notificationIds;
 const selectEventAttendeeIds = state => selectActiveEvent(state).attendeeIds;
 export const selectNumEventAttendees = state => selectEventAttendeeIds(state).length + (selectIsLoggedIn(state) ? 1 : 0);
 
@@ -36,15 +34,14 @@ export const selectHasLeft = state => selectMe(state).hasLeft;
 /****** EVENT UI ******/
 
 const selectEventUI = state => state.ui[uiEventModuleName];
-
 export const selectIsRefreshing = state => selectEventUI(state).isRefreshing;
 
 
 /****** EVENT NOTIFICATIONS ENTITIES ******/
 
-export const selectEventNotifications = createSelector(
-  selectEventNotificationIds,
-  selectEventNotificationsById,
+export const selectNotifications = createSelector(
+  selectNotificationIds,
+  selectNotificationsById,
   (ids, byId) => ids.map(id => byId[id])
 );
 
@@ -54,5 +51,6 @@ export const selectEventNotifications = createSelector(
 export const selectEventAttendees = createSelector(
   selectEventAttendeeIds,
   selectEventAttendeesById,
-  (ids, byId) => ids.map(id => byId[id])
+  selectUserName,
+  (ids, byId, userName) => ids.filter(id => id !== userName).map(id => byId[id])
 );

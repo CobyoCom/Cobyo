@@ -11,16 +11,16 @@ import {
 } from './eventQueryFragments';
 
 export const eventQuery = gql`
-  query eventQuery($eventId: Int!) {
-    event(id: $eventId) {
+  query eventQuery($eventId: String!) {
+    event(eventId: $eventId) {
       ...event
     }
   }
 ${eventFragment}`;
 
 export const eventUsersQuery = gql`
-  query eventUsersQuery($eventId: Int!) {
-    event(id: $eventId) {
+  query eventUsersQuery($eventId: String!) {
+    event(eventId: $eventId) {
       eventUsers {
         ...eventUser
       }
@@ -28,9 +28,10 @@ export const eventUsersQuery = gql`
   }
 ${eventUserFragment}`;
 
-export const eventNotificationsQuery = gql`
-  query eventNotificationsQuery($eventId: Int!) {
-    event(id: $eventId) {
+export const notificationsQuery = gql`
+  query notificationsQuery($eventId: String!) {
+    event(eventId: $eventId) {
+      eventId
       notifications {
         ...notification
       }

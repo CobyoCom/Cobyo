@@ -1,12 +1,12 @@
-import {types} from './eventNotificationsActions';
+import {types} from './notificationsActions';
 
-export const moduleName = 'eventNotificationReactions';
+export const moduleName = 'notificationReactions';
 
 const initialState = {};
 
-export default function eventNotificationReactions(state = initialState, {type, payload}) {
+export default function notificationReactions(state = initialState, {type, payload}) {
   switch (type) {
-    case types.reactToEventNotificationRequest: {
+    case types.reactToNotificationRequest: {
       const {notificationId, emoji, userName} = payload;
       const notificationReactions = state[notificationId] || {};
       const emojiUsers = notificationReactions[emoji] ? notificationReactions[emoji] : {};

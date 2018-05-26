@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {getItem} from '../../helpers/localStorage';
 import {fetchEvent} from '../eventActions';
 import {selectEventId, selectIsLoggedIn} from '../activeEventSelectors';
 import EventPage from './EventPage';
@@ -27,26 +26,15 @@ class EventPageContainer extends Component {
 
   async componentDidMount() {
     try {
-      await this.props.fetchEvent(this.props.eventId);
-      const localStorageEvents = getItem('events', true);
-      const localStorageUserName = getItem('userName');
-
-      if (!localStorageEvents || !localStorageUserName) {
-        return;
-      }
-
-      const event = localStorageEvents[this.props.eventId];
-      const userPreviouslyLoggedIntoEvent = !!event && event.userName === localStorageUserName;
-      const userPreviouslyLoggedIn = !!localStorageUserName;
-
-      if (userPreviouslyLoggedIntoEvent) {
+      const {localStorageEvent, localStorageUserName} = await this.props.fetchEvent(this.props.eventId);
+      if (!!localStorageEvent) {
         this.setState({
           isQuickLoginModalOpen: true,
           localStorageLogin: {
-            ...event
+            ...localStorageEvent
           }
         });
-      } else if (userPreviouslyLoggedIn) {
+      } else if (!!localStorageUserName) {
         this.setState({
           isQuickLoginModalOpen: true,
           localStorageLogin: {

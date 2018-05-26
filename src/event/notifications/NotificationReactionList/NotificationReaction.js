@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import cx from 'classnames';
-import {reactToEventNotification} from '../eventNotificationsActions';
+import {reactToNotification} from '../notificationsActions';
 import Button from '../../../components/Button/Button';
 
 const NotificationReaction = props => (
@@ -37,7 +37,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onClick: () => dispatch(reactToEventNotification(ownProps.notificationId, ownProps.emoji))
+  onClick: () => dispatch(reactToNotification(ownProps.notificationId, ownProps.emoji))
 });
 
 export default connect(

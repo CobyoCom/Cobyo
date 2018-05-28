@@ -13,7 +13,8 @@ export default function attendees(state = initialState, {type, payload}) {
         byId[attendee.userName] = {
           ...AttendeeDefaultProps,
           ...(byId[attendee.userName] || {}),
-          ...attendee
+          ...attendee,
+          lastUpdated: parseInt(attendee.lastUpdated, 10)
         };
 
         return byId;

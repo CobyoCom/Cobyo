@@ -87,7 +87,6 @@ export const refreshEvent = () => (dispatch, getState) => new Promise(async (res
   }
 
   try {
-    // TODO: cleanup and replace lastUpdated with updatedAt
     const response = await updateEventUserApi({eventId, userName, duration, lastUpdated, travelMode});
     if (response &&
       !response.errors &&

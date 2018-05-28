@@ -24,6 +24,9 @@ export default function error(state = null, {type}) {
     case notificationActionTypes.fetchNotificationsFailure: {
       return 'Unable to fetch notifications for event. Please try again.';
     }
+    case notificationActionTypes.reactToNotificationFailure: {
+      return 'Unable to react to notification. Please try again.';
+    }
     case createActionTypes.createEventFailure: {
       return 'Unable to create event. Please try again.';
     }

@@ -25,7 +25,7 @@ export const updateEventUserMutation = gql`
     $eventId: String!,
     $userName: String!,
     $duration: Int,
-    $updatedAt: Int,
+    $updatedAt: String,
     $travelMode: String,
     $hasLeft: Boolean
   ) {
@@ -44,12 +44,14 @@ ${eventUserFragment}`;
 
 export const createReactionMutation = gql`
   mutation createReaction(
-    $notificationId: Int!, 
+    $eventId: String!, 
+    $notificationCreatedAt: String!
     $userName: String!, 
     $emoji: String!
   ) {
     createReaction(
-      notificationId: $notificationId, 
+      eventId: $eventId, 
+      notificationCreatedAt: $notificationCreatedAt,
       userName: $userName, 
       emoji: $emoji
     ) {
@@ -60,14 +62,18 @@ ${reactionFragment}`;
 
 export const deleteReactionMutation = gql`
   mutation deleteReaction(
-    $notificationId: Int!,
-    $userName: String!,
+    $eventId: String!, 
+    $notificationCreatedAt: String!
+    $userName: String!, 
     $emoji: String!
   ) {
     deleteReaction(
-      notificationId: $notificationId,
-      userName: $userName,
+      eventId: $eventId, 
+      notificationCreatedAt: $notificationCreatedAt,
+      userName: $userName, 
       emoji: $emoji
-    )
+    ) {
+      ...reaction
+    }
   }
-`;
+${reactionFragment}`;

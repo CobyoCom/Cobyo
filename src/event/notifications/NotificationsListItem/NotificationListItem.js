@@ -7,34 +7,33 @@ import './NotificationListItem.css';
 
 const NotificationListItem = props => (
   <div
-    key={props.id}
+    key={props.createdAt}
     className="NotificationListItem"
   >
     <div className="NotificationListItem-header">
       <span className="NotificationListItem-message">
         <strong>{props.userName}</strong>{` ${props.message}`}
       </span>
-      <NotificationReactionButton notificationId={props.id} />
+      <NotificationReactionButton notificationId={props.createdAt} />
     </div>
     <div className="NotificationListItem-footer">
       <span className="NotificationListItem-timestamp">
-        {fromNow(props.timestamp)}
+        {fromNow(parseInt(props.createdAt, 10))}
       </span>
-        <NotificationReactionList id={props.id} />
+        <NotificationReactionList id={props.createdAt} />
     </div>
   </div>
 );
 
 NotificationListItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  timestamp: PropTypes.number.isRequired,
-  userName: PropTypes.string,
+  createdAt: PropTypes.string.isRequired,
+  reactions: PropTypes.array,
   message: PropTypes.string
 };
 
 NotificationListItem.defaultProps = {
-  userName: null,
-  message: null
+  message: null,
+  reactions: []
 };
 
 export default NotificationListItem;

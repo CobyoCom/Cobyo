@@ -7,7 +7,7 @@ const NotificationsList = props => (
   <div className="NotificationsList">
     {props.notifications.map(notification => (
       <NotificationListItem
-        key={notification.id}
+        key={notification.createdAt}
         {...notification}
       />
     ))}

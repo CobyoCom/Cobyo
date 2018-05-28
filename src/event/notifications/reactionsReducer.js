@@ -6,7 +6,28 @@ const initialState = {};
 
 export default function notificationReactions(state = initialState, {type, payload}) {
   switch (type) {
-    case types.reactToNotificationRequest: {
+    case types.fetchNotificationsSuccess: {
+      const {notifications} = payload;
+      const newState = {...state};
+
+      notifications.forEach(notification => {
+        const notificationId = notification.createdAt;
+        const notificationReactions = {...newState[notificationId]};
+
+        notification.reactions.forEach(({emoji, userName}) => {
+          notificationReactions[emoji] = {
+            ...notificationReactions[emoji],
+            [userName]: true
+          };
+        });
+
+        newState[notificationId] = notificationReactions;
+      });
+
+      return newState;
+    }
+    case types.reactToNotificationRequest:
+    case types.reactToNotificationFailure: {
       const {notificationId, emoji, userName} = payload;
       const notificationReactions = state[notificationId] || {};
       const emojiUsers = notificationReactions[emoji] ? notificationReactions[emoji] : {};
@@ -30,13 +51,10 @@ export default function notificationReactions(state = initialState, {type, paylo
           ...notificationReactions,
           [emoji]: {
             ...emojiUsers,
-            [userName]: {
-              timestamp: (new Date()).getTime()
-            }
+            [userName]: true
           }
         }
       };
-
     }
     default:
       return state;

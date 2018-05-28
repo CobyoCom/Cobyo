@@ -116,7 +116,7 @@ export default function events(state = initialState, {type, payload}) {
         ...state,
         [eventId]: {
           ...state[eventId],
-          notificationIds: notifications.map(({id}) => id)
+          notificationIds: notifications.map(({createdAt}) => createdAt)
         }
       };
     }

@@ -12,7 +12,9 @@ import {
 } from './eventQueries';
 import {
   createEventMutation,
-  updateEventUserMutation
+  updateEventUserMutation,
+  deleteReactionMutation,
+  createReactionMutation
 } from './eventMutations';
 
 export async function createEventApi(placeId, eventName) {
@@ -70,8 +72,7 @@ export async function fetchEventUsersApi(eventId) {
 
 export async function updateEventUserApi(eventUser) {
   if (eventUser.lastUpdated) {
-    // Change from ms to s
-    eventUser.updatedAt = Math.round(eventUser.lastUpdated /1000);
+    eventUser.updatedAt = `${eventUser.lastUpdated}`;
   }
 
   try {
@@ -81,12 +82,26 @@ export async function updateEventUserApi(eventUser) {
     });
     if (data && data.data && data.data.updateEventUser && data.data.updateEventUser.lastUpdated) {
       // Change back to ms
-      data.data.updateEventUser.lastUpdated *= 1000;
+      data.data.updateEventUser.lastUpdated = parseInt(data.data.updateEventUser.lastUpdated, 10);
     }
 
     return data;
   } catch (error) {
     logger(`updateEventUserApi ${error.response.status}: ${error.message}`);
+    throw new Error();
+  }
+}
+
+export async function reactToNotificationApi(eventId, notificationCreatedAt, userName, emoji, didUserReact) {
+  try {
+    const {data} = await fetchGraphQL({
+      query: didUserReact ? deleteReactionMutation : createReactionMutation,
+      variables: {eventId, notificationCreatedAt, userName, emoji}
+    });
+
+    return data;
+  } catch (error) {
+    logger(`reactToNotificationApi ${error.response.status}: ${error.message}`);
     throw new Error();
   }
 }

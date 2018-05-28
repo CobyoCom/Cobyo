@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import cx from 'classnames';
+import {makeSelectDidUserReact, makeSelectReactionCount} from '../reactionsSelectors';
 import {reactToNotification} from '../notificationsActions';
 import Button from '../../../components/Button/Button';
 
@@ -32,8 +33,9 @@ NotificationReaction.defaultProps = {
   isSelected: false
 };
 
-const mapStateToProps = state => ({
-  count: 1
+const mapStateToProps = (state, ownProps) => ({
+  count: makeSelectReactionCount(state, ownProps.notificationId, ownProps.emoji),
+  isSelected: makeSelectDidUserReact(state, ownProps.notificationId, ownProps.emoji)
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

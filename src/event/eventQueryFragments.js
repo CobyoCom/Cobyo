@@ -32,16 +32,16 @@ export const eventUserFragment = gql`
 export const reactionFragment = gql`
   fragment reaction on Reaction {
     emoji
-    user {
-      ...user
-    }
+    userName
   }
-${userFragment}`;
+`;
 
 export const notificationFragment = gql`
   fragment notification on Notification {
-    notificationId
     message
     createdAt
+    reactions {
+      ...reaction
+    }
   }
-`;
+${reactionFragment}`;

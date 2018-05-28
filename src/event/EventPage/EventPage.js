@@ -6,6 +6,7 @@ import EventControlsContainer from '../EventControls/EventControlsContainer';
 import AttendeesListContainer from '../attendees/AttendeesList/AttendeesListContainer';
 import NotificationsListContainer from '../notifications/NotificationsList/NotificationsListContainer';
 import QuickLoginModal from '../QuickLogin/QuickLoginModal';
+import EventMap from '../EventMap/EventMap';
 import NavBar from '../../navigation/NavBar/NavBar';
 import './EventPage.css';
 
@@ -21,6 +22,7 @@ const EventPage = props => (
         travelMode={props.localStorageLogin.travelMode}
       />
     )}
+    {false && props.isLoggedIn && <EventMap/>}
     {props.isLoggedIn && <AttendeesListContainer/>}
     {props.isLoggedIn && <NotificationsListContainer/>}
     {props.isLoggedIn && <EventControlsContainer/>}

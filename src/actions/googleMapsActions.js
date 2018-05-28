@@ -39,12 +39,13 @@ export function geocodeMap(geocoder, map, placeId) {
         if (results[0]) {
           map.setZoom(15);
           map.setCenter(results[0].geometry.location);
-          new google.maps.Marker({
-            map: map,
-            position: results[0].geometry.location
-          });
+          const position = results[0].geometry.location;
+          new google.maps.Marker({map, position});
 
-          return resolve();
+          return resolve({
+            latitude: position.lat(),
+            longitude: position.lng()
+          });
         } else {
           window.alert('No results found');
           return reject();

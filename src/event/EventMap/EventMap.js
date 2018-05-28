@@ -9,13 +9,12 @@ import {selectUserCoordinates} from '../../reducers/appState/appStateSelectors';
 import {initGoogleMapsAPI, geocodeMap} from '../../actions/googleMapsActions';
 
 class EventMap extends Component {
-
   static propTypes = {
     placeId: PropTypes.string.isRequired,
     userCoordinates: PropTypes.shape({
-      latitude: PropTypes.number.isRequired,
-      longitude: PropTypes.number.isRequired,
-      lastUpdated: PropTypes.number.isRequired
+      latitude: PropTypes.number,
+      longitude: PropTypes.number,
+      lastUpdated: PropTypes.number
     }).isRequired,
     initGoogleMapsAPI: PropTypes.func.isRequired,
     geocodeMap: PropTypes.func.isRequired
@@ -27,14 +26,24 @@ class EventMap extends Component {
     }
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.userCoordinates.lastUpdated !== state.userCoordinates.lastUpdated) {
-      return {userCoordinates: props.userCoordinates};
+  componentWillReceiveProps(nextProps) {
+    if (this.props.userCoordinates.lastUpdated !== nextProps.userCoordinates.lastUpdated) {
+      const {latitude: lat, longitude: lng} = nextProps.userCoordinates;
+      console.log(this.map, lat, lng);
+      new google.maps.Marker({
+        map: this.map,
+        position: {lat, lng}
+      });
+
+      const bounds = new google.maps.LatLngBounds();
+      bounds.extend({lat, lng});
+      bounds.extend({lat: this.state.eventCoordinates.latitude, lng: this.state.eventCoordinates.longitude});
+      this.map.fitBounds(bounds);
     }
   }
 
   state = {
-    userCoordinates: this.props.userCoordinates
+    eventCoordinates: null
   };
 
   loadMap = async () => {
@@ -42,10 +51,19 @@ class EventMap extends Component {
     const maps = google.maps;
     const mapRef = this.refs.map;
     const node = ReactDOM.findDOMNode(mapRef);
-    const map = new maps.Map(node);
+    const mapConfig = {
+      zoomControl: true,
+      fullscreenControl: false,
+      mapTypeControl: false,
+      scaleControl: false,
+      streetViewControl: false,
+      rotateControl: false
+    };
+    const map = new maps.Map(node, mapConfig);
     const geocoder = new google.maps.Geocoder();
 
-    await geocodeMap(geocoder, map, this.props.placeId);
+    const eventCoordinates = await geocodeMap(geocoder, map, this.props.placeId);
+    this.setState({eventCoordinates});
     this.map = map;
   };
 

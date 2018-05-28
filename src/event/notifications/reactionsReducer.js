@@ -8,7 +8,7 @@ export default function notificationReactions(state = initialState, {type, paylo
   switch (type) {
     case types.fetchNotificationsSuccess: {
       const {notifications} = payload;
-      const newState = {...state};
+      const newState = {};
 
       notifications.forEach(notification => {
         const notificationId = notification.createdAt;

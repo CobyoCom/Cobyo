@@ -22,7 +22,7 @@ const EventPage = props => (
         travelMode={props.localStorageLogin.travelMode}
       />
     )}
-    {false && props.isLoggedIn && <EventMap/>}
+    {props.isLoggedIn && <EventMap/>}
     {props.isLoggedIn && <AttendeesListContainer/>}
     {props.isLoggedIn && <NotificationsListContainer/>}
     {props.isLoggedIn && <EventControlsContainer/>}

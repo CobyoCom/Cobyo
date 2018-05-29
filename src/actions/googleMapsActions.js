@@ -1,5 +1,3 @@
-/*global google*/
-
 import {init} from '../helpers/googlemaps';
 import logger from '../helpers/logger';
 
@@ -30,33 +28,4 @@ export function initGoogleMapsAPI() {
       return Promise.reject();
     }
   };
-}
-
-export function geocodeMap(geocoder, map, placeId) {
-  return new Promise((resolve, reject) => {
-    return geocoder.geocode({'placeId': placeId}, (results, status) => {
-      if (status === 'OK') {
-        if (results[0]) {
-          map.setZoom(15);
-          map.setCenter(results[0].geometry.location);
-          const position = results[0].geometry.location;
-          new google.maps.Marker({map, position});
-
-          return resolve({
-            latitude: position.lat(),
-            longitude: position.lng()
-          });
-        } else {
-          window.alert('No results found');
-          return reject();
-        }
-      } else {
-        window.alert('Geocoder failed due to: ' + status);
-        return reject();
-      }
-    });
-
-
-
-  });
 }

@@ -22,7 +22,6 @@ export const types = {
   refreshEventSuccess: 'REFRESH_EVENT_SUCCESS',
   refreshEventFailure: 'REFRESH_EVENT_FAILURE',
   fetchTravelDurationFailure: 'FETCH_TRAVEL_DURATION_FAILURE',
-  fetchLocationSuccess: 'FETCH_LOCATION_SUCCESS',
   getAttendeesSuccess: 'GET_ATTENDEES_SUCCESS',
   getAttendeesFailure: 'GET_ATTENDEES_FAILURE',
   leaveForEventRequest: 'LEAVE_FOR_EVENT_REQUEST',
@@ -50,11 +49,6 @@ const fetchTravelDurationFailure = () => ({
   type: types.fetchTravelDurationFailure
 });
 
-const fetchLocationSuccess = ({latitude, longitude}, lastUpdated) => ({
-  type: types.fetchLocationSuccess,
-  payload: {latitude, longitude, lastUpdated}
-});
-
 export const refreshEvent = () => (dispatch, getState) => new Promise(async (resolve, reject) => {
   dispatch(refreshEventRequest());
 
@@ -63,7 +57,6 @@ export const refreshEvent = () => (dispatch, getState) => new Promise(async (res
   const prevLastUpdated = selectLastUpdated(prevState);
   const prevHasLeft = selectHasLeft(prevState);
   const {coordinates, lastUpdated} = await fetchLocation();
-  dispatch(fetchLocationSuccess(coordinates, lastUpdated));
   const state = getState();
   const eventId = selectEventId(state);
   const destinationPlaceId = selectPlaceId(state);

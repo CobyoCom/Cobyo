@@ -4,98 +4,55 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types';
-import {selectPlaceId} from '../activeEventSelectors';
-import {selectUserCoordinates} from '../../reducers/appState/appStateSelectors';
-import {initGoogleMapsAPI, geocodeMap} from '../../actions/googleMapsActions';
+import {initGoogleMapsAPI} from '../../actions/googleMapsActions';
 
 class EventMap extends Component {
+
   static propTypes = {
-    placeId: PropTypes.string.isRequired,
-    userCoordinates: PropTypes.shape({
-      latitude: PropTypes.number,
-      longitude: PropTypes.number,
-      lastUpdated: PropTypes.number
-    }).isRequired,
-    initGoogleMapsAPI: PropTypes.func.isRequired,
-    geocodeMap: PropTypes.func.isRequired
+    initGoogleMapsAPI: PropTypes.func.isRequired
   };
 
   componentDidMount() {
-    if (this.props.placeId) {
-      this.loadMap();
-    }
+    this.loadMap();
   }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.userCoordinates.lastUpdated !== nextProps.userCoordinates.lastUpdated) {
-      const {latitude: lat, longitude: lng} = nextProps.userCoordinates;
-      console.log(this.map, lat, lng);
-      new google.maps.Marker({
-        map: this.map,
-        position: {lat, lng}
-      });
-
-      const bounds = new google.maps.LatLngBounds();
-      bounds.extend({lat, lng});
-      bounds.extend({lat: this.state.eventCoordinates.latitude, lng: this.state.eventCoordinates.longitude});
-      this.map.fitBounds(bounds);
-    }
-  }
-
-  state = {
-    eventCoordinates: null
-  };
 
   loadMap = async () => {
     await this.props.initGoogleMapsAPI();
     const maps = google.maps;
     const mapRef = this.refs.map;
     const node = ReactDOM.findDOMNode(mapRef);
-    const mapConfig = {
-      zoomControl: true,
-      fullscreenControl: false,
-      mapTypeControl: false,
-      scaleControl: false,
-      streetViewControl: false,
-      rotateControl: false
-    };
-    const map = new maps.Map(node, mapConfig);
-    const geocoder = new google.maps.Geocoder();
 
-    const eventCoordinates = await geocodeMap(geocoder, map, this.props.placeId);
-    this.setState({eventCoordinates});
-    this.map = map;
+    const mapConfig = Object.assign({}, {
+      center: {lat: 40.7485722, lng: -74.0068633}, // sets center of google map to NYC.
+      zoom: 5, // sets zoom. Lower numbers are zoomed further out.
+      mapTypeId: 'roadmap' // optional main map layer. Terrain, satellite, hybrid or roadmap--if unspecified, defaults to roadmap.
+    });
+
+    this.map = new maps.Map(node, mapConfig); // creates a new Google map on the specified node (ref='map') with the specified configuration set above.
   };
 
   render() {
-    const style = {
-      height: '22vh',
+    const style = { // MUST specify dimensions of the Google map or it will not work. Also works best when style is specified inside the render function and created as an object
+      height: '25vh',
       position: 'relative',
       overflow: 'hidden',
       margin: '0 10px',
       borderRadius: '5px'
     };
-    const skeletonStyle = {...style};
 
     return (
       <div ref="map" style={style}>
-        <div style={skeletonStyle}/>
+        loading map...
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  placeId: selectPlaceId(state),
-  userCoordinates: selectUserCoordinates(state)
-});
-
 const mapDispatchToProps = {
-  initGoogleMapsAPI,
-  geocodeMap
+  initGoogleMapsAPI
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(EventMap);

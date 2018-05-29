@@ -5,11 +5,12 @@ import {connect} from 'react-redux';
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types';
 import {selectPlaceId} from '../activeEventSelectors';
-import {selectUserCoordinates} from '../../reducers/appState/appStateSelectors';
+import {selectIsGoogleAPILoaded, selectUserCoordinates} from '../../reducers/appState/appStateSelectors';
 import {initGoogleMapsAPI, geocodeMap} from '../../actions/googleMapsActions';
 
 class EventMap extends Component {
   static propTypes = {
+    isGoogleAPILoaded: PropTypes.bool.isRequired,
     placeId: PropTypes.string.isRequired,
     userCoordinates: PropTypes.shape({
       latitude: PropTypes.number,
@@ -21,13 +22,19 @@ class EventMap extends Component {
   };
 
   componentDidMount() {
-    if (this.props.placeId) {
-      this.loadMap();
+    try {
+      if (!this.props.isGoogleAPILoaded) {
+        this.props.initGoogleMapsAPI();
+      }
+    } catch(error) {
+
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.userCoordinates.lastUpdated !== nextProps.userCoordinates.lastUpdated) {
+    if (!this.props.isGoogleAPILoaded && nextProps.isGoogleAPILoaded) {
+      this.loadMap();
+    } else if (this.props.userCoordinates.lastUpdated !== nextProps.userCoordinates.lastUpdated) {
       const {latitude: lat, longitude: lng} = nextProps.userCoordinates;
       new google.maps.Marker({
         map: this.map,
@@ -46,7 +53,6 @@ class EventMap extends Component {
   };
 
   loadMap = async () => {
-    await this.props.initGoogleMapsAPI();
     const maps = google.maps;
     const mapRef = this.refs.map;
     const node = ReactDOM.findDOMNode(mapRef);
@@ -85,6 +91,7 @@ class EventMap extends Component {
 }
 
 const mapStateToProps = state => ({
+  isGoogleAPILoaded: selectIsGoogleAPILoaded(state),
   placeId: selectPlaceId(state),
   userCoordinates: selectUserCoordinates(state)
 });

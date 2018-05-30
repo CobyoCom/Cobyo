@@ -26,6 +26,7 @@
   background-color: transparent;
   border: none;
   font-size: 18pt;
+  max-width: 40px;
 }
 
 .ReactionButton .ReactionPicker-open + .Button {

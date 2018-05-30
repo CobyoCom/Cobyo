@@ -14,3 +14,7 @@
 .Tab-text--active {
   color: white;
 }
+
+.Tab > a {
+  text-decoration: none;
+}

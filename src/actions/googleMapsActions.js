@@ -1,7 +1,6 @@
-/*global google*/
-
 import {init} from '../helpers/googlemaps';
 import logger from '../helpers/logger';
+import {selectIsGoogleAPILoaded} from "../reducers/appState/appStateSelectors";
 
 export const types = {
   initGoogleMapsAPISuccess: 'INIT_GOOGLE_MAPS_API_SUCCESS',
@@ -17,7 +16,12 @@ function initGoogleMapsAPIFailure() {
 }
 
 export function initGoogleMapsAPI() {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    if (selectIsGoogleAPILoaded(state)) {
+      Promise.resolve();
+    }
+
     try {
       await init();
       dispatch(initGoogleMapsAPISuccess());
@@ -30,33 +34,4 @@ export function initGoogleMapsAPI() {
       return Promise.reject();
     }
   };
-}
-
-export function geocodeMap(geocoder, map, placeId) {
-  return new Promise((resolve, reject) => {
-    return geocoder.geocode({'placeId': placeId}, (results, status) => {
-      if (status === 'OK') {
-        if (results[0]) {
-          map.setZoom(15);
-          map.setCenter(results[0].geometry.location);
-          const position = results[0].geometry.location;
-          new google.maps.Marker({map, position});
-
-          return resolve({
-            latitude: position.lat(),
-            longitude: position.lng()
-          });
-        } else {
-          window.alert('No results found');
-          return reject();
-        }
-      } else {
-        window.alert('Geocoder failed due to: ' + status);
-        return reject();
-      }
-    });
-
-
-
-  });
 }

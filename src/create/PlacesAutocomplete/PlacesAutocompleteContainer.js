@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {selectPlace} from '../createActions';
 import {initGoogleMapsAPI} from '../../actions/googleMapsActions';
-import {selectIsGoogleAPILoaded} from '../../reducers/appState/appStateSelectors';
 import {selectPlaceName} from '../createEventFormSelectors';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import './PlacesAutocomplete.css';
@@ -24,7 +23,6 @@ class PlacesAutocompleteContainer extends Component {
     placeholder: PropTypes.string,
     placeName: PropTypes.string,
     selectPlace: PropTypes.func.isRequired,
-    isGoogleAPILoaded: PropTypes.bool.isRequired,
     initGoogleMapsAPI: PropTypes.func.isRequired
   };
 
@@ -34,15 +32,15 @@ class PlacesAutocompleteContainer extends Component {
   };
 
   state = {
+    isGoogleAPILoaded: false,
     showDefaultSearch: false,
     placeName: this.props.placeName
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     try {
-      if (!this.props.isGoogleAPILoaded) {
-        this.props.initGoogleMapsAPI();
-      }
+      await this.props.initGoogleMapsAPI();
+      this.setState({isGoogleAPILoaded: true});
     } catch(error) {
       this.setState({showDefaultSearch: true});
     }
@@ -56,9 +54,9 @@ class PlacesAutocompleteContainer extends Component {
 
   showDefaultSearch = () => this.state.showDefaultSearch;
 
-  showLoadingPlacesAutocomplete = () => !this.showDefaultSearch() && !this.props.isGoogleAPILoaded;
+  showLoadingPlacesAutocomplete = () => !this.showDefaultSearch() && !this.state.isGoogleAPILoaded;
 
-  showPlacesAutocomplete = () => !this.showDefaultSearch() && this.props.isGoogleAPILoaded;
+  showPlacesAutocomplete = () => !this.showDefaultSearch() && this.state.isGoogleAPILoaded;
 
   getPlacesAutocompleteInputProps = () => ({
     value: this.state.placeName,
@@ -94,7 +92,6 @@ class PlacesAutocompleteContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  isGoogleAPILoaded: selectIsGoogleAPILoaded(state),
   placeName: selectPlaceName(state)
 });
 

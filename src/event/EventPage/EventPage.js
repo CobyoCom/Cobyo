@@ -25,7 +25,7 @@ const EventPage = props => (
     {props.isLoggedIn && <EventMap/>}
     {props.isLoggedIn && <AttendeesListContainer/>}
     {props.isLoggedIn && <NotificationsListContainer/>}
-    {props.isLoggedIn && <EventControlsContainer/>}
+    {false && props.isLoggedIn && <EventControlsContainer/>}
     <NavBar activeTab="Events"/>
   </div>
 );

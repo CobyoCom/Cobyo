@@ -1,5 +1,4 @@
 .NotificationsList {
-  padding: 10px;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
 }

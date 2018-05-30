@@ -4,3 +4,7 @@
   align-items: stretch;
   padding-bottom: 50px;
 }
+
+.EventPage > * {
+  margin: 5px 10px;
+}

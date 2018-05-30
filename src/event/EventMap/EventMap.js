@@ -100,14 +100,15 @@ class EventMap extends Component {
       height: '20vh',
       position: 'relative',
       overflow: 'hidden',
-      margin: '0 10px',
       borderRadius: '5px'
     };
     const skeletonStyle = {...style};
 
     return (
-      <div ref="map" style={style}>
-        <div style={skeletonStyle}/>
+      <div>
+        <div ref="map" style={style}>
+          <div style={skeletonStyle}/>
+        </div>
       </div>
     );
   }

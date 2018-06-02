@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
 import {FaMale, FaCab, FaSubway, FaHome, FaFlagCheckered} from 'react-icons/lib/fa';
 import {WALKING, DRIVING, TRANSIT, DEFAULT_TRAVEL_MODE} from '../../../helpers/globalConstants';
 import TravelModeSelectModal from '../../TravelModeSelect/TravelModeSelectModal';
 import AttendeesListItemIcon from './AttendeesListItemIcon';
+import car from '../../../assets/car.png';
+import transit from '../../../assets/transit.png';
+import walking from '../../../assets/walking.png';
 import './AttendeesListItem.css';
 
 const getIcon = ({hasLeft, hasProbablyArrived, travelMode, isRefreshing}) => {
@@ -40,45 +42,66 @@ const getTravelModeIcon = (travelMode) => {
   }
 };
 
+const getLoadingIcon = (travelMode) => {
+  let src, className = "AttendeesListItem-loading";
+  switch(travelMode) {
+    case WALKING: {
+      className = `${className}--walking`;
+      src = walking;
+      break;
+    }
+    case DRIVING: {
+      className = `${className}--driving`;
+      src = car;
+      break;
+    }
+    case TRANSIT: {
+      className = `${className}--transit`;
+      src = transit;
+      break;
+    }
+    default:
+      return null;
+  }
+
+  return (
+    <div className="AttendeesListItem-loading">
+      <img src={src} className={className}/>
+    </div>
+  )
+};
+
 const AttendeesListItem = props => (
-  <div className={cx("AttendeesListItem", {
-    'AttendeesListItem--me': props.isMe
-  })}>
+  <Fragment>
     <div
-      className="AttendeesListItem-content"
+      className="AttendeesListItem"
       onClick={props.onClick}
     >
-      <div>
-        <AttendeesListItemIcon
-          isClickable={props.isMe && !props.hasProbablyArrived}
-          icon={getIcon(props)}
-          subIcon={getSubIcon(props)}
-          onClick={props.onClickTravelMode}
-        />
+      <AttendeesListItemIcon
+        isClickable={props.isMe && !props.hasProbablyArrived}
+        icon={getIcon(props)}
+        subIcon={getSubIcon(props)}
+        onClick={props.onClickTravelMode}
+      />
+      <div className="AttendeesListItem-content">
         <div className="AttendeesListItem-user">
-          <h2 className="AttendeesListItem-name">
-            {props.userName}
-          </h2>
-          <span className="AttendeesListItem-lut">
-            {props.lastUpdatedStatus}
-          </span>
+          <h2 className="AttendeesListItem-name">{props.userName}</h2>
+          {props.isRefreshing ? (
+            getLoadingIcon(props.travelMode)
+          ) : (
+            <span className="AttendeesListItem-lut">{props.lastUpdatedStatus}</span>
+          )}
         </div>
       </div>
-      <div>
-        {!!props.durationStatus &&
-          <span className="AttendeesListItem-eta">
-            {props.durationStatus}
-          </span>
-        }
-      </div>
+      <div className="AttendeesListItem-eta">{props.durationStatus}</div>
     </div>
-    <TravelModeSelectModal
+    {props.isMe && <TravelModeSelectModal
       isOpen={props.isTravelModeOpen}
       onClose={props.onCloseTravelMode}
       onChange={props.onChangeTravelMode}
       travelModeValue={props.travelMode}
-    />
-  </div>
+    />}
+  </Fragment>
 );
 
 export const AttendeePropTypes = {

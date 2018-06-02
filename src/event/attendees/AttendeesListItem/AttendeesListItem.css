@@ -1,25 +1,16 @@
 .AttendeesListItem {
-  padding: 10px 5px;
+  padding: 5px;
   border-radius: 8px;
   background-color: rgba(255, 255, 255, .1);
   margin: 5px 0;
-}
-
-.AttendeesListItem--me {
-
+  display: flex;
+  flex-direction: row;
 }
 
 .AttendeesListItem-content {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-grow: 1;
 }
 
-.AttendeesListItem-content > div {
-  display: flex;
-  flex-direction: row;
-  max-width: 60%;
-}
 
 .AttendeesListItem-iconButton {
   position: relative;
@@ -87,4 +78,35 @@
 .AttendeesListItem-eta {
   align-self: center;
   font-size: 11pt;
+}
+
+.AttendeesListItem-lut,
+.AttendeesListItem-loading {
+  height: 20px;
+}
+
+.AttendeesListItem-loading > img {
+  position: relative;
+  height: 100%;
+}
+
+.AttendeesListItem-loading--driving {
+  animation: travelling 2.2s linear infinite;
+}
+
+.AttendeesListItem-loading--transit {
+  animation: travelling 1.6s linear infinite;
+}
+
+.AttendeesListItem-loading--walking {
+  animation: travelling 5.5s linear infinite;
+}
+
+@keyframes travelling {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: calc(100% - 15vw);
+  }
 }

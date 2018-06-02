@@ -19,7 +19,7 @@ export function initGoogleMapsAPI() {
   return async (dispatch, getState) => {
     const state = getState();
     if (selectIsGoogleAPILoaded(state)) {
-      Promise.resolve();
+      return Promise.resolve();
     }
 
     try {

@@ -54,7 +54,12 @@ class AttendeesListItemContainer extends Component {
     return fromNow(this.props.lastUpdated);
   };
 
-  handleClickTravelMode = () => this.setState({isTravelModeOpen: true});
+  handleClick = () => this.props.isMe && this.props.refreshEvent();
+
+  handleClickTravelMode = e => {
+    this.setState({isTravelModeOpen: true});
+    e.stopPropagation();
+  };
 
   handleCloseTravelMode = () => this.setState({isTravelModeOpen: false});
 
@@ -71,6 +76,7 @@ class AttendeesListItemContainer extends Component {
         hasProbablyArrived={this.getHasProbablyArrived()}
         durationStatus={this.getDurationStatus()}
         lastUpdatedStatus={this.getLastUpdatedStatus()}
+        onClick={this.handleClick}
         onClickTravelMode={this.handleClickTravelMode}
         onCloseTravelMode={this.handleCloseTravelMode}
         onChangeTravelMode={this.handleChangeTravelMode}

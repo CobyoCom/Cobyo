@@ -44,7 +44,10 @@ const AttendeesListItem = props => (
   <div className={cx("AttendeesListItem", {
     'AttendeesListItem--me': props.isMe
   })}>
-    <div className="AttendeesListItem-content">
+    <div
+      className="AttendeesListItem-content"
+      onClick={props.onClick}
+    >
       <div>
         <AttendeesListItemIcon
           isClickable={props.isMe && !props.hasProbablyArrived}
@@ -103,6 +106,7 @@ AttendeesListItem.propTypes = {
   hasProbablyArrived: PropTypes.bool.isRequired,
   durationStatus: PropTypes.string.isRequired,
   lastUpdatedStatus: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
   onClickTravelMode: PropTypes.func.isRequired,
   onCloseTravelMode: PropTypes.func.isRequired,
   onChangeTravelMode: PropTypes.func.isRequired

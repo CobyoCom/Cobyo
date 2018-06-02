@@ -16,6 +16,7 @@ const TravelModeSelect = props => (
           'TravelModeSelect-item--selected': props.travelModeValue === WALKING
         })}
         onClick={() => props.onChange(WALKING)}
+        autoFocus={props.travelModeValue === WALKING}
       >
         <FaMale size={38} />
       </button>
@@ -24,7 +25,7 @@ const TravelModeSelect = props => (
           'TravelModeSelect-item--selected': props.travelModeValue === DRIVING
         })}
         onClick={() => props.onChange(DRIVING)}
-        autoFocus
+        autoFocus={props.travelModeValue === DRIVING}
       >
         <FaCab size={40} />
       </button>
@@ -33,6 +34,7 @@ const TravelModeSelect = props => (
           'TravelModeSelect-item--selected': props.travelModeValue === TRANSIT
         })}
         onClick={() => props.onChange(TRANSIT)}
+        autoFocus={props.travelModeValue === TRANSIT}
       >
         <FaSubway size={36} />
       </button>

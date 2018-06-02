@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EventDetails from '../EventDetails/EventDetails';
 import EventLoginFormContainer from '../EventLoginForm/EventLoginFormContainer';
-import EventControlsContainer from '../EventControls/EventControlsContainer';
 import AttendeesListContainer from '../attendees/AttendeesList/AttendeesListContainer';
 import NotificationsListContainer from '../notifications/NotificationsList/NotificationsListContainer';
 import QuickLoginModal from '../QuickLogin/QuickLoginModal';
@@ -25,7 +24,6 @@ const EventPage = props => (
     {props.isLoggedIn && <EventMap/>}
     {props.isLoggedIn && <AttendeesListContainer/>}
     {props.isLoggedIn && <NotificationsListContainer/>}
-    {false && props.isLoggedIn && <EventControlsContainer/>}
     <NavBar activeTab="Events"/>
   </div>
 );

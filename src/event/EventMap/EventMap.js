@@ -31,16 +31,23 @@ class EventMap extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const didUserCoordinatesUpdate = this.props.userCoordinates.lastUpdated !== nextProps.userCoordinates.lastUpdated;
-    const isEventCoordinatesLoaded = !!this.state.eventCoordinates;
+    if (this.props.userCoordinates.lastUpdated !== nextProps.userCoordinates.lastUpdated) {
+      this.setState({isMapBounded: false});
+    }
+  }
 
-    if (didUserCoordinatesUpdate && isEventCoordinatesLoaded) {
-      this.boundMap(this.map, nextProps.userCoordinates, this.state.eventCoordinates);
+  componentDidUpdate() {
+    if (!this.state.isMapBounded
+      && !!this.props.userCoordinates.lastUpdated
+      && !!this.state.eventCoordinates
+    ) {
+      this.boundMap(this.map, this.props.userCoordinates, this.state.eventCoordinates);
     }
   }
 
   state = {
     eventCoordinates: null,
+    isMapBounded: false,
     isMapError: false
   };
 
@@ -87,12 +94,13 @@ class EventMap extends Component {
 
   boundMap = (map, {latitude: userLat, longitude: userLng}, eventCoordinates = {latitude: 0, longitude: 0}) => {
     const {latitude: eventLat, longitude: eventLng} = eventCoordinates;
-    console.log(userLat, userLng);
     new google.maps.Marker({map, position: {lat: userLat, lng: userLng}});
     const bounds = new google.maps.LatLngBounds();
     bounds.extend({lat: userLat, lng: userLng});
     bounds.extend({lat: eventLat, lng: eventLng});
     map.fitBounds(bounds);
+
+    this.setState({isMapBounded: true});
   };
 
   render() {

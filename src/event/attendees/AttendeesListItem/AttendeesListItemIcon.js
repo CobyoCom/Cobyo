@@ -33,9 +33,7 @@ const AttendeesListItemIcon = props => (
 AttendeesListItemIcon.propTypes = {
   isClickable: PropTypes.bool.isRequired,
   onClick: PropTypes.func,
-  travelMode: PropTypes.oneOf([WALKING, DRIVING, TRANSIT]).isRequired,
-  hasLeft: PropTypes.bool.isRequired,
-  hasProbablyArrived: PropTypes.bool.isRequired
+  travelMode: PropTypes.oneOf([WALKING, DRIVING, TRANSIT]).isRequired
 };
 
 AttendeesListItemIcon.defaultProps = {

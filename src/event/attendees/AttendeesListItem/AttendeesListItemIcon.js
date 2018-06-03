@@ -1,58 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
+import {DRIVING, TRANSIT, WALKING} from '../../../helpers/globalConstants';
+import {CAR_EMOJI, RUNNER_EMOJI, RAILWAY_CAR_EMOJI} from "../../../helpers/emojis";
+import './AttendeesListItemIcon.css';
 
-const RenderedElement = props => props.isClickable ? (
-  <button
-    className="AttendeesListItem-iconButton"
-    onClick={props.onClick}
-  >
-    {props.children}
-  </button>
-) : (
-  <div className="AttendeesListItem-iconButton">
-    {props.children}
-  </div>
-);
+const RenderedElement = props => props.isClickable
+  ? <button className="AttendeesListItemIcon" onClick={props.onClick}>{props.children}</button>
+  : <div className="AttendeesListItemIcon">{props.children}</div>;
 
 const AttendeesListItemIcon = props => (
   <RenderedElement {...props}>
-    <div
-      className={cx(
-        'AttendeesListItem-icon',
-        {
-          'AttendeesListItem-icon--spinner': !props.icon
+    <div>
+      {(() => {
+        switch (props.travelMode) {
+          case WALKING: {
+            return RUNNER_EMOJI;
+          }
+          case DRIVING: {
+            return CAR_EMOJI;
+          }
+          case TRANSIT: {
+            return RAILWAY_CAR_EMOJI;
+          }
+          default:
+            return null;
         }
-      )}
-      style={{
-        backgroundColor: props.backgroundColor,
-        color: props.color
-      }}
-    >
-      {props.icon}
+      })()}
     </div>
-    {props.subIcon && (
-      <div className="AttendeesListItem-subIcon">
-        {props.subIcon}
-      </div>
-    )}
   </RenderedElement>
 );
 
 AttendeesListItemIcon.propTypes = {
   isClickable: PropTypes.bool.isRequired,
-  icon: PropTypes.node,
-  subIcon: PropTypes.node,
-  onClick: PropTypes.func.isRequired,
-  backgroundColor: PropTypes.string,
-  color: PropTypes.string
+  onClick: PropTypes.func,
+  travelMode: PropTypes.oneOf([WALKING, DRIVING, TRANSIT]).isRequired,
+  hasLeft: PropTypes.bool.isRequired,
+  hasProbablyArrived: PropTypes.bool.isRequired
 };
 
 AttendeesListItemIcon.defaultProps = {
-  icon: null,
-  subIcon: null,
-  backgroundColor: 'white',
-  color: 'black'
+  onClick: () => {}
 };
 
 export default AttendeesListItemIcon;

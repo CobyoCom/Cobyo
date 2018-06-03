@@ -1,0 +1,29 @@
+.AttendeesListItemLoading > * {
+  position: relative;
+  height: 100%;
+  display: inline-block;
+  word-spacing: -8px;
+  transform: scaleX(-1)
+}
+
+.AttendeesListItemLoading--driving {
+  animation: travelling 2.2s linear infinite;
+}
+
+.AttendeesListItemLoading--transit {
+  animation: travelling-transit 1.6s linear infinite;
+}
+
+.AttendeesListItemLoading--walking {
+  animation: travelling 5.5s linear infinite;
+}
+
+@keyframes travelling {
+  0% {left: 0;}
+  100% {left: 88%;}
+}
+
+@keyframes travelling-transit {
+  0% {left: 0;}
+  100% {left: 60%;}
+}

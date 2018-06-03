@@ -4,7 +4,7 @@ import {FaMale, FaCab, FaSubway, FaHome, FaFlagCheckered} from 'react-icons/lib/
 import {WALKING, DRIVING, TRANSIT, DEFAULT_TRAVEL_MODE} from '../../../helpers/globalConstants';
 import TravelModeSelectModal from '../../TravelModeSelect/TravelModeSelectModal';
 import AttendeesListItemIcon from './AttendeesListItemIcon';
-import {RAILWAY_CAR_EMOJI, CAR_EMOJI, RUNNER_EMOJI} from '../../../helpers/emojis';
+import AttendeesListItemLoading from './AttendeesListItemLoading';
 import './AttendeesListItem.css';
 
 const getIcon = ({hasLeft, hasProbablyArrived, travelMode, isRefreshing}) => {
@@ -33,40 +33,11 @@ const getSubIcon = ({hasLeft, hasProbablyArrived, travelMode}) => {
 
 const getTravelModeIcon = (travelMode) => {
   switch (travelMode) {
-    case WALKING: return <FaMale />;
-    case DRIVING: return <FaCab />;
-    case TRANSIT: return <FaSubway />;
+    case WALKING: return <FaMale/>;
+    case DRIVING: return <FaCab/>;
+    case TRANSIT: return <FaSubway/>;
     default: return null;
   }
-};
-
-const getLoadingIcon = (travelMode) => {
-  let emoji, className = "AttendeesListItem-loading";
-  switch(travelMode) {
-    case WALKING: {
-      className = `${className}--walking`;
-      emoji = RUNNER_EMOJI;
-      break;
-    }
-    case DRIVING: {
-      className = `${className}--driving`;
-      emoji = CAR_EMOJI;
-      break;
-    }
-    case TRANSIT: {
-      className = `${className}--transit`;
-      emoji = `${RAILWAY_CAR_EMOJI} ${RAILWAY_CAR_EMOJI} ${RAILWAY_CAR_EMOJI} ${RAILWAY_CAR_EMOJI}`;
-      break;
-    }
-    default:
-      return null;
-  }
-
-  return (
-    <div className="AttendeesListItem-loading">
-      <div className={className}>{emoji}</div>
-    </div>
-  )
 };
 
 const AttendeesListItem = props => (
@@ -76,16 +47,15 @@ const AttendeesListItem = props => (
       onClick={props.onClick}
     >
       <AttendeesListItemIcon
+        travelMode={props.travelMode}
         isClickable={props.isMe && !props.hasProbablyArrived}
-        icon={getIcon(props)}
-        subIcon={getSubIcon(props)}
         onClick={props.onClickTravelMode}
       />
       <div className="AttendeesListItem-content">
         <div className="AttendeesListItem-user">
           <h2 className="AttendeesListItem-name">{props.userName}</h2>
           {props.isRefreshing ? (
-            getLoadingIcon(props.travelMode)
+            <AttendeesListItemLoading travelMode={props.travelMode}/>
           ) : (
             <span className="AttendeesListItem-lut">{props.lastUpdatedStatus}</span>
           )}

@@ -26,7 +26,7 @@ export function initGoogleMapsAPI() {
       dispatch(initGoogleMapsAPISuccess());
       return resolve();
     } catch (error) {
-      logger(`Failed to load Google Maps API: ${error}`);
+      alert(`Failed to load Google Maps API: ${error}`);
       dispatch(initGoogleMapsAPIFailure());
       return reject();
     }

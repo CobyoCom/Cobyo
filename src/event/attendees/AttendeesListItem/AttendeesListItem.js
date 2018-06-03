@@ -1,44 +1,10 @@
 import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
-import {FaMale, FaCab, FaSubway, FaHome, FaFlagCheckered} from 'react-icons/lib/fa';
 import {WALKING, DRIVING, TRANSIT, DEFAULT_TRAVEL_MODE} from '../../../helpers/globalConstants';
 import TravelModeSelectModal from '../../TravelModeSelect/TravelModeSelectModal';
 import AttendeesListItemIcon from './AttendeesListItemIcon';
 import AttendeesListItemLoading from './AttendeesListItemLoading';
 import './AttendeesListItem.css';
-
-const getIcon = ({hasLeft, hasProbablyArrived, travelMode, isRefreshing}) => {
-  if (hasProbablyArrived) {
-    if (isRefreshing) {
-      return null;
-    }
-
-    return <FaFlagCheckered/>;
-  }
-
-  if (!hasLeft) {
-    return <FaHome/>;
-  }
-
-  return getTravelModeIcon(travelMode)
-};
-
-const getSubIcon = ({hasLeft, hasProbablyArrived, travelMode}) => {
-  if (hasLeft || hasProbablyArrived) {
-    return null;
-  }
-
-  return getTravelModeIcon(travelMode);
-};
-
-const getTravelModeIcon = (travelMode) => {
-  switch (travelMode) {
-    case WALKING: return <FaMale/>;
-    case DRIVING: return <FaCab/>;
-    case TRANSIT: return <FaSubway/>;
-    default: return null;
-  }
-};
 
 const AttendeesListItem = props => (
   <Fragment>

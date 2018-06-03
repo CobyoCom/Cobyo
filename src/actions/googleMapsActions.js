@@ -16,22 +16,19 @@ function initGoogleMapsAPIFailure() {
 }
 
 export function initGoogleMapsAPI() {
-  return async (dispatch, getState) => {
+  return (dispatch, getState) => new Promise(async (resolve, reject) => {
     const state = getState();
     if (selectIsGoogleAPILoaded(state)) {
-      return Promise.resolve();
+      return resolve();
     }
-
     try {
       await init();
       dispatch(initGoogleMapsAPISuccess());
-
-      return Promise.resolve();
+      return resolve();
     } catch (error) {
       logger(`Failed to load Google Maps API: ${error}`);
       dispatch(initGoogleMapsAPIFailure());
-
-      return Promise.reject();
+      return reject();
     }
-  };
+  });
 }

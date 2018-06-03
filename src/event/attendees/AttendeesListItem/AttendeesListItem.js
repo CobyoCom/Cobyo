@@ -84,7 +84,7 @@ const AttendeesListItem = props => (
       <div className="AttendeesListItem-content">
         <div className="AttendeesListItem-user">
           <h2 className="AttendeesListItem-name">{props.userName}</h2>
-          {true || props.isRefreshing ? (
+          {props.isRefreshing ? (
             getLoadingIcon(props.travelMode)
           ) : (
             <span className="AttendeesListItem-lut">{props.lastUpdatedStatus}</span>

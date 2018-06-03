@@ -4,7 +4,7 @@ import {FaMale, FaCab, FaSubway, FaHome, FaFlagCheckered} from 'react-icons/lib/
 import {WALKING, DRIVING, TRANSIT, DEFAULT_TRAVEL_MODE} from '../../../helpers/globalConstants';
 import TravelModeSelectModal from '../../TravelModeSelect/TravelModeSelectModal';
 import AttendeesListItemIcon from './AttendeesListItemIcon';
-import {RAILWAY_CAR_EMOJI, TAXI_EMOJI, RUNNER_EMOJI} from '../../../helpers/emojis';
+import {RAILWAY_CAR_EMOJI, CAR_EMOJI, RUNNER_EMOJI} from '../../../helpers/emojis';
 import './AttendeesListItem.css';
 
 const getIcon = ({hasLeft, hasProbablyArrived, travelMode, isRefreshing}) => {
@@ -50,7 +50,7 @@ const getLoadingIcon = (travelMode) => {
     }
     case DRIVING: {
       className = `${className}--driving`;
-      emoji = TAXI_EMOJI;
+      emoji = CAR_EMOJI;
       break;
     }
     case TRANSIT: {

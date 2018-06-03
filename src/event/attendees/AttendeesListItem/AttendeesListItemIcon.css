@@ -9,8 +9,9 @@
   align-self: center;
   height: 10vw;
   width: 10vw;
+  max-width: 10vw;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0 rgba(0,0,0,0.02);
-  font-size: 150%;
+  font-size: 125%;
   background-color: rgba(255, 255, 255, .4);
   margin: 0 10px 0 0;
 }

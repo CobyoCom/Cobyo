@@ -11,7 +11,6 @@
   flex-grow: 1;
 }
 
-
 .AttendeesListItem-iconButton {
   position: relative;
   padding: inherit;
@@ -85,9 +84,12 @@
   height: 20px;
 }
 
-.AttendeesListItem-loading > img {
+.AttendeesListItem-loading > * {
   position: relative;
   height: 100%;
+  display: inline-block;
+  word-spacing: -8px;
+  transform: scaleX(-1)
 }
 
 .AttendeesListItem-loading--driving {
@@ -95,7 +97,7 @@
 }
 
 .AttendeesListItem-loading--transit {
-  animation: travelling 1.6s linear infinite;
+  animation: travelling-transit 1.6s linear infinite;
 }
 
 .AttendeesListItem-loading--walking {
@@ -103,10 +105,11 @@
 }
 
 @keyframes travelling {
-  0% {
-    left: 0;
-  }
-  100% {
-    left: calc(100% - 15vw);
-  }
+  0% {left: 0;}
+  100% {left: 88%;}
+}
+
+@keyframes travelling-transit {
+  0% {left: 0;}
+  100% {left: 60%;}
 }

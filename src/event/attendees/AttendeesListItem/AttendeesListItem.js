@@ -4,9 +4,7 @@ import {FaMale, FaCab, FaSubway, FaHome, FaFlagCheckered} from 'react-icons/lib/
 import {WALKING, DRIVING, TRANSIT, DEFAULT_TRAVEL_MODE} from '../../../helpers/globalConstants';
 import TravelModeSelectModal from '../../TravelModeSelect/TravelModeSelectModal';
 import AttendeesListItemIcon from './AttendeesListItemIcon';
-import car from '../../../assets/car.png';
-import transit from '../../../assets/transit.png';
-import walking from '../../../assets/walking.png';
+import {RAILWAY_CAR_EMOJI, TAXI_EMOJI, RUNNER_EMOJI} from '../../../helpers/emojis';
 import './AttendeesListItem.css';
 
 const getIcon = ({hasLeft, hasProbablyArrived, travelMode, isRefreshing}) => {
@@ -43,21 +41,21 @@ const getTravelModeIcon = (travelMode) => {
 };
 
 const getLoadingIcon = (travelMode) => {
-  let src, className = "AttendeesListItem-loading";
+  let emoji, className = "AttendeesListItem-loading";
   switch(travelMode) {
     case WALKING: {
       className = `${className}--walking`;
-      src = walking;
+      emoji = RUNNER_EMOJI;
       break;
     }
     case DRIVING: {
       className = `${className}--driving`;
-      src = car;
+      emoji = TAXI_EMOJI;
       break;
     }
     case TRANSIT: {
       className = `${className}--transit`;
-      src = transit;
+      emoji = `${RAILWAY_CAR_EMOJI} ${RAILWAY_CAR_EMOJI} ${RAILWAY_CAR_EMOJI} ${RAILWAY_CAR_EMOJI}`;
       break;
     }
     default:
@@ -66,7 +64,7 @@ const getLoadingIcon = (travelMode) => {
 
   return (
     <div className="AttendeesListItem-loading">
-      <img src={src} className={className}/>
+      <div className={className}>{emoji}</div>
     </div>
   )
 };
@@ -86,7 +84,7 @@ const AttendeesListItem = props => (
       <div className="AttendeesListItem-content">
         <div className="AttendeesListItem-user">
           <h2 className="AttendeesListItem-name">{props.userName}</h2>
-          {props.isRefreshing ? (
+          {true || props.isRefreshing ? (
             getLoadingIcon(props.travelMode)
           ) : (
             <span className="AttendeesListItem-lut">{props.lastUpdatedStatus}</span>

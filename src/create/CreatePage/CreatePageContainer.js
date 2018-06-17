@@ -4,20 +4,29 @@ import {createEvent} from '../../create/createActions';
 import CreatePage from './CreatePage';
 
 class CreatePageContainer extends Component {
+  state = {
+    disabled: false
+  };
 
   handleSubmit = async e => {
     e.preventDefault();
+    this.setState({disabled: true});
+
     try {
       const eventId = await this.props.createEvent();
       this.props.history.push(`/${eventId}`);
     } catch (error) {
       console.error('Failed to create event.');
+      this.setState({disabled: false});
     }
   };
 
   render() {
     return (
-      <CreatePage onSubmit={this.handleSubmit}/>
+      <CreatePage
+        disabled={this.state.disabled}
+        onSubmit={this.handleSubmit}
+      />
     );
   }
 }

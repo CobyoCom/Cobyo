@@ -1,0 +1,9 @@
+.Header {
+  display: flex;
+  min-height: 50px;
+  max-height: 50px;
+}
+
+.Header > * {
+  width: 100%;
+}

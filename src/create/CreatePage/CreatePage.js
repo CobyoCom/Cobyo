@@ -12,7 +12,9 @@ const CreatePage = props => (
       className="EventCreateForm"
       onSubmit={() => {}}
     >
-      <PlacesAutocompleteContainer/>
+      <PlacesAutocompleteContainer
+        autoFocus
+      />
       <PlaceSuggestionsContainer/>
       <Button
         onClick={props.onSubmit}
@@ -26,6 +28,7 @@ const CreatePage = props => (
 );
 
 CreatePage.propTypes = {
+  disabled: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired
 };
 

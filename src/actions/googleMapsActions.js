@@ -1,5 +1,4 @@
 import {init} from '../helpers/googlemaps';
-import logger from '../helpers/logger';
 import {selectIsGoogleAPILoaded} from "../reducers/appState/appStateSelectors";
 
 export const types = {

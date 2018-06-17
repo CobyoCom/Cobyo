@@ -1,25 +1,43 @@
+.PlacesAutocomplete-wrapper {
+  display: flex;
+  margin: 10px;
+  padding: 0;
+}
+
 .PlacesAutocomplete-root {
   width: 100%;
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
-  align-items: stretch;
+}
+
+.PlacesAutocomplete-input {
+  border-radius: 10px;
+  font-size: 12pt;
+  padding: 7px;
+  background-color: white;
+  text-align: left;
+  color: grey;
 }
 
 .PlacesAutocomplete-input,
 .PlacesAutocomplete-autocompleteItem {
   border: none;
-  font-size: 14pt;
-  padding: 10px;
   outline: none;
 }
 
 .PlacesAutocomplete-autocompleteItem {
-  border-top: 1px solid #d3d3d3;
+  color: black;
+  font-size: 10pt;
+  padding: 6px 0;
 }
 
-.PlacesAutocomplete-input,
-.PlacesAutocomplete-autocompleteContainer {
+.PlacesAutocomplete-input {
   box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0 rgba(0,0,0,0.02);
+}
+
+.PlacesAutocomplete-autocompleteContainer {
+  margin-top: 10px;
 }
 
 .PlacesAutocomplete-autocompleteItemActive {

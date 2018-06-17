@@ -1,11 +1,10 @@
 .PlaceSuggestions {
   display: flex;
   flex-direction: column;
-  padding: 10px 0;
 }
 
 .PlaceSuggestions-header {
-  padding: 0 0 10px;
+  padding: 0 0 5px;
   margin: 0;
 }
 

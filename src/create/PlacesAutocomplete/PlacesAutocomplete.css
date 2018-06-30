@@ -29,7 +29,7 @@
 .PlacesAutocomplete-autocompleteItem {
   color: black;
   font-size: 10pt;
-  padding: 6px 0;
+  padding: 4px 0;
 }
 
 .PlacesAutocomplete-input {
@@ -38,8 +38,26 @@
 
 .PlacesAutocomplete-autocompleteContainer {
   margin-top: 10px;
+  max-height: 0;
+  /*animation: 1s ease-in 0s 1 slideInFromLeft;*/
+  /*transition: max-height 0.25s ease-in;*/
+}
+
+.PlacesAutocomplete-autocompleteContainer--nonEmpty,
+.PlaceSuggestions {
+  max-height: 500px;
+  transition: max-height 0.25s ease-in;
 }
 
 .PlacesAutocomplete-autocompleteItemActive {
   background-color: #d3d3d3;
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 100%;
+  }
 }

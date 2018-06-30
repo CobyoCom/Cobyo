@@ -7,8 +7,8 @@ import {initGoogleMapsAPI} from '../../actions/googleMapsActions';
 import {selectPlaceName} from '../createEventFormSelectors';
 
 import PlacesAutocomplete from 'react-places-autocomplete';
-import './PlacesAutocomplete.css';
 import Button from "../../components/Button/Button";
+import './PlacesAutocomplete.css';
 
 const PlacesAutocompleteSkeleton = () => (
   <div className="PlacesAutocomplete-root">
@@ -68,20 +68,12 @@ class PlacesAutocompleteContainer extends Component {
 
   handleChangeName = (placeName) => this.setState({placeName});
 
-  handleExpandToggle = () =>
-    this.setState(prevState => ({
-      isExpanded: !prevState.isExpanded
-    }), this.props.onExpand);
-
+  handleExpandToggle = this.props.onExpand;
 
   render() {
-    const classNames = cx('PlacesAutocomplete-wrapper', {
-      'PlacesAutocomplete-expanded': this.state.isExpanded
-    });
-
     return (
       <div
-        className={classNames}
+        className="PlacesAutocomplete-wrapper"
         onClick={this.handleExpandToggle}
       >
         {this.showDefaultSearch() && <input placeholder={this.props.placeholder} />}
@@ -101,7 +93,9 @@ class PlacesAutocompleteContainer extends Component {
                     autoFocus: this.props.autoFocus
                   })}
                 />
-                <div className="PlacesAutocomplete-autocompleteContainer">
+                <div className={cx('PlacesAutocomplete-autocompleteContainer', {
+                  'PlacesAutocomplete-autocompleteContainer--nonEmpty': suggestions.length > 0
+                })}>
                   {suggestions.map(suggestion =>
                     <div {...getSuggestionItemProps(suggestion, {className: 'PlacesAutocomplete-autocompleteItem'})}>
                       <Button

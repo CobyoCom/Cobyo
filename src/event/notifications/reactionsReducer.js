@@ -34,7 +34,9 @@ export default function notificationReactions(state = initialState, {type, paylo
       const hasSameReaction = !!emojiUsers[userName];
 
       if (hasSameReaction) {
+        // eslint-disable-next-line no-empty-pattern
         const {[emoji]: {}, ...restNotificationReactions} = notificationReactions;
+        // eslint-disable-next-line no-empty-pattern
         const {[userName]: {}, ...restUsers} = emojiUsers;
         return {
           ...state,

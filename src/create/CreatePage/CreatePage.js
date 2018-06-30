@@ -12,9 +12,7 @@ const CreatePage = props => (
       className="EventCreateForm"
       onSubmit={() => {}}
     >
-      <PlacesAutocompleteContainer
-        autoFocus
-      />
+      <PlacesAutocompleteContainer autoFocus/>
       <PlaceSuggestionsContainer/>
       <Button
         onClick={props.onSubmit}

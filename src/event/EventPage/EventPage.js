@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EventDetails from '../EventDetails/EventDetails';
+import EventDetailsContainer from '../EventDetails/EventDetailsContainer';
 import EventLoginFormContainer from '../EventLoginForm/EventLoginFormContainer';
 import AttendeesListContainer from '../attendees/AttendeesList/AttendeesListContainer';
 import NotificationsListContainer from '../notifications/NotificationsList/NotificationsListContainer';
@@ -11,7 +11,7 @@ import './EventPage.css';
 
 const EventPage = props => (
   <div className="EventPage">
-    <EventDetails/>
+    <EventDetailsContainer/>
     {props.isEventLoaded && !props.isLoggedIn && <EventLoginFormContainer/>}
     {props.isEventLoaded && !props.isLoggedIn && !!props.localStorageLogin && (
       <QuickLoginModal

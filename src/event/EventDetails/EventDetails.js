@@ -1,17 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {
-  selectEventId,
-  selectEventTime,
-  selectEventLocation,
-  selectNumEventAttendees
-} from '../activeEventSelectors';
+import {FaClipboard, FaCheckCircleO} from 'react-icons/lib/fa';
 import './EventDetails.css';
 
 const EventDetails = props => {
   return (
     <div className="EventDetails">
+      <div className="EventDetails-copy">
+        {props.showCopyClipboard && (
+          <FaClipboard
+            color="white"
+            size={16}
+            onClick={props.onCopy}
+          />
+        )}
+        {props.showCopyCheck && (
+          <FaCheckCircleO
+            color="green"
+            size={20}
+          />
+        )}
+      </div>
       <div className="EventDetails-eventId">{props.eventId}</div>
       <div className="EventDetails-location">{props.location.split(',')[0]}</div>
       {!!props.numAttendees && (
@@ -25,7 +34,10 @@ EventDetails.propTypes = {
   eventId: PropTypes.number,
   dateTime: PropTypes.number,
   location: PropTypes.string,
-  showDateTime: PropTypes.bool
+  showDateTime: PropTypes.bool,
+  showCopyClipboard: PropTypes.bool.isRequired,
+  showCopyCheck: PropTypes.bool.isRequired,
+  onCopy: PropTypes.func.isRequired
 };
 
 EventDetails.defaultProps = {
@@ -34,13 +46,6 @@ EventDetails.defaultProps = {
   showDateTime: false
 };
 
-const mapStateToProps = state => ({
-  eventId: selectEventId(state),
-  dateTime: selectEventTime(state),
-  location: selectEventLocation(state),
-  numAttendees: selectNumEventAttendees(state)
-});
 
-export default connect(
-  mapStateToProps
-)(EventDetails);
+
+export default EventDetails;

@@ -1,5 +1,4 @@
 .EventDetails {
-  padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,16 +9,23 @@
   text-align: center;
 }
 
-.EventDetails-eventId {
+.EventDetails-eventId, .EventDetails-copy {
   position: absolute;
+}
+
+.EventDetails-eventId {
   right: 10px;
+}
+
+.EventDetails-copy {
+  left: 10px;
 }
 
 .EventDetails-location {
   font-size: 20pt;
   text-align: center;
   font-weight: bold;
-  margin: 5px 0;
+  margin: 25px 5px 5px;
 }
 
 .EventDetails-dateTime {
@@ -31,10 +37,6 @@
 
 .EventDetails-time {
   font-size: 20pt;
-}
-
-.EventDetails-date {
-
 }
 
 .EventDetails-eventId:empty,

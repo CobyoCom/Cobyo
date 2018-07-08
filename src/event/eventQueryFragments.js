@@ -10,6 +10,7 @@ export const eventFragment = gql`
     eventId
     eventName
     placeId
+    dateEnded
   }
 `;
 

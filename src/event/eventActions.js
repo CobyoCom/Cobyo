@@ -13,9 +13,9 @@ const fetchEventRequest = (eventId) => ({
   payload: {eventId}
 });
 
-const fetchEventSuccess = (eventId, location, placeId, eventTime) => ({
+const fetchEventSuccess = (eventId, location, placeId, eventTime, dateEnded) => ({
   type: types.fetchEventSuccess,
-  payload: {eventId, location, placeId, eventTime}
+  payload: {eventId, location, placeId, eventTime, dateEnded}
 });
 
 export function fetchEvent(eventId) {
@@ -29,8 +29,9 @@ export function fetchEvent(eventId) {
           response.data &&
           response.data.event
       ) {
-        const {eventId, eventName, placeId} = response.data.event;
-        dispatch(fetchEventSuccess(eventId, eventName, placeId));
+        const {eventId, eventName, placeId, dateEnded} = response.data.event;
+        // TODO: Implement event time
+        dispatch(fetchEventSuccess(eventId, eventName, placeId, null, dateEnded));
 
         const localStorageData = {};
         const localStorageEvents = getItem('events', true);

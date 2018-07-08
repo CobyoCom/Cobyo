@@ -20,6 +20,14 @@ export const createEventMutation = gql`
   }
 ${eventFragment}`;
 
+export const endEventMutation = gql`
+  mutation endEvent($eventId: String!) {
+    endEvent(eventId: $eventId) {
+      ...event
+    }
+  }
+${eventFragment}`;
+
 export const updateEventUserMutation = gql`
   mutation updateEventUser(
     $eventId: String!,

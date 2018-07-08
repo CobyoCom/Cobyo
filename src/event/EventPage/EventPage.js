@@ -12,8 +12,9 @@ import './EventPage.css';
 const EventPage = props => (
   <div className="EventPage">
     <EventDetailsContainer/>
-    {props.isEventLoaded && !props.isLoggedIn && <EventLoginFormContainer/>}
-    {props.isEventLoaded && !props.isLoggedIn && !!props.localStorageLogin && (
+    {props.showEventEnded && <h2 className="EventPage-hasEnded">This event has ended.</h2>}
+    {props.showLogin && <EventLoginFormContainer/>}
+    {props.showQuickLogin && (
       <QuickLoginModal
         isOpen={props.isQuickLoginModalOpen}
         onClose={props.onCloseQuickLoginModal}
@@ -21,18 +22,25 @@ const EventPage = props => (
         travelMode={props.localStorageLogin.travelMode}
       />
     )}
-    {props.isLoggedIn && <EventMap/>}
-    {props.isLoggedIn && <AttendeesListContainer/>}
-    {props.isLoggedIn && <NotificationsListContainer/>}
+    {props.showEventMap && <EventMap/>}
+    {props.showAttendeesList && <AttendeesListContainer/>}
+    {props.showNotifications && <NotificationsListContainer/>}
     <NavBar activeTab="Events"/>
   </div>
 );
 
 EventPage.propTypes = {
   eventId: PropTypes.number.isRequired,
-  isEventLoaded: PropTypes.bool.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
-  localStorageLogin: PropTypes.object,
+  showLogin: PropTypes.bool.isRequired,
+  showQuickLogin: PropTypes.bool.isRequired,
+  showEventMap: PropTypes.bool.isRequired,
+  showAttendeesList: PropTypes.bool.isRequired,
+  showNotifications: PropTypes.bool.isRequired,
+  showEventEnded: PropTypes.bool.isRequired,
+  localStorageLogin: PropTypes.shape({
+    userName: PropTypes.string.isRequired,
+    travelMode: PropTypes.string.isRequired
+  }),
   isQuickLoginModalOpen: PropTypes.bool.isRequired,
   onCloseQuickLoginModal: PropTypes.func.isRequired,
 };

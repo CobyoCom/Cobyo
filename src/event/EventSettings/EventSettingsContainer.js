@@ -2,10 +2,9 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {selectIsLoggedIn} from '../activeEventSelectors';
-import {FaClipboard, FaSignOut} from 'react-icons/lib/fa';
-import CopyToClipboard from 'react-copy-to-clipboard';
+import EventSettingCopyClipboard from './EventSettingCopyClipboard';
+import EventSettingEndEvent from './EventSettingEndEvent';
 import EventSettings from './EventSettings';
-import Button from "../../components/Button/Button";
 
 class EventSettingsContainer extends Component {
 
@@ -24,27 +23,13 @@ class EventSettingsContainer extends Component {
     const tabs = [];
 
     if (this.props.showCopyUrlTab) {
-      tabs.push(
-        <CopyToClipboard
-          text={window.location.href}
-          onCopy={this.handleClick}
-        >
-          <Button icon={<FaClipboard color="white" size={16} />}>
-            Copy URL
-          </Button>
-        </CopyToClipboard>
-      );
+      tabs.push(<EventSettingCopyClipboard onSuccess={this.handleClick} />);
     }
 
     if (this.props.showCloseEventTab) {
-      tabs.push(
-        <Button
-          onClick={() => console.log('Closing event')}
-          icon={<FaSignOut color="white" size={16} />}
-        >
-          Close Event
-        </Button>
-      );
+      tabs.push(<EventSettingEndEvent onSuccess={() => {
+        window.location.assign('/');
+      }} />);
     }
 
     return tabs;

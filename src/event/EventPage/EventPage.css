@@ -8,3 +8,8 @@
 .EventPage > * {
   margin: 5px 10px;
 }
+
+.EventPage-hasEnded {
+  text-align: center;
+  padding: 20px 0;
+}

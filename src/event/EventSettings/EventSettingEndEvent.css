@@ -1,0 +1,11 @@
+.EventSettingEndEvent-message {
+  color: black;
+  font-size: 24pt;
+  margin-bottom: 10px;
+}
+
+.EventSettingEndEvent-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}

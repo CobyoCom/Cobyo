@@ -2,21 +2,17 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {fetchEvent} from '../eventActions';
-import {selectEventId, selectIsLoggedIn} from '../activeEventSelectors';
+import {selectEventId, selectHasEventEnded, selectIsLoggedIn} from '../activeEventSelectors';
 import EventPage from './EventPage';
 
 class EventPageContainer extends Component {
 
   static propTypes = {
     eventId: PropTypes.string.isRequired,
-    isEventLoaded: PropTypes.bool,
-    isLoggedIn: PropTypes.bool,
+    isEventLoaded: PropTypes.bool.isRequired,
+    isLoggedIn: PropTypes.bool.isRequired,
+    hasEnded: PropTypes.bool.isRequired,
     fetchEvent: PropTypes.func.isRequired
-  };
-
-  static defaultProps = {
-    isEventLoaded: false,
-    isLoggedIn: false
   };
 
   state = {
@@ -47,13 +43,30 @@ class EventPageContainer extends Component {
     }
   }
 
+  getShowEventEnded = () => this.props.hasEnded;
+
+  getShowLogin = () => !this.getShowEventEnded() && this.props.isEventLoaded && !this.props.isLoggedIn;
+
+  getShowQuickLogin = () => !this.getShowEventEnded() && this.props.isEventLoaded && !this.props.isLoggedIn && !!this.state.localStorageLogin;
+
+  getShowEventMap = () => !this.getShowEventEnded() && this.props.isLoggedIn;
+
+  getShowAttendeesList = () => !this.getShowEventEnded() && this.props.isLoggedIn;
+
+  getShowNotifications = () => !this.getShowEventEnded() && this.props.isLoggedIn;
+
   handleCloseQuickLoginModal = () => this.setState({isQuickLoginModalOpen: false});
 
   render() {
     return (
       <EventPage
-        {...this.props}
         eventId={parseInt(this.props.eventId, 10)}
+        showLogin={this.getShowLogin()}
+        showQuickLogin={this.getShowQuickLogin()}
+        showEventMap={this.getShowEventMap()}
+        showAttendeesList={this.getShowAttendeesList()}
+        showNotifications={this.getShowNotifications()}
+        showEventEnded={this.getShowEventEnded()}
         {...this.state}
         onCloseQuickLoginModal={this.handleCloseQuickLoginModal}
       />
@@ -63,7 +76,8 @@ class EventPageContainer extends Component {
 
 const mapStateToProps = state => ({
   isLoggedIn: selectIsLoggedIn(state),
-  isEventLoaded: selectEventId(state) !== null
+  isEventLoaded: selectEventId(state) !== null,
+  hasEnded: selectHasEventEnded(state)
 });
 
 const mapDispatchToProps = {

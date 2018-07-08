@@ -19,6 +19,8 @@ export const selectEventId = state => selectActiveEvent(state).eventId;
 export const selectPlaceId = state => selectActiveEvent(state).placeId;
 export const selectEventLocation = state => selectActiveEvent(state).location;
 export const selectEventTime = state => selectActiveEvent(state).eventTime;
+export const selectDateEnded = state => selectActiveEvent(state).dateEnded;
+export const selectHasEventEnded = state => !!selectDateEnded(state);
 export const selectMe = state => selectActiveEvent(state).me;
 const selectNotificationIds = state => selectActiveEvent(state).notificationIds;
 const selectEventAttendeeIds = state => selectActiveEvent(state).attendeeIds;

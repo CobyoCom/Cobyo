@@ -31,7 +31,7 @@ export default function events(state = initialState, {type, payload}) {
       };
     }
     case eventTypes.fetchEventSuccess: {
-      const {eventId, location, placeId, eventTime} = payload;
+      const {eventId, location, placeId, eventTime, dateEnded} = payload;
       return {
         ...state,
         [eventId]: {
@@ -39,7 +39,8 @@ export default function events(state = initialState, {type, payload}) {
           eventId: parseInt(eventId, 10),
           location,
           placeId,
-          eventTime
+          eventTime,
+          dateEnded
         }
       };
     }

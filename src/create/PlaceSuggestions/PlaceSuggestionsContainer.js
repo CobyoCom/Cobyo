@@ -21,10 +21,6 @@ class PlaceSuggestionsContainer extends Component {
       return places;
     }, []);
 
-    places.sort((a, b) => {
-      return b.eventTime - a.eventTime;
-    });
-
     this.setState({places});
   }
 
@@ -36,12 +32,15 @@ class PlaceSuggestionsContainer extends Component {
     return (
       <div className="PlaceSuggestions">
         <h3 className="PlaceSuggestions-header">Suggestions</h3>
-        {this.state.places.map(place =>
-          <PlaceSuggestion
-            key={place.placeName}
-            {...place}
-          />
-        )}
+        {this.state.places.reverse()
+          .slice(0, 5)
+          .map(place =>
+            <PlaceSuggestion
+              key={place.placeName}
+              {...place}
+            />
+          )
+        }
       </div>
     );
   }

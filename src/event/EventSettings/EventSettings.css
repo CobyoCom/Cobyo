@@ -1,0 +1,26 @@
+.EventSettings-modal {
+  position: absolute!important;
+  top: 0;
+  left: 0;
+  padding: 0!important;
+  width: 100%;
+  animation: .5s 1 alternate slideInFromAbove;
+}
+
+.EventSettings-dropdown {
+  display: flex;
+  flex-direction: column;
+}
+
+.EventSettings-dropdownItem {
+  margin: 7px;
+}
+
+.EventSettings-dropdownItem > button {
+  width: 100%;
+}
+
+@keyframes slideInFromAbove {
+  0% {top: -100%;}
+  100% {top: 0;}
+}

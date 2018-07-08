@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FaClipboard, FaCheckCircleO} from 'react-icons/lib/fa';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import './EventDetails.css';
 
 const EventDetails = props => {
@@ -8,11 +9,15 @@ const EventDetails = props => {
     <div className="EventDetails">
       <div className="EventDetails-copy">
         {props.showCopyClipboard && (
-          <FaClipboard
-            color="white"
-            size={16}
-            onClick={props.onCopy}
-          />
+          <CopyToClipboard
+            text={window.location.href}
+            onCopy={props.onCopy}
+          >
+            <FaClipboard
+              color="white"
+              size={16}
+            />
+          </CopyToClipboard>
         )}
         {props.showCopyCheck && (
           <FaCheckCircleO

@@ -19,13 +19,6 @@ class EventDetailsContainer extends Component {
   };
 
   handleCopy = () => {
-    const dummy = document.createElement('input');
-    document.body.appendChild(dummy);
-    dummy.value = window.location.href;
-    dummy.select();
-    document.execCommand('copy');
-    document.body.removeChild(dummy);
-
     this.setState({hasCopied: true}, () => {
       this.timeout = setTimeout(() => {
         this.setState({hasCopied: false});
@@ -37,8 +30,8 @@ class EventDetailsContainer extends Component {
     return (
       <EventDetails
         {...this.props}
-        showCopyClipboard={this.props.eventId && !this.state.hasCopied}
-        showCopyCheck={this.props.eventId && this.state.hasCopied}
+        showCopyClipboard={!!this.props.eventId && !this.state.hasCopied}
+        showCopyCheck={!!this.props.eventId && this.state.hasCopied}
         onCopy={this.handleCopy}
       />
     );

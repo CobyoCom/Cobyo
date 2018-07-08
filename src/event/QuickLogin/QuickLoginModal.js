@@ -5,7 +5,7 @@ import QuickLoginContainer from './QuickLoginContainer';
 
 const QuickLoginModal = props => (
   <Modal
-    little
+    center
     open={props.isOpen}
     showCloseIcon={false}
     onClose={props.onClose}

@@ -5,7 +5,7 @@ import TravelModeSelect from './TravelModeSelect';
 
 const TravelModeSelectModal = props => (
   <Modal
-    little
+    center
     showCloseIcon={false}
     closeOnOverlayClick={true}
     open={props.isOpen}

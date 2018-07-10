@@ -15,7 +15,7 @@ const CreatePage = props => (
         Continue
       </Button>
     </form>
-    <NavBar activeTab="Create" />
+    <NavBar activeTab="Events"/>
   </div>
 );
 

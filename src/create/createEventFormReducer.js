@@ -7,7 +7,9 @@ const placeId = (state = null, { type, payload }) => {
       return payload.placeId;
     }
     case types.createEventSuccess:
-    case types.createEventFailure: {
+    case types.createEventFailure:
+    case types.editEventSuccess:
+    case types.editEventFailure: {
       return null;
     }
     default:
@@ -21,7 +23,9 @@ const placeName = (state = '', { type, payload }) => {
       return payload.placeName;
     }
     case types.createEventSuccess:
-    case types.createEventFailure: {
+    case types.createEventFailure:
+    case types.editEventSuccess:
+    case types.editEventFailure: {
       return '';
     }
     default:

@@ -11,6 +11,7 @@ import ErrorBannerContainer from '../error/ErrorBanner/ErrorBannerContainer';
 import HomePageContainer from '../home/HomePage/HomePageContainer';
 import EventsPageContainer from '../events/EventsPage/EventsPageContainer';
 import CreatePageContainer from '../create/CreatePage/CreatePageContainer';
+import EditEventPageContainer from '../create/CreatePage/EditEventPageContainer';
 import EventPageContainer from '../event/EventPage/EventPageContainer';
 import SettingsPageContainer from '../settings/SettingsPage/SettingsPageContainer';
 import NotFoundPage from '../pages/NotFoundPage';
@@ -60,6 +61,11 @@ class App extends Component {
                 render={props => (
                   <EventPageContainer {...props} {...extractParams(props)} />
                 )}
+              />
+              <Route
+                exact
+                path="/:eventId/edit"
+                render={props => <EditEventPageContainer {...props} {...extractParams(props)} />}
               />
             </Switch>
           </Router>

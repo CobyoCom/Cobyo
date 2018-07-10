@@ -1,4 +1,5 @@
 import { types as eventTypes } from '../../event/eventActions';
+import { types as createTypes } from '../../create/createActions';
 import { types as eventUserTypes } from '../../event/eventUserActions';
 import { types as notificationTypes } from '../../event/notifications/notificationsActions';
 import { AttendeeDefaultProps } from '../../event/attendees/AttendeesListItem/AttendeesListItem';
@@ -119,6 +120,16 @@ export default function events(state = initialState, { type, payload }) {
         [eventId]: {
           ...state[eventId],
           notificationIds: notifications.map(({ createdAt }) => createdAt)
+        }
+      };
+    }
+    case createTypes.editEventSuccess: {
+      const { eventId } = payload;
+      return {
+        ...state,
+        [eventId]: {
+          ...state[eventId],
+          ...payload
         }
       };
     }

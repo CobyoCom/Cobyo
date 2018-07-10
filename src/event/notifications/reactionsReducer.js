@@ -39,8 +39,8 @@ export default function notificationReactions(
       const hasSameReaction = !!emojiUsers[userName];
 
       if (hasSameReaction) {
-        // eslint-disable-next-line no-empty-pattern
         const {
+          // eslint-disable-next-line no-empty-pattern
           [emoji]: {},
           ...restNotificationReactions
         } = notificationReactions;

@@ -12,6 +12,7 @@ import {
 } from './eventQueries';
 import {
   createEventMutation,
+  editEventMutation,
   endEventMutation,
   updateEventUserMutation,
   deleteReactionMutation,
@@ -27,7 +28,29 @@ export async function createEventApi(googlePlaceId, name) {
     });
     return data;
   } catch (error) {
-    logger(`fetchEventApi ${error.response.status}: ${error.message}`);
+    logger(`createEventApi ${error.response.status}: ${error.message}`);
+    throw new Error();
+  }
+}
+
+export async function editEventPlaceApi({eventId, placeId, placeName}) {
+  try {
+    const { data } = await fetchGraphQL({
+      query: editEventMutation,
+      variables: {
+        code: eventId,
+        event: {
+          name: placeName,
+          place: {
+            address: placeName,
+            googlePlaceId: placeId
+          }
+        }
+      }
+    });
+    return data;
+  } catch (error) {
+    logger(`editEventPlaceApi ${error.response.status}: ${error.message}`);
     throw new Error();
   }
 }
@@ -40,7 +63,7 @@ export async function endEventApi(eventId) {
     });
     return data;
   } catch (error) {
-    logger();
+    logger(`endEventApi ${error.response.status}: ${error.message}`);
     throw new Error();
   }
 }

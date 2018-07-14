@@ -102,10 +102,10 @@ class PlacesAutocompleteContainer extends Component {
                         variation="secondary"
                         size="small"
                       >
-                        {suggestion.description.length > 35 ?
-                          suggestion.formattedSuggestion.mainText :
-                          suggestion.description
-                        }
+                        <div className="PlacesAutocomplete-autocompleteItem-content">
+                          <div className="PlacesAutocomplete-autocompleteItem-mainText">{suggestion.formattedSuggestion.mainText}</div>
+                          <div className="PlacesAutocomplete-autocompleteItem-secondaryText">{suggestion.formattedSuggestion.secondaryText}</div>
+                        </div>
                       </Button>
                     </div>
                   )}

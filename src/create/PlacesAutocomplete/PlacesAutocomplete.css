@@ -50,3 +50,18 @@
 .PlacesAutocomplete-autocompleteItemActive {
   background-color: #d3d3d3;
 }
+
+.PlacesAutocomplete-autocompleteItem-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.PlacesAutocomplete-autocompleteItem-mainText {
+}
+
+.PlacesAutocomplete-autocompleteItem-secondaryText {
+  font-size: 10pt;
+  color: lightgrey;
+}

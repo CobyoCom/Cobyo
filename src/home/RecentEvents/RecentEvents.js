@@ -7,14 +7,9 @@ const getFormattedLocation = location => location && location.split(',')[0];
 
 const RecentEvents = props => (
   <div className="RecentEvents">
-    {!!props.events.length && (
-      <p>Back to</p>
-    )}
-    {props.events.map(({eventId, location}) =>
-      <div
-        key={eventId}
-        className="RecentEvent"
-      >
+    {!!props.events.length && <p>Back to</p>}
+    {props.events.map(({ eventId, location }) => (
+      <div key={eventId} className="RecentEvent">
         <Button
           onClick={() => props.history.push(`/${eventId}`)}
           size="small"
@@ -23,7 +18,7 @@ const RecentEvents = props => (
           {getFormattedLocation(location)}
         </Button>
       </div>
-    )}
+    ))}
   </div>
 );
 

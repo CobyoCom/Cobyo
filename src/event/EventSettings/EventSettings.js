@@ -1,19 +1,16 @@
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import {FaEllipsisH} from 'react-icons/lib/fa';
+import { FaEllipsisH } from 'react-icons/lib/fa';
 import Modal from 'react-responsive-modal';
 import './EventSettings.css';
 
 const EventSettings = props => (
   <Fragment>
-    <FaEllipsisH
-      size={24}
-      onClick={props.onClick}
-    />
+    <FaEllipsisH size={24} onClick={props.onClick} />
     {props.isOpen && (
       <Modal
         classNames={{
-          'modal': 'EventSettings-modal'
+          modal: 'EventSettings-modal'
         }}
         showCloseIcon={false}
         closeOnOverlayClick

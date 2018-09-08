@@ -11,7 +11,8 @@ class EventCodeFormContainer extends Component {
     code: ''
   };
 
-  handleChange = ({target: {value: code}}) => !isNaN(code) && this.setState({code});
+  handleChange = ({ target: { value: code } }) =>
+    !isNaN(code) && this.setState({ code });
 
   handleSubmit = e => {
     e.preventDefault();

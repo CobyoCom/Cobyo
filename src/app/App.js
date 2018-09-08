@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import configureStore from '../reducers/configureStore';
-import {getGradientByTime, getGradientCSS} from '../helpers/colorPicker';
+import { getGradientByTime, getGradientCSS } from '../helpers/colorPicker';
 import {
   BrowserRouter as Router,
   Route,
@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom';
 import ErrorBannerContainer from '../error/ErrorBanner/ErrorBannerContainer';
 import HomePageContainer from '../home/HomePage/HomePageContainer';
-import EventsPageContainer from '../events/EventsPage/EventsPageContainer'
+import EventsPageContainer from '../events/EventsPage/EventsPageContainer';
 import CreatePageContainer from '../create/CreatePage/CreatePageContainer';
 import EventPageContainer from '../event/EventPage/EventPageContainer';
 import SettingsPageContainer from '../settings/SettingsPage/SettingsPageContainer';
@@ -18,7 +18,6 @@ import NotFoundPage from '../pages/NotFoundPage';
 
 const store = configureStore();
 const extractParams = props => props.match.params;
-
 
 class App extends Component {
   componentWillMount() {
@@ -33,7 +32,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <div className="Page">
-          <ErrorBannerContainer/>
+          <ErrorBannerContainer />
           <div>
             <Router>
               <Switch>
@@ -45,7 +44,7 @@ class App extends Component {
                 <Route
                   exact
                   path="/events"
-                  render={() => <EventsPageContainer/>}
+                  render={() => <EventsPageContainer />}
                 />
                 <Route
                   exact
@@ -59,17 +58,17 @@ class App extends Component {
                 />
                 <Route
                   path="/events/:eventId"
-                  render={props => <Redirect to={`/${extractParams(props).eventId}`} />}
+                  render={props => (
+                    <Redirect to={`/${extractParams(props).eventId}`} />
+                  )}
                 />
-                <Route
-                  exact
-                  path="/404.html"
-                  component={NotFoundPage}
-                />
+                <Route exact path="/404.html" component={NotFoundPage} />
                 <Route
                   exact
                   path="/:eventId"
-                  render={props => <EventPageContainer {...props} {...extractParams(props)} />}
+                  render={props => (
+                    <EventPageContainer {...props} {...extractParams(props)} />
+                  )}
                 />
               </Switch>
             </Router>
@@ -79,6 +78,5 @@ class App extends Component {
     );
   }
 }
-
 
 export default App;

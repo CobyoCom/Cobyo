@@ -1,15 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {
-  refreshEvent,
-  leaveForEvent
-} from '../eventUserActions';
-import {selectHasLeft, selectIsRefreshing} from '../activeEventSelectors';
+import { connect } from 'react-redux';
+import { refreshEvent, leaveForEvent } from '../eventUserActions';
+import { selectHasLeft, selectIsRefreshing } from '../activeEventSelectors';
 import EventControls from './EventControls';
 
 class EventControlsContainer extends Component {
-
   static propTypes = {
     hasLeft: PropTypes.bool.isRequired,
     isRefreshing: PropTypes.bool.isRequired,
@@ -20,7 +16,7 @@ class EventControlsContainer extends Component {
   handleClickRefresh = async () => {
     try {
       await this.props.refreshEvent();
-    } catch(error) {
+    } catch (error) {
       console.warn('Something failed in refresh');
     }
   };
@@ -56,7 +52,6 @@ const mapDispatchToProps = {
   leaveForEvent
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EventControlsContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(
+  EventControlsContainer
+);

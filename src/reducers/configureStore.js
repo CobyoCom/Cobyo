@@ -6,16 +6,12 @@ import globalReducer from './globalReducer';
 const loggerMiddleware = createLogger();
 
 export default function configureStore(preloadedState) {
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const composeEnhancers =
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
   return createStore(
     globalReducer,
     preloadedState,
-    composeEnhancers(
-      applyMiddleware(
-        thunkMiddleware,
-        loggerMiddleware
-      )
-    )
+    composeEnhancers(applyMiddleware(thunkMiddleware, loggerMiddleware))
   );
-};
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {DEFAULT_EMOJIS} from '../../helpers/emojis';
+import { DEFAULT_EMOJIS } from '../../helpers/emojis';
 
 const ReactionEmoji = props => (
   <button
@@ -18,16 +18,15 @@ ReactionEmoji.propTypes = {
 };
 
 const ReactionPicker = props => (
-  <div className={cx('ReactionPicker', {
-    'ReactionPicker-open': props.isOpen
-  })}>
-    {props.isOpen && DEFAULT_EMOJIS.map(emoji => (
-      <ReactionEmoji
-        key={emoji}
-        emoji={emoji}
-        onClick={props.onEmojiClick}
-      />
-    ))}
+  <div
+    className={cx('ReactionPicker', {
+      'ReactionPicker-open': props.isOpen
+    })}
+  >
+    {props.isOpen &&
+      DEFAULT_EMOJIS.map(emoji => (
+        <ReactionEmoji key={emoji} emoji={emoji} onClick={props.onEmojiClick} />
+      ))}
   </div>
 );
 

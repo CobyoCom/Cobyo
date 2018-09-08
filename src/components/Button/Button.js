@@ -1,23 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {getColorByTime} from '../../helpers/colorPicker';
+import { getColorByTime } from '../../helpers/colorPicker';
 import './Button.css';
 
-const buttonClassNames = props => cx(
-  'Button',
-  `Button--${props.size}`,
-  `Button--${props.variation}`,
-  {
+const buttonClassNames = props =>
+  cx('Button', `Button--${props.size}`, `Button--${props.variation}`, {
     'Button--disabled': props.disabled
-  }
-);
+  });
 
-const iconClassNames = props => cx(
-  'Icon',
-  `Icon--${props.size}`,
-  `Icon--${props.disabled}`
-);
+const iconClassNames = props =>
+  cx('Icon', `Icon--${props.size}`, `Icon--${props.disabled}`);
 
 const inlineStyles = props => {
   const styles = {};
@@ -36,11 +29,7 @@ const Button = props => (
     autoFocus={props.autoFocus}
     style={inlineStyles(props)}
   >
-    {props.icon && (
-      <div className="Button-icon">
-        {props.icon}
-      </div>
-    )}
+    {props.icon && <div className="Button-icon">{props.icon}</div>}
     {props.children}
   </button>
 );

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Tab.css';
 
 const Tab = props => (
@@ -10,7 +10,7 @@ const Tab = props => (
       <div className="Tab-content">
         {props.icon}
         <span
-          className={cx("Tab-text", {
+          className={cx('Tab-text', {
             'Tab-text--active': props.isActive
           })}
         >
@@ -26,7 +26,7 @@ Tab.propTypes = {
   children: PropTypes.node,
   icon: PropTypes.node,
   text: PropTypes.string,
-  link: PropTypes.string,
+  link: PropTypes.string
 };
 
 Tab.defaultProps = {

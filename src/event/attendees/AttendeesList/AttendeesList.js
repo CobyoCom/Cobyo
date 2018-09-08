@@ -1,18 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {AttendeePropTypes} from '../AttendeesListItem/AttendeesListItem';
+import { AttendeePropTypes } from '../AttendeesListItem/AttendeesListItem';
 import AttendeesListItemContainer from '../AttendeesListItem/AttendeesListItemContainer';
 import './AttendeesList.css';
 
 const AttendeesList = props => (
   <div className="AttendeesList">
-    <AttendeesListItemContainer
-      key={props.me.userName}
-      {...props.me}
-    />
-    {props.attendees.map(attendee =>
+    <AttendeesListItemContainer key={props.me.userName} {...props.me} />
+    {props.attendees.map(attendee => (
       <AttendeesListItemContainer key={attendee.userName} {...attendee} />
-    )}
+    ))}
   </div>
 );
 

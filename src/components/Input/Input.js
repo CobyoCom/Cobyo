@@ -5,13 +5,9 @@ import './Input.css';
 
 const Input = props => (
   <input
-    className={cx(
-      'Input',
-      `Input-${props.size}`,
-      {
-        'Input--disabled': props.disabled
-      }
-    )}
+    className={cx('Input', `Input-${props.size}`, {
+      'Input--disabled': props.disabled
+    })}
     disabled={props.disabled}
     maxLength={props.maxLength}
     size={props.maxLength}

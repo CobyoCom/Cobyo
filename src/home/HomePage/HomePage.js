@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import EventCodeFormContainer from '../EventCodeForm/EventCodeFormContainer';
 import RecentEventsContainer from '../RecentEvents/RecentEventsContainer';
@@ -16,7 +16,7 @@ const HomePage = props => (
     </Header>
     <EventCodeFormContainer history={props.history} />
     <RecentEventsContainer history={props.history} />
-    <NavBar activeTab="Home"/>
+    <NavBar activeTab="Home" />
   </div>
 );
 

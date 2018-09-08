@@ -1,6 +1,11 @@
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import {WALKING, DRIVING, TRANSIT, DEFAULT_TRAVEL_MODE} from '../../../helpers/globalConstants';
+import {
+  WALKING,
+  DRIVING,
+  TRANSIT,
+  DEFAULT_TRAVEL_MODE
+} from '../../../helpers/globalConstants';
 import TravelModeSelectModal from '../../TravelModeSelect/TravelModeSelectModal';
 import AttendeesListItemIcon from './AttendeesListItemIcon';
 import AttendeesListItemLoading from './AttendeesListItemLoading';
@@ -8,10 +13,7 @@ import './AttendeesListItem.css';
 
 const AttendeesListItem = props => (
   <Fragment>
-    <div
-      className="AttendeesListItem"
-      onClick={props.onClick}
-    >
+    <div className="AttendeesListItem" onClick={props.onClick}>
       <AttendeesListItemIcon
         travelMode={props.travelMode}
         isClickable={props.isMe && !props.hasProbablyArrived}
@@ -21,20 +23,24 @@ const AttendeesListItem = props => (
         <div className="AttendeesListItem-user">
           <h2 className="AttendeesListItem-name">{props.userName}</h2>
           {props.isRefreshing ? (
-            <AttendeesListItemLoading travelMode={props.travelMode}/>
+            <AttendeesListItemLoading travelMode={props.travelMode} />
           ) : (
-            <span className="AttendeesListItem-lut">{props.lastUpdatedStatus}</span>
+            <span className="AttendeesListItem-lut">
+              {props.lastUpdatedStatus}
+            </span>
           )}
         </div>
       </div>
       <div className="AttendeesListItem-eta">{props.durationStatus}</div>
     </div>
-    {props.isMe && <TravelModeSelectModal
-      isOpen={props.isTravelModeOpen}
-      onClose={props.onCloseTravelMode}
-      onChange={props.onChangeTravelMode}
-      travelModeValue={props.travelMode}
-    />}
+    {props.isMe && (
+      <TravelModeSelectModal
+        isOpen={props.isTravelModeOpen}
+        onClose={props.onCloseTravelMode}
+        onChange={props.onChangeTravelMode}
+        travelModeValue={props.travelMode}
+      />
+    )}
   </Fragment>
 );
 

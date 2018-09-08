@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FaRefresh, FaPlay, FaPause} from 'react-icons/lib/fa';
+import { FaRefresh, FaPlay, FaPause } from 'react-icons/lib/fa';
 import Button from '../../components/Button/Button';
 import './EventControls.css';
 
@@ -19,7 +19,7 @@ const EventControls = props => (
         disabled={props.isRefreshing}
         onClick={props.onClickCancel}
       />
-    ): (
+    ) : (
       <Button
         icon={<FaPlay color="white" size={26} />}
         iconOnly

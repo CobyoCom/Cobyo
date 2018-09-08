@@ -1,13 +1,16 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {formatCalendar, fromNow} from '../../../helpers/moment';
-import {changeTravelMode, refreshEvent} from '../../eventUserActions';
-import AttendeesListItem, {AttendeePropTypes} from './AttendeesListItem';
-import {selectUserName, selectIsRefreshing, selectEventId} from "../../activeEventSelectors";
+import { connect } from 'react-redux';
+import { formatCalendar, fromNow } from '../../../helpers/moment';
+import { changeTravelMode, refreshEvent } from '../../eventUserActions';
+import AttendeesListItem, { AttendeePropTypes } from './AttendeesListItem';
+import {
+  selectUserName,
+  selectIsRefreshing,
+  selectEventId
+} from '../../activeEventSelectors';
 
 class AttendeesListItemContainer extends Component {
-
   static propTypes = {
     ...AttendeePropTypes,
     eventId: PropTypes.number.isRequired,
@@ -57,13 +60,13 @@ class AttendeesListItemContainer extends Component {
   handleClick = () => this.props.isMe && this.props.refreshEvent();
 
   handleClickTravelMode = e => {
-    this.setState({isTravelModeOpen: true});
+    this.setState({ isTravelModeOpen: true });
     e.stopPropagation();
   };
 
-  handleCloseTravelMode = () => this.setState({isTravelModeOpen: false});
+  handleCloseTravelMode = () => this.setState({ isTravelModeOpen: false });
 
-  handleChangeTravelMode = async (e) => {
+  handleChangeTravelMode = async e => {
     this.handleCloseTravelMode();
     this.props.changeTravelMode(this.props.eventId, e);
   };
@@ -96,7 +99,6 @@ const mapDispatchToProps = {
   refreshEvent
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AttendeesListItemContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  AttendeesListItemContainer
+);

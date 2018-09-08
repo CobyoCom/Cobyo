@@ -1,5 +1,7 @@
-import {combineReducers} from 'redux';
-import activeEventReducer, {moduleName as activeEventModuleName} from '../event/activeEventReducer';
+import { combineReducers } from 'redux';
+import activeEventReducer, {
+  moduleName as activeEventModuleName
+} from '../event/activeEventReducer';
 import uiReducer from './ui/uiReducer';
 import entitiesReducer from './entities/entitiesReducer';
 import appStateReducer from './appState/appStateReducer';

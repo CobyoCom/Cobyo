@@ -45,7 +45,7 @@ export function fromNow(time) {
     return '-';
   }
 
-  const now = (new Date()).getTime();
+  const now = new Date().getTime();
   const seconds = (now - time) / 1000;
 
   if (seconds < 60) {

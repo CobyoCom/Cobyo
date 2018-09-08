@@ -24,11 +24,7 @@ FilterLabel.defaultProps = {
   isSelected: false
 };
 
-const Filter = props => (
-  <div className="Filter">
-    {props.children}
-  </div>
-);
+const Filter = props => <div className="Filter">{props.children}</div>;
 
 Filter.propTypes = {
   children: PropTypes.array.isRequired

@@ -1,7 +1,7 @@
-import {combineReducers} from 'redux';
-import {types} from './createActions';
+import { combineReducers } from 'redux';
+import { types } from './createActions';
 
-const placeId = (state = null, {type, payload}) => {
+const placeId = (state = null, { type, payload }) => {
   switch (type) {
     case types.selectPlace: {
       return payload.placeId;
@@ -15,8 +15,8 @@ const placeId = (state = null, {type, payload}) => {
   }
 };
 
-const placeName = (state = '', {type, payload}) => {
-  switch(type) {
+const placeName = (state = '', { type, payload }) => {
+  switch (type) {
     case types.selectPlace: {
       return payload.placeName;
     }

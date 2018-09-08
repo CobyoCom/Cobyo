@@ -3,7 +3,7 @@
  *
  * @module eventQueries.js
  */
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
 import {
   eventFragment,
   eventUserFragment,
@@ -16,7 +16,8 @@ export const eventQuery = gql`
       ...event
     }
   }
-${eventFragment}`;
+  ${eventFragment}
+`;
 
 export const eventUsersQuery = gql`
   query eventUsersQuery($eventId: String!) {
@@ -26,7 +27,8 @@ export const eventUsersQuery = gql`
       }
     }
   }
-${eventUserFragment}`;
+  ${eventUserFragment}
+`;
 
 export const notificationsQuery = gql`
   query notificationsQuery($eventId: String!) {
@@ -37,4 +39,5 @@ export const notificationsQuery = gql`
       }
     }
   }
-${notificationFragment}`;
+  ${notificationFragment}
+`;

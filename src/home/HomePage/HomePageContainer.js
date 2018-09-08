@@ -8,9 +8,7 @@ class HomePageContainer extends Component {
   };
 
   render() {
-    return (
-      <HomePage history={this.props.history} />
-    );
+    return <HomePage history={this.props.history} />;
   }
 }
 

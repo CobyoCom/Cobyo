@@ -11,9 +11,11 @@ import './EventPage.css';
 
 const EventPage = props => (
   <div className="EventPage">
-    <EventDetailsContainer/>
-    {props.showEventEnded && <h2 className="EventPage-hasEnded">This event has ended.</h2>}
-    {props.showLogin && <EventLoginFormContainer/>}
+    <EventDetailsContainer />
+    {props.showEventEnded && (
+      <h2 className="EventPage-hasEnded">This event has ended.</h2>
+    )}
+    {props.showLogin && <EventLoginFormContainer />}
     {props.showQuickLogin && (
       <QuickLoginModal
         isOpen={props.isQuickLoginModalOpen}
@@ -22,10 +24,10 @@ const EventPage = props => (
         travelMode={props.localStorageLogin.travelMode}
       />
     )}
-    {props.showEventMap && <EventMap/>}
-    {props.showAttendeesList && <AttendeesListContainer/>}
-    {props.showNotifications && <NotificationsListContainer/>}
-    <NavBar activeTab="Events"/>
+    {props.showEventMap && <EventMap />}
+    {props.showAttendeesList && <AttendeesListContainer />}
+    {props.showNotifications && <NotificationsListContainer />}
+    <NavBar activeTab="Events" />
   </div>
 );
 
@@ -42,7 +44,7 @@ EventPage.propTypes = {
     travelMode: PropTypes.string.isRequired
   }),
   isQuickLoginModalOpen: PropTypes.bool.isRequired,
-  onCloseQuickLoginModal: PropTypes.func.isRequired,
+  onCloseQuickLoginModal: PropTypes.func.isRequired
 };
 
 export default EventPage;

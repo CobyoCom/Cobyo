@@ -1,7 +1,7 @@
 import logger from '../helpers/logger';
-import {getItem} from '../helpers/localStorage';
-import {selectPlaceId, selectPlaceName} from './createEventFormSelectors';
-import {createEventApi} from '../event/eventApi';
+import { getItem } from '../helpers/localStorage';
+import { selectPlaceId, selectPlaceName } from './createEventFormSelectors';
+import { createEventApi } from '../event/eventApi';
 
 export const types = {
   selectPlace: 'SELECT_PLACE',
@@ -12,16 +12,16 @@ export const types = {
 export function selectPlace(placeName, placeId) {
   return {
     type: types.selectPlace,
-    payload: {placeName, placeId}
+    payload: { placeName, placeId }
   };
 }
 
 function createEventSuccess() {
-  return {type: types.createEventSuccess};
+  return { type: types.createEventSuccess };
 }
 
 function createEventFailure() {
-  return {type: types.createEventFailure};
+  return { type: types.createEventFailure };
 }
 
 export const createEvent = () => async (dispatch, getState) => {
@@ -31,12 +31,13 @@ export const createEvent = () => async (dispatch, getState) => {
 
   try {
     const response = await createEventApi(placeId, placeName);
-    if (response &&
+    if (
+      response &&
       !response.errors &&
       response.data &&
       response.data.createEvent
     ) {
-      const {eventId, eventName, placeId} = response.data.createEvent;
+      const { eventId, eventName, placeId } = response.data.createEvent;
       dispatch(createEventSuccess());
 
       const localStoragePlaces = {
@@ -52,7 +53,7 @@ export const createEvent = () => async (dispatch, getState) => {
 
     dispatch(createEventFailure());
     return Promise.reject();
-  } catch(error) {
+  } catch (error) {
     logger(`Failed to create event: ${error}`);
     dispatch(createEventFailure());
 

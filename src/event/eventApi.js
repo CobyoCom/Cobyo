@@ -20,9 +20,9 @@ import {
 
 export async function createEventApi(placeId, eventName) {
   try {
-    const {data} = await fetchGraphQL({
+    const { data } = await fetchGraphQL({
       query: createEventMutation,
-      variables: {placeId, eventName}
+      variables: { placeId, eventName }
     });
     return data;
   } catch (error) {
@@ -33,9 +33,9 @@ export async function createEventApi(placeId, eventName) {
 
 export async function endEventApi(eventId) {
   try {
-    const {data} = await fetchGraphQL({
+    const { data } = await fetchGraphQL({
       query: endEventMutation,
-      variables: {eventId}
+      variables: { eventId }
     });
     return data;
   } catch (error) {
@@ -46,9 +46,9 @@ export async function endEventApi(eventId) {
 
 export async function fetchEventApi(eventId) {
   try {
-    const {data} = await fetchGraphQL({
+    const { data } = await fetchGraphQL({
       query: eventQuery,
-      variables: {eventId}
+      variables: { eventId }
     });
     return data;
   } catch (error) {
@@ -59,9 +59,9 @@ export async function fetchEventApi(eventId) {
 
 export async function fetchNotificationsApi(eventId) {
   try {
-    const {data} = await fetchGraphQL({
+    const { data } = await fetchGraphQL({
       query: notificationsQuery,
-      variables: {eventId}
+      variables: { eventId }
     });
     return data;
   } catch (error) {
@@ -72,9 +72,9 @@ export async function fetchNotificationsApi(eventId) {
 
 export async function fetchEventUsersApi(eventId) {
   try {
-    const {data} = await fetchGraphQL({
+    const { data } = await fetchGraphQL({
       query: eventUsersQuery,
-      variables: {eventId}
+      variables: { eventId }
     });
     return data;
   } catch (error) {
@@ -89,13 +89,21 @@ export async function updateEventUserApi(eventUser) {
   }
 
   try {
-    const {data} = await fetchGraphQL({
+    const { data } = await fetchGraphQL({
       query: updateEventUserMutation,
       variables: eventUser
     });
-    if (data && data.data && data.data.updateEventUser && data.data.updateEventUser.lastUpdated) {
+    if (
+      data &&
+      data.data &&
+      data.data.updateEventUser &&
+      data.data.updateEventUser.lastUpdated
+    ) {
       // Change back to ms
-      data.data.updateEventUser.lastUpdated = parseInt(data.data.updateEventUser.lastUpdated, 10);
+      data.data.updateEventUser.lastUpdated = parseInt(
+        data.data.updateEventUser.lastUpdated,
+        10
+      );
     }
 
     return data;
@@ -105,11 +113,17 @@ export async function updateEventUserApi(eventUser) {
   }
 }
 
-export async function reactToNotificationApi(eventId, notificationCreatedAt, userName, emoji, didUserReact) {
+export async function reactToNotificationApi(
+  eventId,
+  notificationCreatedAt,
+  userName,
+  emoji,
+  didUserReact
+) {
   try {
-    const {data} = await fetchGraphQL({
+    const { data } = await fetchGraphQL({
       query: didUserReact ? deleteReactionMutation : createReactionMutation,
-      variables: {eventId, notificationCreatedAt, userName, emoji}
+      variables: { eventId, notificationCreatedAt, userName, emoji }
     });
 
     return data;

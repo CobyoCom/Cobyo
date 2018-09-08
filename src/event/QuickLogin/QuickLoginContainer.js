@@ -1,12 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {selectEventId} from '../activeEventSelectors';
-import {loginEvent} from '../eventUserActions';
-import QuickLogin from "./QuickLogin";
+import { connect } from 'react-redux';
+import { selectEventId } from '../activeEventSelectors';
+import { loginEvent } from '../eventUserActions';
+import QuickLogin from './QuickLogin';
 
 class QuickLoginContainer extends Component {
-
   static propTypes = {
     eventId: PropTypes.number.isRequired,
     userName: PropTypes.string.isRequired,
@@ -14,9 +13,15 @@ class QuickLoginContainer extends Component {
     loginEvent: PropTypes.func.isRequired
   };
 
-  handleChangeTravelMode = (travelMode) => this.props.loginEvent(this.props.eventId, this.props.userName, travelMode);
+  handleChangeTravelMode = travelMode =>
+    this.props.loginEvent(this.props.eventId, this.props.userName, travelMode);
 
-  handleSubmit = () => this.props.loginEvent(this.props.eventId, this.props.userName, this.props.travelMode);
+  handleSubmit = () =>
+    this.props.loginEvent(
+      this.props.eventId,
+      this.props.userName,
+      this.props.travelMode
+    );
 
   render() {
     return (
@@ -39,7 +44,6 @@ const mapDispatchToProps = {
   loginEvent
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(QuickLoginContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  QuickLoginContainer
+);

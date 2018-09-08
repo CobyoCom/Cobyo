@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {reactToNotification} from './notificationsActions';
+import { connect } from 'react-redux';
+import { reactToNotification } from './notificationsActions';
 import ReactionButton from '../../components/ReactionPicker/ReactionButton';
 
-const NotificationReactionButton = props => <ReactionButton onEmojiClick={props.onEmojiClick}/>;
+const NotificationReactionButton = props => (
+  <ReactionButton onEmojiClick={props.onEmojiClick} />
+);
 
 NotificationReactionButton.propTypes = {
   notificationId: PropTypes.string.isRequired,
@@ -12,10 +14,8 @@ NotificationReactionButton.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onEmojiClick: (emoji) => dispatch(reactToNotification(ownProps.notificationId, emoji))
+  onEmojiClick: emoji =>
+    dispatch(reactToNotification(ownProps.notificationId, emoji))
 });
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(NotificationReactionButton);
+export default connect(null, mapDispatchToProps)(NotificationReactionButton);

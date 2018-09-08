@@ -8,11 +8,7 @@ const SettingsPage = props => (
   <div className="SettingsPage">
     <ul className="SettingsPage-actions">
       <li className="SettingsPage-action">
-        <Button
-          size="small"
-          variation="secondary"
-          onClick={props.onCacheClick}
-        >
+        <Button size="small" variation="secondary" onClick={props.onCacheClick}>
           Clear cache
         </Button>
       </li>
@@ -26,7 +22,7 @@ const SettingsPage = props => (
         </Button>
       </li>
     </ul>
-    <NavBar activeTab="Settings"/>
+    <NavBar activeTab="Settings" />
   </div>
 );
 

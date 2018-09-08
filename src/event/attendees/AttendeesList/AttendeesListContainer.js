@@ -1,12 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {
-  selectEventAttendees,
-  selectMe
-} from '../../activeEventSelectors';
-import {refreshEvent} from '../../eventUserActions';
-import {AttendeePropTypes} from '../AttendeesListItem/AttendeesListItem';
+import { connect } from 'react-redux';
+import { selectEventAttendees, selectMe } from '../../activeEventSelectors';
+import { refreshEvent } from '../../eventUserActions';
+import { AttendeePropTypes } from '../AttendeesListItem/AttendeesListItem';
 import AttendeesList from './AttendeesList';
 
 class AttendeesListContainer extends Component {
@@ -23,15 +20,13 @@ class AttendeesListContainer extends Component {
   async componentDidMount() {
     try {
       await this.props.refreshEvent();
-    } catch(error) {
+    } catch (error) {
       console.error('Loading attendees failed');
     }
   }
 
   render() {
-    return (
-      <AttendeesList {...this.props} />
-    );
+    return <AttendeesList {...this.props} />;
   }
 }
 
@@ -44,7 +39,6 @@ const mapDispatchToProps = {
   refreshEvent
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AttendeesListContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  AttendeesListContainer
+);

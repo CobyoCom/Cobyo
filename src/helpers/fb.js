@@ -10,29 +10,31 @@ const FACEBOOK_APP_ID = '1946151882268761';
  *
  * @returns {Promise<any>}
  */
-export const init = () => new Promise((resolve) => {
-  if (this.initialized) {
-    resolve(FB);
-    return;
-  }
+export const init = () =>
+  new Promise(resolve => {
+    if (this.initialized) {
+      resolve(FB);
+      return;
+    }
 
-  window.fbAsyncInit = () => {
-    FB.init({
-      appId: FACEBOOK_APP_ID,
-      cookie: true,
-      version: FACEBOOK_API_VERSION
-    });
+    window.fbAsyncInit = () => {
+      FB.init({
+        appId: FACEBOOK_APP_ID,
+        cookie: true,
+        version: FACEBOOK_API_VERSION
+      });
 
-    this.initialized = true;
-    resolve(FB);
-  };
+      this.initialized = true;
+      resolve(FB);
+    };
 
-  (function (d, s, id) {
-    let js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s);
-    js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-});
+    (function(d, s, id) {
+      let js,
+        fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = '//connect.facebook.net/en_US/sdk.js';
+      fjs.parentNode.insertBefore(js, fjs);
+    })(document, 'script', 'facebook-jssdk');
+  });

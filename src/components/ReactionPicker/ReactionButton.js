@@ -1,11 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../../components/Button/Button';
 import ReactionPicker from './ReactionPicker';
 import './ReactionButton.css';
 
 class ReactionButton extends Component {
-
   static propTypes = {
     onEmojiClick: PropTypes.func.isRequired
   };
@@ -14,7 +13,7 @@ class ReactionButton extends Component {
     isPickerOpen: false
   };
 
-  handleClick = (e) => {
+  handleClick = e => {
     e.preventDefault();
 
     this.setState(prevState => ({
@@ -22,9 +21,9 @@ class ReactionButton extends Component {
     }));
   };
 
-  handleEmojiClick = (emoji) => {
+  handleEmojiClick = emoji => {
     this.props.onEmojiClick(emoji);
-    this.setState({isPickerOpen: false});
+    this.setState({ isPickerOpen: false });
   };
 
   render() {
@@ -34,11 +33,7 @@ class ReactionButton extends Component {
           isOpen={this.state.isPickerOpen}
           onEmojiClick={this.handleEmojiClick}
         />
-        <Button
-          size="small"
-          variation="secondary"
-          onClick={this.handleClick}
-        >
+        <Button size="small" variation="secondary" onClick={this.handleClick}>
           +
         </Button>
       </div>

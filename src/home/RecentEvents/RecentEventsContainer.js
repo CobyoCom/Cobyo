@@ -1,10 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {getItem} from '../../helpers/localStorage'
+import { getItem } from '../../helpers/localStorage';
 import RecentEvents from './RecentEvents';
 
 class RecentEventsContainer extends Component {
-
   static propTypes = {
     history: PropTypes.object.isRequired
   };
@@ -27,10 +26,7 @@ class RecentEventsContainer extends Component {
 
   render() {
     return (
-      <RecentEvents
-        events={this.getEvents()}
-        history={this.props.history}
-      />
+      <RecentEvents events={this.getEvents()} history={this.props.history} />
     );
   }
 }

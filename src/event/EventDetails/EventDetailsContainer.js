@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import EventDetails from './EventDetails';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import {
   selectEventId,
   selectEventLocation,
@@ -9,7 +9,6 @@ import {
 } from '../activeEventSelectors';
 
 class EventDetailsContainer extends Component {
-
   componentWillUnmount() {
     clearTimeout(this.timeout);
   }
@@ -19,9 +18,9 @@ class EventDetailsContainer extends Component {
   };
 
   handleCopy = () => {
-    this.setState({hasCopied: true}, () => {
+    this.setState({ hasCopied: true }, () => {
       this.timeout = setTimeout(() => {
-        this.setState({hasCopied: false});
+        this.setState({ hasCopied: false });
       }, 5000);
     });
   };
@@ -45,6 +44,4 @@ const mapStateToProps = state => ({
   numAttendees: selectNumEventAttendees(state)
 });
 
-export default connect(
-  mapStateToProps
-)(EventDetailsContainer);
+export default connect(mapStateToProps)(EventDetailsContainer);

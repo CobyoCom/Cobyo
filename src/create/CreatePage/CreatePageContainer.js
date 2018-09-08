@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {createEvent} from '../../create/createActions';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { createEvent } from '../../create/createActions';
 import CreatePage from './CreatePage';
 
 class CreatePageContainer extends Component {
@@ -10,23 +10,20 @@ class CreatePageContainer extends Component {
 
   handleSubmit = async e => {
     e.preventDefault();
-    this.setState({disabled: true});
+    this.setState({ disabled: true });
 
     try {
       const eventId = await this.props.createEvent();
       this.props.history.push(`/${eventId}`);
     } catch (error) {
       console.error('Failed to create event.');
-      this.setState({disabled: false});
+      this.setState({ disabled: false });
     }
   };
 
   render() {
     return (
-      <CreatePage
-        disabled={this.state.disabled}
-        onSubmit={this.handleSubmit}
-      />
+      <CreatePage disabled={this.state.disabled} onSubmit={this.handleSubmit} />
     );
   }
 }
@@ -35,7 +32,4 @@ const mapDispatchToProps = {
   createEvent
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(CreatePageContainer);
+export default connect(null, mapDispatchToProps)(CreatePageContainer);

@@ -1,11 +1,8 @@
-import {post} from './axios';
+import { post } from './axios';
 
 const GRAPHQL_ENDPOINT = '/graphql';
 
-export default function({
-  query,
-  variables
-}) {
+export default function({ query, variables }) {
   const path = query.path || query.loc.source.body;
 
   if (!path) {

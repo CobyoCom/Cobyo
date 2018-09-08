@@ -1,20 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '../../components/Button/Button';
-import TravelModeSelect from "../TravelModeSelect/TravelModeSelect";
+import TravelModeSelect from '../TravelModeSelect/TravelModeSelect';
 
 const QuickLogin = props => (
   <div>
     {props.showTravelModeSelect ? (
       <div>
         <p>{`Logging in as ${props.userName}.`}</p>
-        <TravelModeSelect onChange={props.onChangeTravelMode}/>
+        <TravelModeSelect onChange={props.onChangeTravelMode} />
       </div>
     ) : (
-      <Button
-        onClick={props.onSubmit}
-        autoFocus
-      >
+      <Button onClick={props.onSubmit} autoFocus>
         {`Login as ${props.userName}?`}
       </Button>
     )}
@@ -30,4 +27,3 @@ QuickLogin.propTypes = {
 };
 
 export default QuickLogin;
-

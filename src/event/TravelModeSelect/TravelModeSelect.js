@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {FaMale, FaCab, FaSubway} from 'react-icons/lib/fa';
-import {WALKING, DRIVING, TRANSIT, DEFAULT_TRAVEL_MODE} from '../../helpers/globalConstants';
+import { FaMale, FaCab, FaSubway } from 'react-icons/lib/fa';
+import {
+  WALKING,
+  DRIVING,
+  TRANSIT,
+  DEFAULT_TRAVEL_MODE
+} from '../../helpers/globalConstants';
 import './TravelModeSelect.css';
 
 const TravelModeSelect = props => (
   <div className="TravelModeSelect">
-    <h3>
-      How are you travelling?
-    </h3>
+    <h3>How are you travelling?</h3>
     <div className="TravelModeSelect-list">
       <button
         className={cx('TravelModeSelect-item', {
@@ -39,7 +42,11 @@ const TravelModeSelect = props => (
         <FaSubway size={36} />
       </button>
     </div>
-    <div className={cx('TravelModeSelect-bar', {'TravelModeSelect-loading': props.isLoading})}/>
+    <div
+      className={cx('TravelModeSelect-bar', {
+        'TravelModeSelect-loading': props.isLoading
+      })}
+    />
   </div>
 );
 

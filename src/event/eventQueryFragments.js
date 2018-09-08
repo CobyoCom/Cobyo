@@ -3,7 +3,7 @@
  *
  * @module eventQueryFragments.js
  */
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
 
 export const eventFragment = gql`
   fragment event on Event {
@@ -46,4 +46,5 @@ export const notificationFragment = gql`
       ...reaction
     }
   }
-${reactionFragment}`;
+  ${reactionFragment}
+`;

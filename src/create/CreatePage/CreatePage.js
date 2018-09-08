@@ -8,20 +8,14 @@ import './CreatePage.css';
 
 const CreatePage = props => (
   <div className="CreatePage">
-    <form
-      className="EventCreateForm"
-      onSubmit={() => {}}
-    >
-      <PlacesAutocompleteContainer autoFocus/>
-      <PlaceSuggestionsContainer/>
-      <Button
-        onClick={props.onSubmit}
-        disabled={props.disabled}
-      >
+    <form className="EventCreateForm" onSubmit={() => {}}>
+      <PlacesAutocompleteContainer autoFocus />
+      {!props.disabled && <PlaceSuggestionsContainer />}
+      <Button onClick={props.onSubmit} disabled={props.disabled}>
         Continue
       </Button>
     </form>
-    <NavBar activeTab="Create"/>
+    <NavBar activeTab="Create" />
   </div>
 );
 

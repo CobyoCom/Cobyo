@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
@@ -6,23 +6,16 @@ import TravelModeSelectModal from '../TravelModeSelect/TravelModeSelectModal';
 import './EventLoginForm.css';
 
 const EventLoginForm = props => (
-  <form
-    className="EventLoginForm"
-    onSubmit={props.onSubmit}
-  >
+  <form className="EventLoginForm" onSubmit={props.onSubmit}>
     <Input
       size="medium"
       maxLength={24}
       value={props.nameValue}
-      placeholder={"Enter name..."}
+      placeholder={'Enter name...'}
       onChange={props.onChangeName}
     />
 
-    <Button
-      disabled={props.isDisabled}
-    >
-      Continue
-    </Button>
+    <Button disabled={props.isDisabled}>Continue</Button>
     <TravelModeSelectModal
       isLoading={props.isLoading}
       isOpen={props.isModalOpen}

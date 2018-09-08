@@ -1,9 +1,12 @@
-import {createSelector} from 'reselect';
-import {moduleName as eventsModuleName, eventInitialState} from '../reducers/entities/eventsReducer';
-import {moduleName as attendeesModuleName} from './attendees/attendeesReducer';
-import {moduleName as uiEventModuleName} from '../reducers/ui/uiEventReducer';
-import {moduleName as activeEventModuleName} from './activeEventReducer';
-import {selectNotificationsById} from "./notifications/notificationsSelectors";
+import { createSelector } from 'reselect';
+import {
+  moduleName as eventsModuleName,
+  eventInitialState
+} from '../reducers/entities/eventsReducer';
+import { moduleName as attendeesModuleName } from './attendees/attendeesReducer';
+import { moduleName as uiEventModuleName } from '../reducers/ui/uiEventReducer';
+import { moduleName as activeEventModuleName } from './activeEventReducer';
+import { selectNotificationsById } from './notifications/notificationsSelectors';
 
 /****** EVENT ENTITIES ******/
 
@@ -37,7 +40,6 @@ export const selectHasLeft = state => selectMe(state).hasLeft;
 const selectEventUI = state => state.ui[uiEventModuleName];
 export const selectIsRefreshing = state => selectEventUI(state).isRefreshing;
 
-
 /****** EVENT NOTIFICATIONS ENTITIES ******/
 
 export const selectNotifications = createSelector(
@@ -45,7 +47,6 @@ export const selectNotifications = createSelector(
   selectNotificationsById,
   (ids, byId) => ids.map(id => byId[id])
 );
-
 
 /****** EVENT ATTENDEES ENTITIES ******/
 

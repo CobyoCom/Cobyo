@@ -6,10 +6,7 @@ import './NotificationsList.css';
 const NotificationsList = props => (
   <div className="NotificationsList">
     {props.notifications.map(notification => (
-      <NotificationListItem
-        key={notification.createdAt}
-        {...notification}
-      />
+      <NotificationListItem key={notification.createdAt} {...notification} />
     ))}
   </div>
 );

@@ -7,13 +7,15 @@ const EventDetails = props => {
   return (
     <div className="EventDetails">
       <div className="EventDetails-settings">
-        {props.eventId && (
-          <EventSettingsContainer/>
-        )}
+        {props.eventId && <EventSettingsContainer />}
       </div>
-      <div className="EventDetails-location">{props.location.split(',')[0]}</div>
+      <div className="EventDetails-location">
+        {props.location.split(',')[0]}
+      </div>
       {!!props.numAttendees && (
-        <div className="EventDetails-numAttendees">{`${props.numAttendees} going`}</div>
+        <div className="EventDetails-numAttendees">{`${
+          props.numAttendees
+        } going`}</div>
       )}
     </div>
   );
@@ -34,7 +36,5 @@ EventDetails.defaultProps = {
   location: '',
   showDateTime: false
 };
-
-
 
 export default EventDetails;

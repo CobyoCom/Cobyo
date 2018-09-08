@@ -25,7 +25,7 @@ export function init() {
  * @returns {string}
  */
 export function getErrorMessage(status) {
-  switch(status) {
+  switch (status) {
     case 'INVALID_REQUEST':
       return 'Request invalid. Please notify the site maintainers.';
     case 'OVER_QUERY_LIMIT':

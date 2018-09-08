@@ -1,6 +1,6 @@
-import {selectEventId, selectUserName} from '../activeEventSelectors';
-import {makeSelectDidUserReact} from './reactionsSelectors';
-import {fetchNotificationsApi, reactToNotificationApi} from '../eventApi';
+import { selectEventId, selectUserName } from '../activeEventSelectors';
+import { makeSelectDidUserReact } from './reactionsSelectors';
+import { fetchNotificationsApi, reactToNotificationApi } from '../eventApi';
 
 export const types = {
   fetchNotificationsRequest: 'FETCH_NOTIFICATIONS_REQUEST',
@@ -12,79 +12,88 @@ export const types = {
 
 /************ FETCH EVENT NOTIFICATIONS ************/
 
-const fetchNotificationsRequest = (eventId) => ({
+const fetchNotificationsRequest = eventId => ({
   type: types.fetchNotificationsRequest,
-  payload: {eventId}
+  payload: { eventId }
 });
 
-const fetchNotificationsSuccess = ({eventId, notifications = []}) => ({
+const fetchNotificationsSuccess = ({ eventId, notifications = [] }) => ({
   type: types.fetchNotificationsSuccess,
-  payload: {eventId, notifications}
+  payload: { eventId, notifications }
 });
 
-const fetchNotificationsFailure = (eventId) => ({
+const fetchNotificationsFailure = eventId => ({
   type: types.fetchNotificationsFailure,
-  payload: {eventId}
+  payload: { eventId }
 });
 
-export const fetchNotifications = () => (dispatch, getState) => new Promise(async (resolve, reject) => {
-  const state = getState();
-  const eventId = selectEventId(state);
+export const fetchNotifications = () => (dispatch, getState) =>
+  new Promise(async (resolve, reject) => {
+    const state = getState();
+    const eventId = selectEventId(state);
 
-  dispatch(fetchNotificationsRequest(eventId));
+    dispatch(fetchNotificationsRequest(eventId));
 
-  try {
-    const response = await fetchNotificationsApi(eventId);
-    if (response &&
-      !response.errors &&
-      response.data &&
-      response.data.event
-    ) {
-      dispatch(fetchNotificationsSuccess(response.data.event));
-      return resolve();
+    try {
+      const response = await fetchNotificationsApi(eventId);
+      if (
+        response &&
+        !response.errors &&
+        response.data &&
+        response.data.event
+      ) {
+        dispatch(fetchNotificationsSuccess(response.data.event));
+        return resolve();
+      }
+
+      dispatch(fetchNotificationsFailure(eventId));
+      return reject();
+    } catch (error) {
+      dispatch(fetchNotificationsFailure());
+      return reject();
     }
-
-    dispatch(fetchNotificationsFailure(eventId));
-    return reject();
-  } catch(error) {
-    dispatch(fetchNotificationsFailure());
-    return reject();
-  }
-});
-
+  });
 
 /************ REACT TO EVENT NOTIFICATIONS ************/
 
 const reactToNotificationRequest = (notificationId, emoji, userName) => ({
   type: types.reactToNotificationRequest,
-  payload: {notificationId, emoji, userName}
+  payload: { notificationId, emoji, userName }
 });
 
 const reactToNotificationFailure = (notificationId, emoji, userName) => ({
   type: types.reactToNotificationFailure,
-  payload: {notificationId, emoji, userName}
+  payload: { notificationId, emoji, userName }
 });
 
-export const reactToNotification = (notificationId, emoji) => (dispatch, getState) => new Promise(async (resolve, reject) => {
-  const state = getState();
-  const userName = selectUserName(state);
-  const eventId = selectEventId(state);
-  const didUserReact = makeSelectDidUserReact(state, notificationId, emoji);
+export const reactToNotification = (notificationId, emoji) => (
+  dispatch,
+  getState
+) =>
+  new Promise(async (resolve, reject) => {
+    const state = getState();
+    const userName = selectUserName(state);
+    const eventId = selectEventId(state);
+    const didUserReact = makeSelectDidUserReact(state, notificationId, emoji);
 
-  dispatch(reactToNotificationRequest(notificationId, emoji, userName));
+    dispatch(reactToNotificationRequest(notificationId, emoji, userName));
 
-  try {
-    const response = await reactToNotificationApi(eventId, notificationId, userName, emoji, didUserReact);
-    if (response &&
-      !response.errors
-    ) {
-      return resolve();
+    try {
+      const response = await reactToNotificationApi(
+        eventId,
+        notificationId,
+        userName,
+        emoji,
+        didUserReact
+      );
+      if (response && !response.errors) {
+        return resolve();
+      }
+
+      dispatch(reactToNotificationFailure());
+      return reject();
+    } catch (error) {
+      dispatch(reactToNotificationFailure());
+      return reject();
     }
-
-    dispatch(reactToNotificationFailure());
-    return reject();
-  } catch (error) {
-    dispatch(reactToNotificationFailure());
-    return reject();
-  }
-});
+  });

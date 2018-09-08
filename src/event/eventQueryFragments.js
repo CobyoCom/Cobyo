@@ -11,6 +11,7 @@ export const eventFragment = gql`
     eventName
     placeId
     dateEnded
+    photoReference
   }
 `;
 

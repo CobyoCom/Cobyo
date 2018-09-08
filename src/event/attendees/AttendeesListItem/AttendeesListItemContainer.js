@@ -13,7 +13,7 @@ import {
 class AttendeesListItemContainer extends Component {
   static propTypes = {
     ...AttendeePropTypes,
-    eventId: PropTypes.number.isRequired,
+    eventId: PropTypes.string.isRequired,
     isMe: PropTypes.bool.isRequired,
     isRefreshing: PropTypes.bool.isRequired,
     changeTravelMode: PropTypes.func.isRequired,

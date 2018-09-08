@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {API_KEY} from '../../helpers/googlemaps'
 import EventDetailsContainer from '../EventDetails/EventDetailsContainer';
 import EventLoginFormContainer from '../EventLoginForm/EventLoginFormContainer';
 import AttendeesListContainer from '../attendees/AttendeesList/AttendeesListContainer';
@@ -11,6 +12,14 @@ import './EventPage.css';
 
 const EventPage = props => (
   <div className="EventPage">
+    {props.photoReference && (
+      <div
+        className="EventPage-background"
+        style={props.photoReference && {
+          backgroundImage: `url(https://maps.googleapis.com/maps/api/place/photo?key=${API_KEY}&photoreference=${props.photoReference}&maxheight=1000)`,
+        }}
+      />
+    )}
     <EventDetailsContainer />
     {props.showEventEnded && (
       <h2 className="EventPage-hasEnded">This event has ended.</h2>
@@ -32,7 +41,8 @@ const EventPage = props => (
 );
 
 EventPage.propTypes = {
-  eventId: PropTypes.number.isRequired,
+  eventId: PropTypes.string.isRequired,
+  photoReference: PropTypes.string,
   showLogin: PropTypes.bool.isRequired,
   showQuickLogin: PropTypes.bool.isRequired,
   showEventMap: PropTypes.bool.isRequired,

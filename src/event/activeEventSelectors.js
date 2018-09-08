@@ -22,6 +22,7 @@ export const selectEventId = state => selectActiveEvent(state).eventId;
 export const selectPlaceId = state => selectActiveEvent(state).placeId;
 export const selectEventLocation = state => selectActiveEvent(state).location;
 export const selectEventTime = state => selectActiveEvent(state).eventTime;
+export const selectEventPhotoReference = state => selectActiveEvent(state).photoReference;
 export const selectDateEnded = state => selectActiveEvent(state).dateEnded;
 export const selectHasEventEnded = state => !!selectDateEnded(state);
 export const selectMe = state => selectActiveEvent(state).me;

@@ -19,7 +19,7 @@ const QuickLogin = props => (
 );
 
 QuickLogin.propTypes = {
-  eventId: PropTypes.number.isRequired,
+  eventId: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,
   showTravelModeSelect: PropTypes.bool.isRequired,
   onChangeTravelMode: PropTypes.func.isRequired,

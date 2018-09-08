@@ -31,16 +31,17 @@ export default function events(state = initialState, { type, payload }) {
       };
     }
     case eventTypes.fetchEventSuccess: {
-      const { eventId, location, placeId, eventTime, dateEnded } = payload;
+      const { eventId, location, placeId, eventTime, dateEnded, photoReference } = payload;
       return {
         ...state,
         [eventId]: {
           ...state[eventId],
-          eventId: parseInt(eventId, 10),
+          eventId,
           location,
           placeId,
           eventTime,
-          dateEnded
+          dateEnded,
+          photoReference
         }
       };
     }

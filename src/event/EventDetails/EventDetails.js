@@ -22,7 +22,7 @@ const EventDetails = props => {
 };
 
 EventDetails.propTypes = {
-  eventId: PropTypes.number,
+  eventId: PropTypes.string,
   dateTime: PropTypes.number,
   location: PropTypes.string,
   showDateTime: PropTypes.bool,

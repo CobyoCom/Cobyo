@@ -5,7 +5,8 @@ import { fetchEvent } from '../eventActions';
 import {
   selectEventId,
   selectHasEventEnded,
-  selectIsLoggedIn
+  selectIsLoggedIn,
+  selectEventPhotoReference
 } from '../activeEventSelectors';
 import EventPage from './EventPage';
 
@@ -15,6 +16,7 @@ class EventPageContainer extends Component {
     isEventLoaded: PropTypes.bool.isRequired,
     isLoggedIn: PropTypes.bool.isRequired,
     hasEnded: PropTypes.bool.isRequired,
+    photoReference: PropTypes.string,
     fetchEvent: PropTypes.func.isRequired
   };
 
@@ -76,7 +78,8 @@ class EventPageContainer extends Component {
   render() {
     return (
       <EventPage
-        eventId={parseInt(this.props.eventId, 10)}
+        eventId={this.props.eventId}
+        photoReference={this.props.photoReference}
         showLogin={this.getShowLogin()}
         showQuickLogin={this.getShowQuickLogin()}
         showEventMap={this.getShowEventMap()}
@@ -93,7 +96,8 @@ class EventPageContainer extends Component {
 const mapStateToProps = state => ({
   isLoggedIn: selectIsLoggedIn(state),
   isEventLoaded: selectEventId(state) !== null,
-  hasEnded: selectHasEventEnded(state)
+  hasEnded: selectHasEventEnded(state),
+  photoReference: selectEventPhotoReference(state)
 });
 
 const mapDispatchToProps = {

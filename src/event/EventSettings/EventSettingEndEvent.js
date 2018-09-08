@@ -10,7 +10,7 @@ import './EventSettingEndEvent.css';
 
 class EventSettingEndEvent extends Component {
   static propTypes = {
-    eventId: PropTypes.number.isRequired,
+    eventId: PropTypes.string.isRequired,
     onSuccess: PropTypes.func.isRequired
   };
 

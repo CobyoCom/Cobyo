@@ -121,10 +121,9 @@ class EventMap extends Component {
 
   render() {
     const style = {
-      height: '20vh',
+      height: '25vh',
       position: 'relative',
-      overflow: 'hidden',
-      borderRadius: '5px'
+      overflow: 'hidden'
     };
     const skeletonStyle = { ...style };
 

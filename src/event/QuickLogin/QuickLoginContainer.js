@@ -7,7 +7,7 @@ import QuickLogin from './QuickLogin';
 
 class QuickLoginContainer extends Component {
   static propTypes = {
-    eventId: PropTypes.number.isRequired,
+    eventId: PropTypes.string.isRequired,
     userName: PropTypes.string.isRequired,
     travelMode: PropTypes.string,
     loginEvent: PropTypes.func.isRequired

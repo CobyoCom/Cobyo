@@ -21,11 +21,11 @@ const extractParams = props => props.match.params;
 
 class App extends Component {
   componentWillMount() {
-    document.body.style.backgroundImage = getGradientCSS(getGradientByTime());
+    // document.body.style.backgroundImage = getGradientCSS(getGradientByTime());
   }
 
   componentWillUnmount() {
-    document.body.style.backgroundImage = null;
+    // document.body.style.backgroundImage = null;
   }
 
   render() {

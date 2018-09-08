@@ -8,6 +8,7 @@ const Input = props => (
     className={cx('Input', `Input-${props.size}`, {
       'Input--disabled': props.disabled
     })}
+    autoFocus={props.autoFocus}
     disabled={props.disabled}
     maxLength={props.maxLength}
     size={props.maxLength}
@@ -18,6 +19,7 @@ const Input = props => (
 );
 
 Input.propTypes = {
+  autoFocus: PropTypes.bool,
   size: PropTypes.oneOf(['small', 'medium', 'large']),
   disabled: PropTypes.bool,
   maxLength: PropTypes.number,
@@ -27,6 +29,7 @@ Input.propTypes = {
 };
 
 Input.defaultProps = {
+  autoFocus: false,
   size: 'medium',
   disabled: false,
   maxLength: 10,

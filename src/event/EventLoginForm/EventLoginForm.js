@@ -11,11 +11,11 @@ const EventLoginForm = props => (
       size="medium"
       maxLength={24}
       value={props.nameValue}
-      placeholder={'Enter name...'}
+      placeholder={'Enter first name...'}
       onChange={props.onChangeName}
+      autoFocus={!props.isModalOpen}
     />
-
-    <Button disabled={props.isDisabled}>Continue</Button>
+    <Button disabled={props.isDisabled} size="small">Join</Button>
     <TravelModeSelectModal
       isLoading={props.isLoading}
       isOpen={props.isModalOpen}

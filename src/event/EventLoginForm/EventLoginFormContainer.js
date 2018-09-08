@@ -8,7 +8,7 @@ import EventLoginForm from './EventLoginForm';
 
 class EventLoginFormContainer extends Component {
   static propTypes = {
-    eventId: PropTypes.number.isRequired,
+    eventId: PropTypes.string.isRequired,
     loginEvent: PropTypes.func.isRequired
   };
 

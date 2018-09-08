@@ -13,15 +13,16 @@ const fetchEventRequest = eventId => ({
   payload: { eventId }
 });
 
-const fetchEventSuccess = (
+const fetchEventSuccess = ({
   eventId,
   location,
   placeId,
   eventTime,
-  dateEnded
-) => ({
+  dateEnded,
+  photoReference
+}) => ({
   type: types.fetchEventSuccess,
-  payload: { eventId, location, placeId, eventTime, dateEnded }
+  payload: { eventId, location, placeId, eventTime, dateEnded, photoReference }
 });
 
 export function fetchEvent(eventId) {
@@ -29,17 +30,17 @@ export function fetchEvent(eventId) {
     dispatch(fetchEventRequest(eventId));
 
     try {
-      const response = await fetchEventApi(eventId);
+      const response = await fetchEventApi(eventId.toString());
       if (
         response &&
         !response.errors &&
         response.data &&
         response.data.event
       ) {
-        const { eventId, eventName, placeId, dateEnded } = response.data.event;
+        const { eventId, eventName, placeId, dateEnded, photoReference } = response.data.event;
         // TODO: Implement event time
         dispatch(
-          fetchEventSuccess(eventId, eventName, placeId, null, dateEnded)
+          fetchEventSuccess({eventId, location: eventName, placeId, dateEnded, photoReference})
         );
 
         const localStorageData = {};

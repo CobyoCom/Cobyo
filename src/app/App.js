@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import configureStore from '../reducers/configureStore';
-import { getGradientByTime, getGradientCSS } from '../helpers/colorPicker';
 import {
   BrowserRouter as Router,
   Route,
@@ -20,13 +19,6 @@ const store = configureStore();
 const extractParams = props => props.match.params;
 
 class App extends Component {
-  componentWillMount() {
-    // document.body.style.backgroundImage = getGradientCSS(getGradientByTime());
-  }
-
-  componentWillUnmount() {
-    // document.body.style.backgroundImage = null;
-  }
 
   render() {
     return (

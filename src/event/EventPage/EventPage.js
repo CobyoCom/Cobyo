@@ -12,7 +12,7 @@ import './EventPage.css';
 
 const EventPage = props => (
   <div className="EventPage">
-    {props.photoReference && (
+    {props.eventId === '1' && props.photoReference && (
       <div
         className="EventPage-background"
         style={props.photoReference && {
@@ -51,7 +51,7 @@ EventPage.propTypes = {
   showEventEnded: PropTypes.bool.isRequired,
   localStorageLogin: PropTypes.shape({
     userName: PropTypes.string.isRequired,
-    travelMode: PropTypes.string.isRequired
+    travelMode: PropTypes.string
   }),
   isQuickLoginModalOpen: PropTypes.bool.isRequired,
   onCloseQuickLoginModal: PropTypes.func.isRequired

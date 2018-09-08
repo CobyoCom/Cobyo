@@ -64,7 +64,7 @@ class EventPageContainer extends Component {
     !this.props.isLoggedIn &&
     !!this.state.localStorageLogin;
 
-  getShowEventMap = () => !this.getShowEventEnded() && this.props.isLoggedIn;
+  getShowEventMap = () => !this.getShowEventEnded() && this.props.isLoggedIn && this.props.isEventLoaded;
 
   getShowAttendeesList = () =>
     !this.getShowEventEnded() && this.props.isLoggedIn;
@@ -93,9 +93,9 @@ class EventPageContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   isLoggedIn: selectIsLoggedIn(state),
-  isEventLoaded: selectEventId(state) !== null,
+  isEventLoaded: selectEventId(state) !== null && selectEventId(state) === ownProps.eventId,
   hasEnded: selectHasEventEnded(state),
   photoReference: selectEventPhotoReference(state)
 });

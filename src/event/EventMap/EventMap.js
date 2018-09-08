@@ -20,6 +20,7 @@ class EventMap extends Component {
   };
 
   async componentDidMount() {
+    console.log("MAP MOUNTED");
     try {
       await this.props.initGoogleMapsAPI();
       this.map = this.getMap();

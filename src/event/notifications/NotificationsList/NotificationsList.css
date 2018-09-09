@@ -1,6 +1,6 @@
 .NotificationsList {
   display: flex;
   flex-direction: column-reverse;
-  padding: 0 5px;
+  padding: 5px;
   background-color: rgba(0,0,0,.4);
 }

@@ -16,11 +16,15 @@ class EventMap extends Component {
       longitude: PropTypes.number,
       lastUpdated: PropTypes.number
     }).isRequired,
+    variation: PropTypes.oneOf(['light', 'dark']),
     initGoogleMapsAPI: PropTypes.func.isRequired
   };
 
+  static defaultProps = {
+    variation: Math.random() < 0.5 ? 'light' : 'dark'
+  };
+
   async componentDidMount() {
-    console.log("MAP MOUNTED");
     try {
       await this.props.initGoogleMapsAPI();
       this.map = this.getMap();
@@ -73,7 +77,29 @@ class EventMap extends Component {
       mapTypeControl: false,
       scaleControl: false,
       streetViewControl: false,
-      rotateControl: false
+      rotateControl: false,
+      styles: this.props.variation === 'dark' && [{
+        elementType: 'geometry',
+        stylers: [{color: '#000000'}]
+      }, {
+        elementType: 'labels.text.stroke',
+        stylers: [{color: '#000000'}]
+      }, {
+        elementType: 'labels.text.fill',
+        stylers: [{color: '#7ADA7C'}]
+      }, {
+        featureType: 'road',
+        elementType: 'geometry',
+        stylers: [{color: '#38414e'}]
+      }, {
+        featureType: 'road',
+        elementType: 'geometry.stroke',
+        stylers: [{color: '#212a37'}]
+      },{
+        featureType: 'road',
+        elementType: 'labels.text.fill',
+        stylers: [{color: '#9ca5b3'}]
+      }]
     };
     return new maps.Map(node, mapConfig);
   };

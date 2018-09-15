@@ -16,8 +16,7 @@
   margin: 7px;
 }
 
-.EventSettings-dropdownItem button,
-.EventSettings-dropdownItem a {
+.EventSettings-dropdownItem > button {
   width: 100%;
 }
 

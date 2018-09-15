@@ -7,7 +7,7 @@ export default function activeEvent(state = null, { type, payload }) {
   switch (type) {
     case types.fetchEventRequest: {
       const { eventId } = payload;
-      return eventId;
+      return parseInt(eventId, 10);
     }
     case createActionTypes.createEventRequest: {
       return null;

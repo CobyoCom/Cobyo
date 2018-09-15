@@ -1,23 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {selectActiveEventId, selectIsLoggedIn} from '../activeEventSelectors';
+import { selectIsLoggedIn } from '../activeEventSelectors';
 import EventSettingCopyClipboard from './EventSettingCopyClipboard';
 import EventSettingEndEvent from './EventSettingEndEvent';
-import EventSettingEditEvent from './EventSettingEditEvent';
 import EventSettings from './EventSettings';
 
 class EventSettingsContainer extends Component {
   static propTypes = {
-    shouldShowCopyUrlTab: PropTypes.bool.isRequired,
-    shouldShowEditEventTab: PropTypes.bool.isRequired,
-    shouldShowCloseEventTab: PropTypes.bool.isRequired
-  };
-
-  static defaultProps = {
-    shouldShowCopyUrlTab: true,
-    shouldShowEditEventTab: false,
-    shouldShowCloseEventTab: false
+    showCopyUrlTab: PropTypes.bool.isRequired,
+    showCloseEventTab: PropTypes.bool.isRequired
   };
 
   state = {
@@ -30,15 +22,11 @@ class EventSettingsContainer extends Component {
   getTabs = () => {
     const tabs = [];
 
-    if (this.props.shouldShowCopyUrlTab) {
+    if (this.props.showCopyUrlTab) {
       tabs.push(<EventSettingCopyClipboard onSuccess={this.handleClick} />);
     }
 
-    if (this.props.shouldShowEditEventTab) {
-      tabs.push(<EventSettingEditEvent eventId={this.props.eventId} />);
-    }
-
-    if (this.props.shouldShowCloseEventTab) {
+    if (this.props.showCloseEventTab) {
       tabs.push(
         <EventSettingEndEvent
           onSuccess={() => {
@@ -64,9 +52,8 @@ class EventSettingsContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  eventId: selectActiveEventId(state),
-  shouldShowEditEventTab: selectIsLoggedIn(state),
-  shouldShowCloseEventTab: selectIsLoggedIn(state)
+  showCopyUrlTab: true,
+  showCloseEventTab: selectIsLoggedIn(state)
 });
 
 export default connect(mapStateToProps)(EventSettingsContainer);

@@ -11,26 +11,12 @@ import {
   eventUsersQuery
 } from './eventQueries';
 import {
-  editEventMutation,
   createEventMutation,
   endEventMutation,
   updateEventUserMutation,
   deleteReactionMutation,
   createReactionMutation
 } from './eventMutations';
-
-export async function editEventApi({ eventId, placeId, eventName }) {
-  try {
-    const { data } = await fetchGraphQL({
-      query: editEventMutation,
-      variables: { eventId, placeId, eventName }
-    });
-    return data;
-  } catch (error) {
-    logger(`editEventApi ${error.response.status}: ${error.message}`);
-    throw new Error();
-  }
-}
 
 export async function createEventApi(placeId, eventName) {
   try {
@@ -40,7 +26,7 @@ export async function createEventApi(placeId, eventName) {
     });
     return data;
   } catch (error) {
-    logger(`createEventApi ${error.response.status}: ${error.message}`);
+    logger(`fetchEventApi ${error.response.status}: ${error.message}`);
     throw new Error();
   }
 }

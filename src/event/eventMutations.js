@@ -10,6 +10,15 @@ import {
   reactionFragment
 } from './eventQueryFragments';
 
+export const editEventMutation = gql`
+  mutation editEvent($eventId: String!, $placeId: String, $eventName: String) {
+    editEvent(eventId: $eventId, placeId: $placeId, eventName: $eventName) {
+      ...event
+    }
+  }
+  ${eventFragment}
+`;
+
 export const createEventMutation = gql`
   mutation createEvent($placeId: String!, $eventName: String!) {
     createEvent(placeId: $placeId, eventName: $eventName) {

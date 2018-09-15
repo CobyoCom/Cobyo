@@ -30,7 +30,7 @@ const NavBar = props => (
 );
 
 NavBar.propTypes = {
-  activeEventId: PropTypes.number,
+  activeEventId: PropTypes.string,
   activeTab: PropTypes.oneOf(['Home', 'Events', 'Create', 'Settings'])
 };
 

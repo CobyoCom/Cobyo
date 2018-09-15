@@ -62,7 +62,7 @@ export const createEvent = () => async (dispatch, getState) => {
     return Promise.reject();
   } catch (error) {
     logger(`Failed to create event: ${error}`);
-    dispatch(createEventFailure());
+    dispatch(createEventFailure({prevActiveEventId}));
 
     return Promise.reject();
   }

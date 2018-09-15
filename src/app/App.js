@@ -11,6 +11,7 @@ import ErrorBannerContainer from '../error/ErrorBanner/ErrorBannerContainer';
 import HomePageContainer from '../home/HomePage/HomePageContainer';
 import EventsPageContainer from '../events/EventsPage/EventsPageContainer';
 import CreatePageContainer from '../create/CreatePage/CreatePageContainer';
+import EditEventPageContainer from '../edit/EditPage/EditPageContainer';
 import EventPageContainer from '../event/EventPage/EventPageContainer';
 import SettingsPageContainer from '../settings/SettingsPage/SettingsPageContainer';
 import NotFoundPage from '../pages/NotFoundPage';
@@ -55,6 +56,11 @@ class App extends Component {
                   )}
                 />
                 <Route exact path="/404.html" component={NotFoundPage} />
+                <Route
+                  exact
+                  path="/:eventId/edit"
+                  render={props => <EditEventPageContainer {...props} />}
+                />
                 <Route
                   exact
                   path="/:eventId"

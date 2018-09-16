@@ -1,3 +1,9 @@
+.EventSettings {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
 .EventSettings-modal {
   position: absolute!important;
   top: 0;

@@ -10,14 +10,6 @@
   text-align: center;
 }
 
-.EventDetails-settings {
-  position: absolute;
-}
-
-.EventDetails-settings {
-  right: 10px;
-}
-
 .EventDetails-location {
   font-size: 20pt;
   text-align: center;
@@ -33,10 +25,9 @@
 }
 
 .EventDetails-time {
-  font-size: 20pt;
+  font-size: 19pt;
 }
 
-.EventDetails-settings:empty,
 .EventDetails-location:empty {
   min-width: 30px;
   min-height: 20px;

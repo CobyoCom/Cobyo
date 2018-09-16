@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {API_KEY} from '../../helpers/googlemaps'
+import BackToEventsButton from '../BackToEventsButton/BackToEventsButton';
+import EventSettingsContainer from '../EventSettings/EventSettingsContainer';
 import EventDetailsContainer from '../EventDetails/EventDetailsContainer';
 import EventLoginFormContainer from '../EventLoginForm/EventLoginFormContainer';
 import AttendeesListContainer from '../attendees/AttendeesList/AttendeesListContainer';
@@ -20,6 +22,8 @@ const EventPage = props => (
         }}
       />
     )}
+    <BackToEventsButton/>
+    <EventSettingsContainer />
     <EventDetailsContainer />
     {props.showEventEnded && (
       <h2 className="EventPage-hasEnded">This event has ended.</h2>

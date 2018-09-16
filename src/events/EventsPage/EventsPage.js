@@ -5,6 +5,12 @@ import './EventsPage.css';
 
 const EventsPage = () => (
   <div className="EventsPage">
+    <h2>
+      COMING SOON
+    </h2>
+    <p>
+      Sign up to see all your events!
+    </p>
     <LoginFormContainer/>
     <NavBar activeTab="Events" />
   </div>

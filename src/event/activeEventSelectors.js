@@ -26,7 +26,7 @@ export const selectEventPhotoReference = state => selectActiveEvent(state).photo
 export const selectDateEnded = state => selectActiveEvent(state).dateEnded;
 export const selectHasEventEnded = state => !!selectDateEnded(state);
 export const selectMe = state => selectActiveEvent(state).me;
-const selectNotificationIds = state => selectActiveEvent(state).notificationIds;
+export const selectNotificationIds = state => selectActiveEvent(state).notificationIds;
 const selectEventAttendeeIds = state => selectActiveEvent(state).attendeeIds;
 
 export const selectIsLoggedIn = state => !!selectMe(state).userName;

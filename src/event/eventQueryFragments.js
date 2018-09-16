@@ -7,11 +7,18 @@ import gql from 'graphql-tag';
 
 export const eventFragment = gql`
   fragment event on Event {
-    eventId
-    eventName
-    placeId
-    dateEnded
-    photoReference
+    code
+    name
+    dateEnded,
+    place {
+      address
+      geocode {
+        latitude
+        longitude
+      }
+      googlePlaceId
+      photoUrl
+    }
   }
 `;
 

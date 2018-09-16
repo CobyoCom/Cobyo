@@ -18,11 +18,12 @@ import {
   createReactionMutation
 } from './eventMutations';
 
-export async function createEventApi(placeId, eventName) {
+export async function createEventApi(googlePlaceId, name) {
+  const place = {googlePlaceId, address: name};
   try {
     const { data } = await fetchGraphQL({
       query: createEventMutation,
-      variables: { placeId, eventName }
+      variables: {event: { place, name }}
     });
     return data;
   } catch (error) {
@@ -83,15 +84,26 @@ export async function fetchEventUsersApi(eventId) {
   }
 }
 
-export async function updateEventUserApi(eventUser) {
-  if (eventUser.lastUpdated) {
-    eventUser.updatedAt = `${eventUser.lastUpdated}`;
-  }
-
+export async function updateEventUserApi({
+  eventId,
+  userName,
+  duration,
+  lastUpdated,
+  travelMode
+}) {
+  const eventUser = {
+    userName,
+    duration,
+    travelMode,
+    ...(lastUpdated && {updatedAt: lastUpdated.toString()})
+  };
   try {
     const { data } = await fetchGraphQL({
       query: updateEventUserMutation,
-      variables: eventUser
+      variables: {
+        eventCode: eventId,
+        eventUser
+      }
     });
     if (
       data &&
@@ -115,7 +127,7 @@ export async function updateEventUserApi(eventUser) {
 
 export async function reactToNotificationApi(
   eventId,
-  notificationCreatedAt,
+  notificationIndex,
   userName,
   emoji,
   didUserReact
@@ -123,9 +135,12 @@ export async function reactToNotificationApi(
   try {
     const { data } = await fetchGraphQL({
       query: didUserReact ? deleteReactionMutation : createReactionMutation,
-      variables: { eventId, notificationCreatedAt, userName, emoji }
+      variables: {
+        eventCode: eventId,
+        notificationIndex,
+        reaction: {userName, emoji}
+      }
     });
-
     return data;
   } catch (error) {
     logger(`reactToNotificationApi ${error.response.status}: ${error.message}`);

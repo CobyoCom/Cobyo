@@ -44,7 +44,7 @@ export const createEvent = () => async (dispatch, getState) => {
       response.data &&
       response.data.createEvent
     ) {
-      const { eventId, eventName, placeId } = response.data.createEvent;
+      const { code: eventId, name: eventName, place: {googlePlaceId: placeId} } = response.data.createEvent;
       dispatch(createEventSuccess());
 
       const localStoragePlaces = {

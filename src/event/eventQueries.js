@@ -12,7 +12,7 @@ import {
 
 export const eventQuery = gql`
   query eventQuery($eventId: String!) {
-    event(eventId: $eventId) {
+    event(code: $eventId) {
       ...event
     }
   }
@@ -21,7 +21,7 @@ export const eventQuery = gql`
 
 export const eventUsersQuery = gql`
   query eventUsersQuery($eventId: String!) {
-    event(eventId: $eventId) {
+    event(code: $eventId) {
       eventUsers {
         ...eventUser
       }
@@ -32,8 +32,7 @@ export const eventUsersQuery = gql`
 
 export const notificationsQuery = gql`
   query notificationsQuery($eventId: String!) {
-    event(eventId: $eventId) {
-      eventId
+    event(code: $eventId) {
       notifications {
         ...notification
       }

@@ -1,6 +1,7 @@
 import { selectEventId, selectUserName } from '../activeEventSelectors';
 import { makeSelectDidUserReact } from './reactionsSelectors';
 import { fetchNotificationsApi, reactToNotificationApi } from '../eventApi';
+import { makeSelectNotificationIndexById } from './notificationsSelectors';
 
 export const types = {
   fetchNotificationsRequest: 'FETCH_NOTIFICATIONS_REQUEST',
@@ -42,7 +43,8 @@ export const fetchNotifications = () => (dispatch, getState) =>
         response.data &&
         response.data.event
       ) {
-        dispatch(fetchNotificationsSuccess(response.data.event));
+        const { notifications } = response.data.event;
+        dispatch(fetchNotificationsSuccess({ eventId, notifications }));
         return resolve();
       }
 
@@ -75,13 +77,17 @@ export const reactToNotification = (notificationId, emoji) => (
     const userName = selectUserName(state);
     const eventId = selectEventId(state);
     const didUserReact = makeSelectDidUserReact(state, notificationId, emoji);
+    const notificationIndex = makeSelectNotificationIndexById(
+      state,
+      notificationId
+    );
 
     dispatch(reactToNotificationRequest(notificationId, emoji, userName));
 
     try {
       const response = await reactToNotificationApi(
         eventId,
-        notificationId,
+        notificationIndex,
         userName,
         emoji,
         didUserReact

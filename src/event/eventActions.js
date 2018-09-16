@@ -37,10 +37,10 @@ export function fetchEvent(eventId) {
         response.data &&
         response.data.event
       ) {
-        const { eventId, eventName, placeId, dateEnded, photoReference } = response.data.event;
+        const { code, name, dateEnded, place: {googlePlaceId, photoUrl} } = response.data.event;
         // TODO: Implement event time
         dispatch(
-          fetchEventSuccess({eventId, location: eventName, placeId, dateEnded, photoReference})
+          fetchEventSuccess({eventId: code, location: name, placeId: googlePlaceId, dateEnded, photoReference: photoUrl})
         );
 
         const localStorageData = {};

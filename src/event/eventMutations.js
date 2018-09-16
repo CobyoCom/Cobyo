@@ -11,8 +11,12 @@ import {
 } from './eventQueryFragments';
 
 export const createEventMutation = gql`
-  mutation createEvent($placeId: String!, $eventName: String!) {
-    createEvent(placeId: $placeId, eventName: $eventName) {
+  mutation createEvent(
+    $event: EventInput!
+  ) {
+    createEvent(
+      event: $event
+    ) {
       ...event
     }
   }
@@ -21,7 +25,7 @@ export const createEventMutation = gql`
 
 export const endEventMutation = gql`
   mutation endEvent($eventId: String!) {
-    endEvent(eventId: $eventId) {
+    endEvent(code: $eventId) {
       ...event
     }
   }
@@ -30,20 +34,12 @@ export const endEventMutation = gql`
 
 export const updateEventUserMutation = gql`
   mutation updateEventUser(
-    $eventId: String!
-    $userName: String!
-    $duration: Int
-    $updatedAt: String
-    $travelMode: String
-    $hasLeft: Boolean
+    $eventCode: String!
+    $eventUser: EventUserInput!
   ) {
     updateEventUser(
-      eventId: $eventId
-      userName: $userName
-      duration: $duration
-      updatedAt: $updatedAt
-      travelMode: $travelMode
-      hasLeft: $hasLeft
+      eventCode: $eventCode
+      eventUser: $eventUser
     ) {
       ...eventUser
     }
@@ -53,16 +49,14 @@ export const updateEventUserMutation = gql`
 
 export const createReactionMutation = gql`
   mutation createReaction(
-    $eventId: String!
-    $notificationCreatedAt: String!
-    $userName: String!
-    $emoji: String!
+    $eventCode: String!
+    $notificationIndex: Int!
+    $reaction: ReactionInput!
   ) {
     createReaction(
-      eventId: $eventId
-      notificationCreatedAt: $notificationCreatedAt
-      userName: $userName
-      emoji: $emoji
+      eventCode: $eventCode
+      notificationIndex: $notificationIndex
+      reaction: $reaction
     ) {
       ...reaction
     }
@@ -72,16 +66,14 @@ export const createReactionMutation = gql`
 
 export const deleteReactionMutation = gql`
   mutation deleteReaction(
-    $eventId: String!
-    $notificationCreatedAt: String!
-    $userName: String!
-    $emoji: String!
+    $eventCode: String!
+    $notificationIndex: Int!
+    $reaction: ReactionInput!
   ) {
     deleteReaction(
-      eventId: $eventId
-      notificationCreatedAt: $notificationCreatedAt
-      userName: $userName
-      emoji: $emoji
+      eventCode: $eventCode
+      notificationIndex: $notificationIndex
+      reaction: $reaction
     ) {
       ...reaction
     }

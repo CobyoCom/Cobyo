@@ -25,46 +25,44 @@ class App extends Component {
       <Provider store={store}>
         <div className="Page">
           <ErrorBannerContainer />
-          <div>
-            <Router>
-              <Switch>
-                <Route
-                  exact
-                  path="/"
-                  render={props => <HomePageContainer {...props} />}
-                />
-                <Route
-                  exact
-                  path="/events"
-                  render={() => <EventsPageContainer />}
-                />
-                <Route
-                  exact
-                  path="/settings"
-                  render={props => <SettingsPageContainer {...props} />}
-                />
-                <Route
-                  exact
-                  path="/create"
-                  render={props => <CreatePageContainer {...props} />}
-                />
-                <Route
-                  path="/events/:eventId"
-                  render={props => (
-                    <Redirect to={`/${extractParams(props).eventId}`} />
-                  )}
-                />
-                <Route exact path="/404.html" component={NotFoundPage} />
-                <Route
-                  exact
-                  path="/:eventId"
-                  render={props => (
-                    <EventPageContainer {...props} {...extractParams(props)} />
-                  )}
-                />
-              </Switch>
-            </Router>
-          </div>
+          <Router>
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={props => <HomePageContainer {...props} />}
+              />
+              <Route
+                exact
+                path="/events"
+                render={() => <EventsPageContainer />}
+              />
+              <Route
+                exact
+                path="/settings"
+                render={props => <SettingsPageContainer {...props} />}
+              />
+              <Route
+                exact
+                path="/create"
+                render={props => <CreatePageContainer {...props} />}
+              />
+              <Route
+                path="/events/:eventId"
+                render={props => (
+                  <Redirect to={`/${extractParams(props).eventId}`} />
+                )}
+              />
+              <Route exact path="/404.html" component={NotFoundPage} />
+              <Route
+                exact
+                path="/:eventId"
+                render={props => (
+                  <EventPageContainer {...props} {...extractParams(props)} />
+                )}
+              />
+            </Switch>
+          </Router>
         </div>
       </Provider>
     );

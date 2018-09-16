@@ -1,16 +1,11 @@
 import React from 'react';
 import NavBar from '../../navigation/NavBar/NavBar';
+import LoginFormContainer from '../../login/LoginForm/LoginFormContainer';
+import './EventsPage.css';
 
 const EventsPage = () => (
-  <div>
-    <div
-      style={{
-        padding: '50px 0',
-        textAlign: 'center'
-      }}
-    >
-      Sign up to see your events here!
-    </div>
+  <div className="EventsPage">
+    <LoginFormContainer/>
     <NavBar activeTab="Events" />
   </div>
 );

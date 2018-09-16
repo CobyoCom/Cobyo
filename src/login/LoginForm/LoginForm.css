@@ -1,0 +1,25 @@
+.LoginForm {
+
+}
+
+.LoginForm-button {
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0 rgba(0,0,0,0.02);
+  outline: none;
+  border-radius: 5px;
+  color: white;
+  padding: 10px 0;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+}
+
+.LoginForm-button--google {
+  background-color: lightgrey;
+  color: black;
+}
+
+.LoginForm-button-text {
+  font-size: 13pt;
+}

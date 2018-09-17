@@ -95,8 +95,25 @@ export const editEventPlace = eventId => async (dispatch, getState) => {
   const placeName = selectPlaceName(state);
   try {
     const response = await editEventPlaceApi({ eventId, placeId, placeName });
-    // TODO: update redux and local storage
     dispatch(editEventSuccess({ eventId, placeId, location: placeName }));
+
+    const localStoragePlaces = {
+      ...getItem('places', true),
+      [placeName]: {
+        placeId
+      }
+    };
+    localStorage.setItem('places', JSON.stringify(localStoragePlaces));
+
+    const localStorageEvents = getItem('events', true);
+    localStorage.setItem('events', JSON.stringify({
+      ...localStorageEvents,
+      [eventId]: {
+        ...localStorageEvents[eventId],
+        location: placeName
+      }
+    }));
+
     return Promise.resolve(response);
   } catch (error) {
     dispatch(editEventFailure());

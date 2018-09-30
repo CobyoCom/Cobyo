@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {API_KEY} from '../../helpers/googlemaps'
 import BackToEventsButton from '../BackToEventsButton/BackToEventsButton';
 import EventSettingsContainer from '../EventSettings/EventSettingsContainer';
 import EventDetailsContainer from '../EventDetails/EventDetailsContainer';
@@ -10,18 +9,11 @@ import NotificationsListContainer from '../notifications/NotificationsList/Notif
 import QuickLoginModal from '../QuickLogin/QuickLoginModal';
 import EventMap from '../EventMap/EventMap';
 import NavBar from '../../navigation/NavBar/NavBar';
+import EventVisualizationContainer from '../EventVisualization/EventVisualizationContainer';
 import './EventPage.css';
 
 const EventPage = props => (
   <div className="EventPage">
-    {props.eventId === '1' && props.photoReference && (
-      <div
-        className="EventPage-background"
-        style={props.photoReference && {
-          backgroundImage: `url(https://maps.googleapis.com/maps/api/place/photo?key=${API_KEY}&photoreference=${props.photoReference}&maxheight=1000)`,
-        }}
-      />
-    )}
     <BackToEventsButton/>
     <EventSettingsContainer />
     <EventDetailsContainer />
@@ -37,7 +29,8 @@ const EventPage = props => (
         travelMode={props.localStorageLogin.travelMode}
       />
     )}
-    {props.showEventMap && <EventMap />}
+    {props.showEventMap && props.eventId === '1' && <EventVisualizationContainer />}
+    {props.showEventMap && props.eventId !== '1' &&  <EventMap />}
     {props.showAttendeesList && <AttendeesListContainer />}
     {props.showNotifications && <NotificationsListContainer />}
     <NavBar activeTab="Events" />

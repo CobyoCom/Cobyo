@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import AttendeeVisualization from './AttendeeVisualization';
 import {AttendeePropTypes} from '../attendees/AttendeesListItem/AttendeesListItem';
 
@@ -8,41 +7,19 @@ const DEGREES_TO_RADIANS = .0174533;
 class AttendeeVisualizationContainer extends Component {
 
   static propTypes = {
-    ...AttendeePropTypes,
-    isMe: PropTypes.bool
+    ...AttendeePropTypes
   };
-
-  static defaultProps = {
-    isMe: false
-  };
-
-  componentDidMount() {
-    if (this.props.isMe && window.DeviceOrientationEvent) {
-      window.addEventListener('deviceorientation', this.deviceOrientationHandler, false);
-    }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    const x = this.state.alpha !== nextState.alpha || this.props.duration !== nextProps.duration;
-    if (x) {
-      console.log(this.props.duration, nextProps.duration)
-    }
-
-    return x;
-  }
 
   state = {
-    alpha: this.props.isMe ? 0 : Math.floor((Math.random() * 270) + 45)
-};
-
-  deviceOrientationHandler = (e) => {
-    this.setState({alpha: e.alpha});
+    alpha: Math.floor((Math.random() * 270) + 45)
   };
+
+  shouldComponentUpdate(nextProps) {
+    return this.props.duration !== nextProps.duration;
+  }
 
   // TODO: Fix
   getDistance = () => Math.min(40, Math.max(15, (this.props.duration / (3600 * 1000)) * 40));
-
-  getText = () => this.props.userName.substring(0,1);
 
   _isQuadrantOne = () => this.state.alpha < 90 && this.state.alpha >= 0;
 
@@ -88,12 +65,12 @@ class AttendeeVisualizationContainer extends Component {
     }
   };
 
-  getR = () => 20;
+  getR = () => 15;
 
   render() {
     return (
       <AttendeeVisualization
-        text={this.getText()}
+        text={this.props.userName}
         textStroke="white"
         cx={`${this.getCx()}%`}
         cy={`${this.getCy()}%`}

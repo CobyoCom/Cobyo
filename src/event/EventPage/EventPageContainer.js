@@ -64,7 +64,7 @@ class EventPageContainer extends Component {
     !this.props.isLoggedIn &&
     !!this.state.localStorageLogin;
 
-  getShowEventMap = () => !this.getShowEventEnded() && this.props.isLoggedIn && this.props.isEventLoaded;
+  getShowEventCarousel = () => !this.getShowEventEnded() && this.props.isLoggedIn && this.props.isEventLoaded;
 
   getShowAttendeesList = () =>
     !this.getShowEventEnded() && this.props.isLoggedIn;
@@ -82,7 +82,7 @@ class EventPageContainer extends Component {
         photoReference={this.props.photoReference}
         showLogin={this.getShowLogin()}
         showQuickLogin={this.getShowQuickLogin()}
-        showEventMap={this.getShowEventMap()}
+        showEventCarousel={this.getShowEventCarousel()}
         showAttendeesList={this.getShowAttendeesList()}
         showNotifications={this.getShowNotifications()}
         showEventEnded={this.getShowEventEnded()}

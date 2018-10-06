@@ -1,20 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import BackToEventsButton from '../BackToEventsButton/BackToEventsButton';
-import EventSettingsContainer from '../EventSettings/EventSettingsContainer';
-import EventDetailsContainer from '../EventDetails/EventDetailsContainer';
-import EventLoginFormContainer from '../EventLoginForm/EventLoginFormContainer';
-import AttendeesListContainer from '../attendees/AttendeesList/AttendeesListContainer';
-import NotificationsListContainer from '../notifications/NotificationsList/NotificationsListContainer';
-import QuickLoginModal from '../QuickLogin/QuickLoginModal';
-import EventMap from '../EventMap/EventMap';
-import NavBar from '../../navigation/NavBar/NavBar';
-import EventVisualizationContainer from '../EventVisualization/EventVisualizationContainer';
-import './EventPage.css';
+import React from "react";
+import PropTypes from "prop-types";
+import BackToEventsButton from "../BackToEventsButton/BackToEventsButton";
+import EventSettingsContainer from "../EventSettings/EventSettingsContainer";
+import EventDetailsContainer from "../EventDetails/EventDetailsContainer";
+import EventLoginFormContainer from "../EventLoginForm/EventLoginFormContainer";
+import AttendeesListContainer from "../attendees/AttendeesList/AttendeesListContainer";
+import NotificationsListContainer from "../notifications/NotificationsList/NotificationsListContainer";
+import QuickLoginModal from "../QuickLogin/QuickLoginModal";
+import EventMap from "../EventMap/EventMap";
+import NavBar from "../../navigation/NavBar/NavBar";
+import EventVisualization from "../EventVisualization/EventVisualization";
+import EventPageCarousel from "./EventPageCarousel";
+import "./EventPage.css";
 
 const EventPage = props => (
   <div className="EventPage">
-    <BackToEventsButton/>
+    <BackToEventsButton />
     <EventSettingsContainer />
     <EventDetailsContainer />
     {props.showEventEnded && (
@@ -29,8 +30,20 @@ const EventPage = props => (
         travelMode={props.localStorageLogin.travelMode}
       />
     )}
-    {props.showEventMap && props.eventId === '1' && <EventVisualizationContainer />}
-    {props.showEventMap && props.eventId !== '1' &&  <EventMap />}
+    {props.showEventCarousel && (
+      <EventPageCarousel
+        carouselItems={[
+          {
+            name: 'Visualization',
+            node: <EventVisualization/>
+          },
+          {
+            name: 'Map',
+            node: <EventMap/>
+          }
+        ]}
+      />
+    )}
     {props.showAttendeesList && <AttendeesListContainer />}
     {props.showNotifications && <NotificationsListContainer />}
     <NavBar activeTab="Events" />
@@ -42,7 +55,7 @@ EventPage.propTypes = {
   photoReference: PropTypes.string,
   showLogin: PropTypes.bool.isRequired,
   showQuickLogin: PropTypes.bool.isRequired,
-  showEventMap: PropTypes.bool.isRequired,
+  showEventCarousel: PropTypes.bool.isRequired,
   showAttendeesList: PropTypes.bool.isRequired,
   showNotifications: PropTypes.bool.isRequired,
   showEventEnded: PropTypes.bool.isRequired,

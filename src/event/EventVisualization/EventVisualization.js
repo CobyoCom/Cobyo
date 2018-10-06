@@ -15,7 +15,7 @@ import { selectUserCoordinates } from "../../reducers/appState/appStateSelectors
 import MeVisualizationContainer from "./MeVisualizationContainer";
 import DestinationVisualizationContainer from "./DestinationVisualizationContainer";
 
-class EventVisualizationContainer extends Component {
+class EventVisualization extends Component {
   static propTypes = {
     me: PropTypes.shape(AttendeePropTypes),
     attendees: PropTypes.array.isRequired,
@@ -99,6 +99,4 @@ const mapDispatchToProps = {
   initGoogleMapsAPI
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  EventVisualizationContainer
-);
+export default connect(mapStateToProps, mapDispatchToProps)(EventVisualization);

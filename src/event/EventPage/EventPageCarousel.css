@@ -1,0 +1,46 @@
+.EventPageCarousel {
+  position: relative;
+}
+
+.EventPageCarousel-item {
+  min-width: 100%;
+}
+
+.EventPageCarousel-banner-hidden {
+  display: none;
+}
+
+.EventPageCarousel-banner--left,
+.EventPageCarousel-banner--right{
+  position: absolute;
+  padding: 5px 10px;
+  z-index: 1000;
+  background-color: rgb(67, 111, 189);
+  top: -1px;
+  font-size: 10pt;
+}
+
+.EventPageCarousel-banner--left {
+  left: 0;
+  border-radius: 0 3px 3px 0;
+}
+
+.EventPageCarousel-banner--right {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.EventPageCarousel-content {
+  display: flex;
+}
+
+.EventPageCarousel-content--translateLeft {
+  /* Only supports two pages in the carousel */
+  transform: translate(0);
+  transition: transform 500ms ease-in-out;
+}
+
+.EventPageCarousel-content--translateRight {
+  transform: translate(-100%);
+  transition: transform 500ms ease-in-out;
+}

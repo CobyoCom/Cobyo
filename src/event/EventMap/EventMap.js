@@ -148,7 +148,7 @@ class EventMap extends Component {
 
   render() {
     const style = {
-      height: '25vh',
+      height: '400px',
       position: 'relative',
       overflow: 'hidden'
     };

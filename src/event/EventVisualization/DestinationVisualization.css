@@ -1,0 +1,17 @@
+.DestinationVisualization-pulse {
+  fill: white;
+  fill-opacity: 0;
+  transform-origin: 50% 50%;
+  animation-duration: 1.5s;
+  animation-name: destinationVisualizationPulse;
+  animation-iteration-count: infinite;
+}
+
+@keyframes destinationVisualizationPulse {
+  from {
+    opacity: 0.1;
+  }
+  to {
+    opacity: 1;
+  }
+}

@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import "./AttendeeVisualization.css";
 
 const AttendeeVisualization = ({
   cx,
@@ -26,21 +27,15 @@ const AttendeeVisualization = ({
     </text>
     {shouldShowRing && (
       <circle
-        className="AttendeeVisualization-ring"
+        className={`AttendeeVisualization-ring ${shouldPulse &&
+          "AttendeeVisualization-pulse"}`}
         cx={cx}
         cy={cy}
         r={ringR}
         fill="none"
-        strokeWidth={.8}
+        strokeWidth={0.8}
         stroke={fill}
-      >
-        {shouldPulse && (
-          <Fragment>
-            <animate attributeType="SVG" attributeName="r" begin="0s" dur="1.5s" repeatCount="indefinite" from="4%" to="10%"/>
-            <animate attributeType="CSS" attributeName="opacity" begin="0s"  dur="1.5s" repeatCount="indefinite" from="1" to="0"/>
-          </Fragment>
-        )}
-      </circle>
+      />
     )}
   </Fragment>
 );

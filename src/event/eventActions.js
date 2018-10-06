@@ -1,9 +1,11 @@
-import { fetchEventApi } from './eventApi';
-import { getItem } from '../helpers/localStorage';
+import { fetchEventApi, editEventScheduledTimeApi } from "./eventApi";
+import { getItem } from "../helpers/localStorage";
+import { selectEventId } from "./activeEventSelectors";
 
 export const types = {
-  fetchEventRequest: 'FETCH_EVENT_REQUEST',
-  fetchEventSuccess: 'FETCH_EVENT_SUCCESS'
+  fetchEventRequest: "FETCH_EVENT_REQUEST",
+  fetchEventSuccess: "FETCH_EVENT_SUCCESS",
+  editEventScheduledTimeSuccess: "EDIT_EVENT_SCHEDULED_TIME_SUCCESS"
 };
 
 /************ FETCH EVENT ************/
@@ -13,16 +15,9 @@ const fetchEventRequest = eventId => ({
   payload: { eventId }
 });
 
-const fetchEventSuccess = ({
-  eventId,
-  location,
-  placeId,
-  eventTime,
-  dateEnded,
-  photoReference
-}) => ({
+const fetchEventSuccess = payload => ({
   type: types.fetchEventSuccess,
-  payload: { eventId, location, placeId, eventTime, dateEnded, photoReference }
+  payload: payload
 });
 
 export function fetchEvent(eventId) {
@@ -37,15 +32,27 @@ export function fetchEvent(eventId) {
         response.data &&
         response.data.event
       ) {
-        const { code, name, dateEnded, place: {googlePlaceId, photoUrl} } = response.data.event;
-        // TODO: Implement event time
+        const {
+          code,
+          name,
+          scheduledTime,
+          dateEnded,
+          place: { googlePlaceId, photoUrl }
+        } = response.data.event;
         dispatch(
-          fetchEventSuccess({eventId: code, location: name, placeId: googlePlaceId, dateEnded, photoReference: photoUrl})
+          fetchEventSuccess({
+            eventId: code,
+            location: name,
+            placeId: googlePlaceId,
+            scheduledTime,
+            dateEnded,
+            photoReference: photoUrl
+          })
         );
 
         const localStorageData = {};
-        const localStorageEvents = getItem('events', true);
-        const localStorageUserName = getItem('userName');
+        const localStorageEvents = getItem("events", true);
+        const localStorageUserName = getItem("userName");
 
         const localStorageEvent =
           !!localStorageEvents && localStorageEvents[eventId];
@@ -62,7 +69,33 @@ export function fetchEvent(eventId) {
         return Promise.resolve(localStorageData);
       }
 
-      return Promise.reject();
+      return Promise.reject({});
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  };
+}
+
+export function editEventScheduledTime(scheduledTime) {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const eventId = selectEventId(state);
+
+    try {
+      const response = await editEventScheduledTimeApi({
+        eventId,
+        scheduledTime
+      });
+
+      if (response && response.data && response.data.editEvent) {
+        const { code, scheduledTime } = response.data.editEvent;
+        dispatch(
+          fetchEventSuccess({
+            eventId: code,
+            scheduledTime
+          })
+        );
+      }
     } catch (error) {
       return Promise.reject(error);
     }

@@ -13,6 +13,9 @@ class PlaceSuggestionsContainer extends Component {
     // Take places object and turn it into an ordered an array by time
     const places = Object.keys(localStoragePlaces).reduce(
       (places, placeName) => {
+        if (!localStoragePlaces[placeName] || !localStoragePlaces[placeName].placeId) {
+          return places;
+        }
         places.push({
           ...localStoragePlaces[placeName],
           placeName

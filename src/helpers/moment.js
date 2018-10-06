@@ -59,6 +59,10 @@ export function fromNow(time) {
   return `A while ago`;
 }
 
+export function to(time) {
+  return moment().to(moment(time));
+}
+
 /**
  *
  * @param startTime

@@ -19,18 +19,14 @@ const EventDetails = props => {
 
 EventDetails.propTypes = {
   eventId: PropTypes.string,
-  dateTime: PropTypes.number,
   location: PropTypes.string,
-  showDateTime: PropTypes.bool,
   showCopyClipboard: PropTypes.bool.isRequired,
   showCopyCheck: PropTypes.bool.isRequired,
   onCopy: PropTypes.func.isRequired
 };
 
 EventDetails.defaultProps = {
-  dateTime: null,
-  location: '',
-  showDateTime: false
+  location: ''
 };
 
 export default EventDetails;

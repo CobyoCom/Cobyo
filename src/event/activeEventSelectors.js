@@ -21,7 +21,7 @@ const selectActiveEvent = createSelector(
 export const selectEventId = state => selectActiveEvent(state).eventId;
 export const selectPlaceId = state => selectActiveEvent(state).placeId;
 export const selectEventLocation = state => selectActiveEvent(state).location;
-export const selectEventTime = state => selectActiveEvent(state).eventTime;
+export const selectEventScheduledTime = state => !isNaN(selectActiveEvent(state).scheduledTime) ? parseInt(selectActiveEvent(state).scheduledTime, 10) : null;
 export const selectEventPhotoReference = state => selectActiveEvent(state).photoReference;
 export const selectDateEnded = state => selectActiveEvent(state).dateEnded;
 export const selectHasEventEnded = state => !!selectDateEnded(state);

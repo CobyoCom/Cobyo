@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import {
   selectEventId,
   selectEventLocation,
-  selectEventTime,
   selectNumEventAttendees
 } from '../activeEventSelectors';
 
@@ -39,7 +38,6 @@ class EventDetailsContainer extends Component {
 
 const mapStateToProps = state => ({
   eventId: selectEventId(state),
-  dateTime: selectEventTime(state),
   location: selectEventLocation(state),
   numAttendees: selectNumEventAttendees(state)
 });

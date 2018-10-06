@@ -9,7 +9,8 @@ export const eventFragment = gql`
   fragment event on Event {
     code
     name
-    dateEnded,
+    scheduledTime
+    dateEnded
     place {
       address
       geocode {

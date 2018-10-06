@@ -12,7 +12,7 @@ export const eventInitialState = {
   eventId: null,
   placeId: null,
   location: '',
-  eventTime: null,
+  scheduledTime: null,
   attendeeIds: [],
   notificationIds: [],
   me: AttendeeDefaultProps,
@@ -32,17 +32,12 @@ export default function events(state = initialState, { type, payload }) {
       };
     }
     case eventTypes.fetchEventSuccess: {
-      const { eventId, location, placeId, eventTime, dateEnded, photoReference } = payload;
+      const { eventId } = payload;
       return {
         ...state,
         [eventId]: {
           ...state[eventId],
-          eventId,
-          location,
-          placeId,
-          eventTime,
-          dateEnded,
-          photoReference
+          ...payload
         }
       };
     }

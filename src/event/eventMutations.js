@@ -3,20 +3,16 @@
  *
  * @module eventMutations.js
  */
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 import {
   eventFragment,
   eventUserFragment,
   reactionFragment
-} from './eventQueryFragments';
+} from "./eventQueryFragments";
 
 export const createEventMutation = gql`
-  mutation createEvent(
-    $event: EventInput!
-  ) {
-    createEvent(
-      event: $event
-    ) {
+  mutation createEvent($event: EventInput!) {
+    createEvent(event: $event) {
       ...event
     }
   }
@@ -24,14 +20,8 @@ export const createEventMutation = gql`
 `;
 
 export const editEventMutation = gql`
-  mutation editEvent(
-    $code: String!
-    $event: EventInput!
-  ) {
-    editEvent(
-      code: $code
-      event: $event
-    ) {
+  mutation editEvent($code: String!, $event: EventInput!) {
+    editEvent(code: $code, event: $event) {
       ...event
     }
   }
@@ -48,14 +38,8 @@ export const endEventMutation = gql`
 `;
 
 export const updateEventUserMutation = gql`
-  mutation updateEventUser(
-    $eventCode: String!
-    $eventUser: EventUserInput!
-  ) {
-    updateEventUser(
-      eventCode: $eventCode
-      eventUser: $eventUser
-    ) {
+  mutation updateEventUser($eventCode: String!, $eventUser: EventUserInput!) {
+    updateEventUser(eventCode: $eventCode, eventUser: $eventUser) {
       ...eventUser
     }
   }

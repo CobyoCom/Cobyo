@@ -55,6 +55,24 @@ export async function editEventPlaceApi({eventId, placeId, placeName}) {
   }
 }
 
+export async function editEventScheduledTimeApi({eventId, scheduledTime}) {
+  try {
+    const { data } = await fetchGraphQL({
+      query: editEventMutation,
+      variables: {
+        code: eventId,
+        event: {
+          scheduledTime: scheduledTime.toString()
+        }
+      }
+    });
+    return data;
+  } catch (error) {
+    logger(`editEventScheduledTimeApi ${error.response.status}: ${error.message}`);
+    throw new Error();
+  }
+}
+
 export async function endEventApi(eventId) {
   try {
     const { data } = await fetchGraphQL({

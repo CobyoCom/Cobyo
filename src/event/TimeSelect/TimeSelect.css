@@ -1,0 +1,26 @@
+.TimeSelect {
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.TimeSelect-inputArea {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.TimeSelect-contentArea {
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.TimeSelect-toDate {
+  font-size: 14pt;
+}
+
+.TimeSelect .Input {
+  width: 40%;
+}

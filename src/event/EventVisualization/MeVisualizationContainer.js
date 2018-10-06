@@ -5,10 +5,12 @@ import AttendeeVisualization from "./AttendeeVisualization";
 import { AttendeePropTypes } from "../attendees/AttendeesListItem/AttendeesListItem";
 import { refreshEvent } from "../eventUserActions";
 import { selectIsRefreshing } from "../activeEventSelectors";
+import { getDistance } from "./VisualizationHelpers";
 
 class MeVisualizationContainer extends Component {
   static propTypes = {
     ...AttendeePropTypes,
+    boundingHeight: PropTypes.number.isRequired,
     isRefreshing: PropTypes.bool.isRequired,
     refreshEvent: PropTypes.func.isRequired
   };
@@ -31,26 +33,20 @@ class MeVisualizationContainer extends Component {
     this.setState({ alpha: e.alpha });
   };
 
-  // TODO: Fix
-  getDistance = () => Math.min(40, Math.max(15, this.props.duration / (3600 * 1000) * 40));
-
-  getCx = () => 50;
-
-  getCy = () => this.getDistance() + 50;
+  getCy = () =>
+    this.props.boundingHeight / 2 + getDistance({ ms: this.props.duration });
 
   getR = () => 15;
 
-  handleClick = () => {
-    this.props.refreshEvent();
-  };
+  handleClick = () => this.props.refreshEvent();
 
   render() {
     return (
       <AttendeeVisualization
         text={this.props.userName}
         textStroke="white"
-        cx={`${this.getCx()}%`}
-        cy={`${this.getCy()}%`}
+        cx="50%"
+        cy={this.getCy()}
         r={this.getR()}
         fill={"rgb(67,111,189)"}
         onClick={this.handleClick}

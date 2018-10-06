@@ -9,7 +9,8 @@ const DestinationVisualization = ({
   onClick,
   shouldShowRing,
   shouldPulse,
-  ringR
+  ringR,
+  text
 }) => (
   <Fragment>
     {shouldShowRing && (
@@ -25,6 +26,17 @@ const DestinationVisualization = ({
       />
     )}
     <circle cx={cx} cy={cy} r={r} fill={fill} onClick={onClick} />
+    <text
+      x={cx}
+      y={cy}
+      textAnchor="middle"
+      stroke="black"
+      strokeWidth="1px"
+      dy=".3em"
+      onClick={onClick}
+    >
+      {text}
+    </text>
   </Fragment>
 );
 

@@ -3,7 +3,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import DestinationVisualization from "./DestinationVisualization";
 import TimeSelectModal from "../TimeSelect/TimeSelectModal";
-import {selectEventScheduledTime, selectIsRefreshing} from "../activeEventSelectors";
+import {
+  selectEventScheduledTime,
+  selectIsRefreshing
+} from "../activeEventSelectors";
 import { getDistance } from "./VisualizationHelpers";
 
 class DestinationVisualizationContainer extends Component {
@@ -24,6 +27,24 @@ class DestinationVisualizationContainer extends Component {
 
   getRingR = () => getDistance({ ms: this.getTimeDistanceInMs() });
 
+  getText = () => {
+    if (!this.props.scheduledTime) {
+      return "+";
+    }
+
+    const date = new Date(this.props.scheduledTime);
+    const hour =
+      date.getHours() < 10
+        ? `0${date.getHours().toString()}`
+        : date.getHours().toString();
+    const minute =
+      date.getMinutes() < 10
+        ? `0${date.getMinutes().toString()}`
+        : date.getMinutes().toString();
+
+    return `${hour}:${minute}`;
+  };
+
   handleDestinationClick = () => this.setState({ isModalOpen: true });
 
   handleModalClose = () => this.setState({ isModalOpen: false });
@@ -40,6 +61,7 @@ class DestinationVisualizationContainer extends Component {
           shouldShowRing={!!this.props.scheduledTime}
           ringR={this.getRingR()}
           shouldPulse={this.props.isRefreshing}
+          text={this.getText()}
         />
         <TimeSelectModal
           isModalOpen={this.state.isModalOpen}

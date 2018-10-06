@@ -23,43 +23,29 @@ class EventPageCarousel extends Component {
 
   state = {
     activeIndex: 0,
+    hideBanners: false,
     translateLeft: false,
     translateRight: false
   };
 
   handleClickBanner = i => {
-    if (i > 0) {
-      // Translate right
-      this.setState(
-        {
-          translateRight: true,
-          translateLeft: false
-        },
-        () => {
-          this.setState(prevState => ({
-            activeIndex: prevState.activeIndex + i
-          }));
-        }
-      );
-    } else if (i < 0) {
-      // Translate left
-      this.setState(
-        {
-          translateLeft: true,
-          translateRight: false
-        },
-        () => {
-          this.setState(prevState => ({
-            activeIndex: prevState.activeIndex + i
-          }));
-        }
-      );
-    }
+    this.setState({
+      translateRight: i > 0,
+      translateLeft: i < 0,
+      hideBanners: true
+    }, () => {
+      setTimeout(() => {
+        this.setState(prevState => ({
+          activeIndex: prevState.activeIndex + i,
+          hideBanners: false
+        }));
+      }, 500);
+    });
   };
 
-  getShouldShowLeftBanner = () => !!this.props.carouselItems[this.state.activeIndex - 1];
+  getShouldShowLeftBanner = () => !this.state.hideBanners && !!this.props.carouselItems[this.state.activeIndex - 1];
 
-  getShouldShowRightBanner = () => !!this.props.carouselItems[this.state.activeIndex + 1];
+  getShouldShowRightBanner = () => !this.state.hideBanners && !!this.props.carouselItems[this.state.activeIndex + 1];
 
   getLeftBannerName = () =>
     this.getShouldShowLeftBanner() &&

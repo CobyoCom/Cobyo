@@ -10,7 +10,8 @@ import { selectNotificationsById } from './notifications/notificationsSelectors'
 
 /****** EVENT ENTITIES ******/
 
-export const selectActiveEventId = state => state[activeEventModuleName];
+export const selectActiveEventId = state => state[activeEventModuleName].eventId;
+const selectSelectedAttendeeUserName = state => state[activeEventModuleName].selectedAttendee;
 const selectEventsById = state => state.entities[eventsModuleName];
 const selectEventAttendeesById = state => state.entities[attendeesModuleName];
 const selectActiveEvent = createSelector(
@@ -61,4 +62,10 @@ export const selectEventAttendees = createSelector(
 export const selectNumEventAttendees = createSelector(
   selectEventAttendees,
   eventAttendees => (eventAttendees.length || 0) + 1
+);
+
+export const selectSelectedAttendee = createSelector(
+  selectSelectedAttendeeUserName,
+  selectEventAttendees,
+  (userName, attendees) => attendees.find(attendee => attendee.userName === userName)
 );

@@ -8,5 +8,6 @@
  * @returns {number}
  */
 export function getDistance({ ms, min = 0, zoom = 3 }) {
-  return Math.max(min, ms / (3600 * 1000) * 100 * zoom);
+  const hours = ms / (3600 * 1000);
+  return Math.max(min, hours * 100 * zoom);
 }

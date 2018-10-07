@@ -45,7 +45,7 @@ const EventPage = props => (
       />
     )}
     {props.showAttendeesList && <AttendeesListContainer />}
-    {props.showNotifications && <NotificationsListContainer />}
+    {false && props.showNotifications && <NotificationsListContainer />}
     <NavBar activeTab="Events" />
   </div>
 );

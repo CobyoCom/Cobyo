@@ -1,9 +1,11 @@
-import { types } from './eventActions';
-import { types as createActionTypes } from '../create/createActions';
+import { combineReducers } from "redux";
+import { types } from "./eventActions";
+import { types as createActionTypes } from "../create/createActions";
+import { types as visualizationActionTypes } from "./EventVisualization/visualizationActions";
 
-export const moduleName = 'activeEvent';
+export const moduleName = "activeEvent";
 
-export default function activeEvent(state = null, { type, payload }) {
+function eventId(state = null, { type, payload }) {
   switch (type) {
     case types.fetchEventRequest: {
       const { eventId } = payload;
@@ -20,3 +22,19 @@ export default function activeEvent(state = null, { type, payload }) {
       return state;
   }
 }
+
+function selectedAttendee(state = null, { type, payload }) {
+  switch (type) {
+    case visualizationActionTypes.selectAttendee:
+      return payload;
+    case visualizationActionTypes.deselectAttendee:
+      return null;
+    default:
+      return state;
+  }
+}
+
+export default combineReducers({
+  eventId,
+  selectedAttendee
+});

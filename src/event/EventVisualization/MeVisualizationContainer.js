@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import AttendeeVisualization from "./AttendeeVisualization";
 import { AttendeePropTypes } from "../attendees/AttendeesListItem/AttendeesListItem";
 import { refreshEvent } from "../eventUserActions";
+import { selectAttendee } from "./visualizationActions";
 import { selectIsRefreshing, selectZoomLevel } from "../activeEventSelectors";
 import { getDistance } from "./VisualizationHelpers";
 
@@ -13,6 +14,7 @@ class MeVisualizationContainer extends Component {
     boundingHeight: PropTypes.number.isRequired,
     isRefreshing: PropTypes.bool.isRequired,
     refreshEvent: PropTypes.func.isRequired,
+    selectAttendee: PropTypes.func.isRequired,
     zoomLevel: PropTypes.number.isRequired
   };
 
@@ -40,7 +42,10 @@ class MeVisualizationContainer extends Component {
 
   getR = () => 15;
 
-  handleClick = () => this.props.refreshEvent();
+  handleClick = () => {
+    this.props.selectAttendee(this.props.userName);
+    this.props.refreshEvent();
+  };
 
   render() {
     return (
@@ -66,7 +71,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  refreshEvent
+  refreshEvent,
+  selectAttendee
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

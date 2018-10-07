@@ -22,6 +22,7 @@ const AttendeeVisualization = ({
       stroke={textStroke}
       strokeWidth="1px"
       dy=".3em"
+      onClick={onClick}
     >
       {text.substring(0, 1)}
     </text>

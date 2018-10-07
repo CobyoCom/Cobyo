@@ -9,6 +9,7 @@
   height: 45px;
   width: 100%;
   background-color: #292929;
+  z-index: 1001; /* Higher than the selected Attendee modal */
 }
 
 .NavBar > * {

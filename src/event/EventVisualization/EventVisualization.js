@@ -1,6 +1,6 @@
 /*global google*/
 
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import {
@@ -14,6 +14,7 @@ import { initGoogleMapsAPI } from "../../actions/googleMapsActions";
 import { selectUserCoordinates } from "../../reducers/appState/appStateSelectors";
 import MeVisualizationContainer from "./MeVisualizationContainer";
 import DestinationVisualizationContainer from "./DestinationVisualizationContainer";
+import ZoomControls from "./ZoomControls/ZoomControls";
 
 class EventVisualization extends Component {
   static propTypes = {
@@ -68,22 +69,25 @@ class EventVisualization extends Component {
 
   render() {
     return (
-      <svg width="100%" height={this.getBoundingHeight()}>
-        <DestinationVisualizationContainer
-          boundingHeight={this.getBoundingHeight()}
-        />
-        <MeVisualizationContainer
-          {...this.props.me}
-          boundingHeight={this.getBoundingHeight()}
-        />
-        {this.props.attendees.map(attendee => (
-          <AttendeeVisualizationContainer
-            key={attendee.userName}
+      <Fragment>
+        <svg width="100%" height={this.getBoundingHeight()}>
+          <DestinationVisualizationContainer
             boundingHeight={this.getBoundingHeight()}
-            {...attendee}
           />
-        ))}
-      </svg>
+          <MeVisualizationContainer
+            {...this.props.me}
+            boundingHeight={this.getBoundingHeight()}
+          />
+          {this.props.attendees.map(attendee => (
+            <AttendeeVisualizationContainer
+              key={attendee.userName}
+              boundingHeight={this.getBoundingHeight()}
+              {...attendee}
+            />
+          ))}
+        </svg>
+        <ZoomControls/>
+      </Fragment>
     );
   }
 }

@@ -40,6 +40,7 @@ export const selectHasLeft = state => selectMe(state).hasLeft;
 
 const selectEventUI = state => state.ui[uiEventModuleName];
 export const selectIsRefreshing = state => selectEventUI(state).isRefreshing;
+export const selectZoomLevel = state => selectEventUI(state).zoomLevel;
 
 /****** EVENT NOTIFICATIONS ENTITIES ******/
 

@@ -59,8 +59,8 @@ export function fromNow(time) {
   return `A while ago`;
 }
 
-export function to(time) {
-  return moment().to(moment(time));
+export function to(time, withoutSuffix) {
+  return moment().to(moment(time), withoutSuffix);
 }
 
 /**

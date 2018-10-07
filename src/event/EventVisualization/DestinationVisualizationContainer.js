@@ -5,15 +5,18 @@ import DestinationVisualization from "./DestinationVisualization";
 import TimeSelectModal from "../TimeSelect/TimeSelectModal";
 import {
   selectEventScheduledTime,
-  selectIsRefreshing
+  selectIsRefreshing,
+  selectZoomLevel
 } from "../activeEventSelectors";
 import { getDistance } from "./VisualizationHelpers";
+import { to } from "../../helpers/moment";
 
 class DestinationVisualizationContainer extends Component {
   static propTypes = {
     boundingHeight: PropTypes.number.isRequired,
     scheduledTime: PropTypes.number,
-    isRefreshing: PropTypes.bool.isRequired
+    isRefreshing: PropTypes.bool.isRequired,
+    zoomLevel: PropTypes.number.isRequired
   };
 
   state = {
@@ -25,7 +28,10 @@ class DestinationVisualizationContainer extends Component {
 
   getR = () => 30;
 
-  getRingR = () => getDistance({ ms: this.getTimeDistanceInMs() });
+  getRingR = () =>
+    getDistance({ ms: this.getTimeDistanceInMs(), zoom: this.props.zoomLevel });
+
+  getRingText = () => to(new Date(this.props.scheduledTime), true);
 
   getText = () => {
     if (!this.props.scheduledTime) {
@@ -45,6 +51,24 @@ class DestinationVisualizationContainer extends Component {
     return `${hour}:${minute}`;
   };
 
+  getCy = () => this.props.boundingHeight / 2;
+
+  getRingTextMaxY = () => this.getCy() - this.getR() - 5;
+
+  getRingTextMinY = () => 15; // Ring text height is ~15
+
+  getRingTextY = () => {
+    const padding = 7;
+
+    return Math.min(
+      Math.max(
+        this.getCy() - this.getRingR() - padding,
+        this.getRingTextMinY()
+      ),
+      this.getRingTextMaxY()
+    );
+  };
+
   handleDestinationClick = () => this.setState({ isModalOpen: true });
 
   handleModalClose = () => this.setState({ isModalOpen: false });
@@ -54,12 +78,14 @@ class DestinationVisualizationContainer extends Component {
       <Fragment>
         <DestinationVisualization
           cx="50%"
-          cy="50%"
+          cy={this.getCy()}
           r={this.getR()}
           fill="rgb(247, 204, 70)"
           onClick={this.handleDestinationClick}
           shouldShowRing={!!this.props.scheduledTime}
           ringR={this.getRingR()}
+          ringText={this.getRingText()}
+          ringTextY={this.getRingTextY()}
           shouldPulse={this.props.isRefreshing}
           text={this.getText()}
         />
@@ -74,7 +100,8 @@ class DestinationVisualizationContainer extends Component {
 
 const mapStateToProps = state => ({
   scheduledTime: selectEventScheduledTime(state),
-  isRefreshing: selectIsRefreshing(state)
+  isRefreshing: selectIsRefreshing(state),
+  zoomLevel: selectZoomLevel(state)
 });
 
 export default connect(mapStateToProps)(DestinationVisualizationContainer);

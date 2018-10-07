@@ -1,0 +1,19 @@
+.ZoomControls {
+  position: absolute;
+  right: 10px;
+  background-color: white;
+  bottom: 30px;
+  height: 80px;
+  width: 40px;
+  border-radius: 2px;
+}
+
+.ZoomControls .ZoomControls-button {
+  color: black;
+  height: 50%;
+  width: 100%;
+  font-size: 24pt;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 -1px 0 rgba(0,0,0,0.01);
+}

@@ -1,26 +1,25 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import AttendeeVisualization from "./AttendeeVisualization";
 import { AttendeePropTypes } from "../attendees/AttendeesListItem/AttendeesListItem";
 import { getDistance } from "./VisualizationHelpers";
+import {selectZoomLevel} from "../activeEventSelectors";
 
 const DEGREES_TO_RADIANS = 0.0174533;
 
 class AttendeeVisualizationContainer extends Component {
   static propTypes = {
     ...AttendeePropTypes,
-    boundingHeight: PropTypes.number.isRequired
+    boundingHeight: PropTypes.number.isRequired,
+    zoomLevel: PropTypes.number.isRequired
   };
 
   state = {
     alpha: Math.floor(Math.random() * 270 + 45)
   };
 
-  shouldComponentUpdate(nextProps) {
-    return this.props.duration !== nextProps.duration;
-  }
-
-  getDistance = () => getDistance({ ms: this.props.duration });
+  getDistance = () => getDistance({ ms: this.props.duration, zoom: this.props.zoomLevel });
 
   _isQuadrantOne = () => this.state.alpha < 90 && this.state.alpha >= 0;
 
@@ -98,4 +97,10 @@ class AttendeeVisualizationContainer extends Component {
   }
 }
 
-export default AttendeeVisualizationContainer;
+const mapStateToProps = state => ({
+  zoomLevel: selectZoomLevel(state)
+});
+
+export default connect(
+  mapStateToProps
+)(AttendeeVisualizationContainer);

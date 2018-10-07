@@ -5,12 +5,20 @@
   padding: 20px 0;
 }
 
-.EventDetails-location,
-.EventDetails-numAttendees {
+.EventDetails-title,
+.EventDetails-subtitle {
   text-align: center;
 }
 
-.EventDetails-location {
+.EventDetails-subtitle > * {
+  padding: 0 8px;
+}
+
+.EventDetails-scheduledTime {
+  color: rgb(247, 204, 70);
+}
+
+.EventDetails-title {
   font-size: 20pt;
   text-align: center;
   font-weight: bold;
@@ -28,14 +36,14 @@
   font-size: 19pt;
 }
 
-.EventDetails-location:empty {
+.EventDetails-title:empty {
   min-width: 30px;
   min-height: 20px;
   border-radius: 15px;
   animation: pulse 1s infinite ease-in-out;
 }
 
-.EventDetails-location:empty {
+.EventDetails-title:empty {
   width: 200px;
   height: 50px;
 }

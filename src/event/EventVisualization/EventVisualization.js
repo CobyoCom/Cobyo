@@ -71,13 +71,6 @@ class EventVisualization extends Component {
     return (
       <Fragment>
         <svg width="100%" height={this.getBoundingHeight()}>
-          <DestinationVisualizationContainer
-            boundingHeight={this.getBoundingHeight()}
-          />
-          <MeVisualizationContainer
-            {...this.props.me}
-            boundingHeight={this.getBoundingHeight()}
-          />
           {this.props.attendees.map(attendee => (
             <AttendeeVisualizationContainer
               key={attendee.userName}
@@ -85,6 +78,13 @@ class EventVisualization extends Component {
               {...attendee}
             />
           ))}
+          <DestinationVisualizationContainer
+            boundingHeight={this.getBoundingHeight()}
+          />
+          <MeVisualizationContainer
+            {...this.props.me}
+            boundingHeight={this.getBoundingHeight()}
+          />
         </svg>
         <ZoomControls/>
       </Fragment>

@@ -57,7 +57,7 @@ class TimeSelect extends Component {
   };
 
   getMinuteString = () => {
-    if (this.state.minute <= 10) {
+    if (this.state.minute < 10) {
       return `0${this.state.minute}`;
     }
 

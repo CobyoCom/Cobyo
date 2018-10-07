@@ -31,14 +31,15 @@ const DestinationVisualization = ({
           x={cx}
           y={ringTextY}
           strokeWidth={0.8}
-          stroke={fill}
+          stroke="white"
           textAnchor="middle"
+          onClick={onClick}
         >
           {ringText}
         </text>
       </Fragment>
     )}
-    <circle cx={cx} cy={cy} r={r} fill={fill} onClick={onClick} />
+    <circle cx={cx} cy={cy} r={r} fill={fill} />
     <text
       x={cx}
       y={cy}
@@ -46,7 +47,6 @@ const DestinationVisualization = ({
       stroke="black"
       strokeWidth="1px"
       dy=".3em"
-      onClick={onClick}
     >
       {text}
     </text>

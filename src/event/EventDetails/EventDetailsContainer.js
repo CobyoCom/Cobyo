@@ -1,11 +1,13 @@
-import React, { Component } from 'react';
-import EventDetails from './EventDetails';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import EventDetails from "./EventDetails";
+import { connect } from "react-redux";
 import {
   selectEventId,
   selectEventLocation,
+  selectEventScheduledTime,
   selectNumEventAttendees
-} from '../activeEventSelectors';
+} from "../activeEventSelectors";
+import { formatDate } from "../../helpers/moment";
 
 class EventDetailsContainer extends Component {
   componentWillUnmount() {
@@ -13,7 +15,16 @@ class EventDetailsContainer extends Component {
   }
 
   state = {
-    hasCopied: false
+    hasCopied: false,
+    isTimeModalOpen: false
+  };
+
+  getScheduledTimeString = () => {
+    if (!this.props.scheduledTime) {
+      return 'Unscheduled';
+    }
+
+    return formatDate(this.props.scheduledTime, "hh:mm A");
   };
 
   handleCopy = () => {
@@ -24,13 +35,21 @@ class EventDetailsContainer extends Component {
     });
   };
 
+  handleTimeClick = () => this.setState({ isTimeModalOpen: true });
+
+  handleTimeModalClose = () => this.setState({ isTimeModalOpen: false });
+
   render() {
     return (
       <EventDetails
         {...this.props}
+        scheduledTimeString={this.getScheduledTimeString()}
         showCopyClipboard={!!this.props.eventId && !this.state.hasCopied}
         showCopyCheck={!!this.props.eventId && this.state.hasCopied}
         onCopy={this.handleCopy}
+        onTimeClick={this.handleTimeClick}
+        isTimeModalOpen={this.state.isTimeModalOpen}
+        onTimeModalClose={this.handleTimeModalClose}
       />
     );
   }
@@ -39,7 +58,8 @@ class EventDetailsContainer extends Component {
 const mapStateToProps = state => ({
   eventId: selectEventId(state),
   location: selectEventLocation(state),
-  numAttendees: selectNumEventAttendees(state)
+  numAttendees: selectNumEventAttendees(state),
+  scheduledTime: selectEventScheduledTime(state)
 });
 
 export default connect(mapStateToProps)(EventDetailsContainer);

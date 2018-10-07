@@ -9,7 +9,7 @@ import {
   selectZoomLevel
 } from "../activeEventSelectors";
 import { getDistance } from "./VisualizationHelpers";
-import { to } from "../../helpers/moment";
+import { to, formatDate } from "../../helpers/moment";
 
 class DestinationVisualizationContainer extends Component {
   static propTypes = {
@@ -31,29 +31,19 @@ class DestinationVisualizationContainer extends Component {
   getRingR = () =>
     getDistance({ ms: this.getTimeDistanceInMs(), zoom: this.props.zoomLevel });
 
-  getRingText = () => to(new Date(this.props.scheduledTime), true);
+  getRingText = () => to(new Date(this.props.scheduledTime));
 
   getText = () => {
     if (!this.props.scheduledTime) {
       return "+";
     }
 
-    const date = new Date(this.props.scheduledTime);
-    const hour =
-      date.getHours() < 10
-        ? `0${date.getHours().toString()}`
-        : date.getHours().toString();
-    const minute =
-      date.getMinutes() < 10
-        ? `0${date.getMinutes().toString()}`
-        : date.getMinutes().toString();
-
-    return `${hour}:${minute}`;
+    return formatDate(this.props.scheduledTime, 'hh:mm');
   };
 
   getCy = () => this.props.boundingHeight / 2;
 
-  getRingTextMaxY = () => this.getCy() - this.getR() - 5;
+  getRingTextMaxY = () => this.getCy() - this.getR() - 8;
 
   getRingTextMinY = () => 15; // Ring text height is ~15
 

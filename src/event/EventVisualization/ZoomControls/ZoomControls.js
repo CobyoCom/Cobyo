@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { selectZoomLevel } from "../../activeEventSelectors";
 import {
   incrementZoomLevel,
   decrementZoomLevel
@@ -10,7 +9,6 @@ import "./ZoomControls.css";
 
 class ZoomControls extends Component {
   static propTypes = {
-    zoomLevel: PropTypes.number.isRequired,
     incrementZoomLevel: PropTypes.func.isRequired,
     decrementZoomLevel: PropTypes.func.isRequired
   };
@@ -35,13 +33,9 @@ class ZoomControls extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  zoomLevel: selectZoomLevel(state)
-});
-
 const mapDispatchToProps = {
   incrementZoomLevel,
   decrementZoomLevel
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ZoomControls);
+export default connect(null, mapDispatchToProps)(ZoomControls);

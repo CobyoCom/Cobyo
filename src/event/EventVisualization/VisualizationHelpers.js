@@ -7,7 +7,12 @@
  *
  * @returns {number}
  */
-export function getDistance({ ms, min = 0, zoom = 3 }) {
-  const hours = ms / (3600 * 1000);
-  return Math.max(min, hours * 100 * zoom);
+export function getDistance({ ms, min = 0, zoom = 1 }) {
+  const seconds = ms / 1000;
+  const minutes = seconds / 60;
+  return Math.max(min, minutes * zoom);
+}
+
+export function getSuggestedZoomLevel(ms) {
+
 }

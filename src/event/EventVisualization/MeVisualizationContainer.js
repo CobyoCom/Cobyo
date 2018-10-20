@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import AttendeeVisualization from "./AttendeeVisualization";
 import { AttendeePropTypes } from "../attendees/AttendeesListItem/AttendeesListItem";
 import { refreshEvent } from "../eventUserActions";
 import { selectAttendee } from "./visualizationActions";
-import { selectIsRefreshing, selectZoomLevel } from "../activeEventSelectors";
+import { selectIsRefreshing } from "../activeEventSelectors";
 import { getDistance } from "./VisualizationHelpers";
+import BaseNode from "./BaseNode/BaseNode";
 
 class MeVisualizationContainer extends Component {
   static propTypes = {
     ...AttendeePropTypes,
+    boundingWidth: PropTypes.number.isRequired,
     boundingHeight: PropTypes.number.isRequired,
     isRefreshing: PropTypes.bool.isRequired,
     refreshEvent: PropTypes.func.isRequired,
@@ -36,9 +37,15 @@ class MeVisualizationContainer extends Component {
     this.setState({ alpha: e.alpha });
   };
 
-  getCy = () =>
-    this.props.boundingHeight / 2 +
-    getDistance({ ms: this.props.duration, zoom: this.props.zoomLevel });
+  getDistance = () =>
+    getDistance({
+      ms: this.props.duration,
+      zoom: this.props.zoomLevel
+    });
+
+  getCx = () => this.props.boundingWidth / 2;
+
+  getCy = () => this.props.boundingHeight / 2 + this.getDistance();
 
   getR = () => 15;
 
@@ -49,25 +56,34 @@ class MeVisualizationContainer extends Component {
 
   render() {
     return (
-      <AttendeeVisualization
-        text={this.props.userName}
-        textStroke="white"
-        cx="50%"
+      <BaseNode
+        cx={this.getCx()}
         cy={this.getCy()}
         r={this.getR()}
-        fill={"rgb(67,111,189)"}
+        fill="rgb(67,111,189)"
+        text={this.props.userName.substring(0, 1)}
+        textStroke="white"
         onClick={this.handleClick}
-        shouldShowRing
-        ringR={this.getR() + 5}
-        shouldPulse={this.props.isRefreshing}
+        ring={{
+          r: this.getR() + 5,
+          cx: this.getCx(),
+          cy: this.getCy(),
+          fill: "rgb(67,111,189)",
+          animation: this.props.isRefreshing ? "pulse" : null
+        }}
+        orbitalRing={{
+          r: this.getDistance(),
+          cx: this.props.boundingWidth / 2,
+          cy: this.props.boundingHeight / 2,
+          fill: "rgb(67,111,189)"
+        }}
       />
     );
   }
 }
 
 const mapStateToProps = state => ({
-  isRefreshing: selectIsRefreshing(state),
-  zoomLevel: selectZoomLevel(state)
+  isRefreshing: selectIsRefreshing(state)
 });
 
 const mapDispatchToProps = {

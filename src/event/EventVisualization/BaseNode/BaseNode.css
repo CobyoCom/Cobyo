@@ -1,0 +1,40 @@
+.BaseNode-flash,
+.BaseNode-pulse {
+  fill: white;
+  fill-opacity: 0;
+  transform-origin: 50% 50%;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+}
+
+.BaseNode-flash {
+  animation-name: nodeFlash;
+}
+
+.BaseNode-pulse {
+  animation-name: nodePulse;
+}
+
+/*.Ring-mask {*/
+  /*fill: 'white';*/
+/*}*/
+
+@keyframes nodePulse {
+  from {
+    r: 4%;
+    opacity: 1;
+  }
+  to {
+    r: 10%;
+    opacity: 0;
+  }
+}
+
+@keyframes nodeFlash {
+  from {
+    opacity: 0.1;
+  }
+  to {
+    opacity: 1;
+  }
+}

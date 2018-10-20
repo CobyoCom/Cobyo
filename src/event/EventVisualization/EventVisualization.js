@@ -6,7 +6,8 @@ import PropTypes from "prop-types";
 import {
   selectEventAttendees,
   selectMe,
-  selectPlaceId
+  selectPlaceId,
+  selectZoomLevel
 } from "../activeEventSelectors";
 import { AttendeePropTypes } from "../attendees/AttendeesListItem/AttendeesListItem";
 import AttendeeVisualizationContainer from "./AttendeeVisualizationContainer";
@@ -22,7 +23,8 @@ class EventVisualization extends Component {
     attendees: PropTypes.array.isRequired,
     placeId: PropTypes.string.isRequired,
     userCoordinates: PropTypes.object.isRequired,
-    initGoogleMapsAPI: PropTypes.func.isRequired
+    initGoogleMapsAPI: PropTypes.func.isRequired,
+    zoomLevel: PropTypes.number.isRequired
   };
 
   state = {
@@ -65,28 +67,44 @@ class EventVisualization extends Component {
       );
     });
 
+  getBoundingWidth = () => this.el ? this.el.getBoundingClientRect().width : 0;
+
   getBoundingHeight = () => 400;
 
   render() {
     return (
       <Fragment>
-        <svg width="100%" height={this.getBoundingHeight()}>
-          {this.props.attendees.map(attendee => (
-            <AttendeeVisualizationContainer
-              key={attendee.userName}
-              boundingHeight={this.getBoundingHeight()}
-              {...attendee}
-            />
-          ))}
-          <DestinationVisualizationContainer
-            boundingHeight={this.getBoundingHeight()}
-          />
-          <MeVisualizationContainer
-            {...this.props.me}
-            boundingHeight={this.getBoundingHeight()}
-          />
+        <svg
+          width="100%"
+          height={this.getBoundingHeight()}
+          ref={el => (this.el = el)}
+        >
+          {this.el && (
+            <Fragment>
+              <DestinationVisualizationContainer
+                boundingWidth={this.getBoundingWidth()}
+                boundingHeight={this.getBoundingHeight()}
+                zoomLevel={this.props.zoomLevel}
+              />
+              {this.props.attendees.map(attendee => (
+                <AttendeeVisualizationContainer
+                  key={attendee.userName}
+                  boundingWidth={this.getBoundingWidth()}
+                  boundingHeight={this.getBoundingHeight()}
+                  zoomLevel={this.props.zoomLevel}
+                  {...attendee}
+                />
+              ))}
+              <MeVisualizationContainer
+                {...this.props.me}
+                boundingWidth={this.getBoundingWidth()}
+                boundingHeight={this.getBoundingHeight()}
+                zoomLevel={this.props.zoomLevel}
+              />
+            </Fragment>
+          )}
         </svg>
-        <ZoomControls/>
+        <ZoomControls />
       </Fragment>
     );
   }
@@ -96,7 +114,8 @@ const mapStateToProps = state => ({
   attendees: selectEventAttendees(state),
   me: selectMe(state),
   placeId: selectPlaceId(state),
-  userCoordinates: selectUserCoordinates(state)
+  userCoordinates: selectUserCoordinates(state),
+  zoomLevel: selectZoomLevel(state)
 });
 
 const mapDispatchToProps = {

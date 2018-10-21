@@ -29,7 +29,7 @@ function getUrl(path) {
  * @returns {AxiosPromise<any>}
  */
 export function post(path, data = {}) {
-  return axios.post(getUrl(path), data);
+  return axios.post(getUrl(path), data, {withCredentials: true});
 }
 
 /**

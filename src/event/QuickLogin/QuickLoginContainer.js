@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { selectEventId } from '../activeEventSelectors';
-import { loginEvent } from '../eventUserActions';
+import { selectEventId } from '../activeEventSelectors_old';
+import { loginEvent } from '../eventUserActions_old';
 import QuickLogin from './QuickLogin';
 
 class QuickLoginContainer extends Component {
   static propTypes = {
-    eventId: PropTypes.string.isRequired,
     userName: PropTypes.string.isRequired,
     travelMode: PropTypes.string,
     loginEvent: PropTypes.func.isRequired
@@ -37,7 +36,7 @@ class QuickLoginContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  eventId: selectEventId(state)
+
 });
 
 const mapDispatchToProps = {

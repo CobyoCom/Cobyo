@@ -49,7 +49,7 @@ class App extends Component {
                 render={props => <CreatePageContainer {...props} />}
               />
               <Route
-                path="/events/:eventId"
+                path="/events/:code"
                 render={props => (
                   <Redirect to={`/${extractParams(props).eventId}`} />
                 )}
@@ -57,7 +57,7 @@ class App extends Component {
               <Route exact path="/404.html" component={NotFoundPage} />
               <Route
                 exact
-                path="/:eventId"
+                path="/:code"
                 render={props => (
                   <EventPageContainer {...props} {...extractParams(props)} />
                 )}

@@ -1,6 +1,6 @@
-import { selectEventId, selectUserName } from '../activeEventSelectors';
+import { selectEventId, selectUserName } from '../activeEventSelectors_old';
 import { makeSelectDidUserReact } from './reactionsSelectors';
-import { fetchNotificationsApi, reactToNotificationApi } from '../eventApi';
+import { fetchNotificationsApi, reactToNotificationApi } from '../eventApi_old';
 import { makeSelectNotificationIndexById } from './notificationsSelectors';
 
 export const types = {

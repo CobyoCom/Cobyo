@@ -1,4 +1,4 @@
-import { types } from "../../event/eventUserActions";
+import { types } from "../../event/eventUserActions_old";
 import { types as visulizationTypes } from "../../event/EventVisualization/visualizationActions";
 import { combineReducers } from "redux";
 

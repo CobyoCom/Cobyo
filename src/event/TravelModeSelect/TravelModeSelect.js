@@ -1,22 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
-import { FaMale, FaCab, FaSubway } from 'react-icons/lib/fa';
+import React from "react";
+import PropTypes from "prop-types";
+import cx from "classnames";
+import { FaMale, FaCab, FaSubway } from "react-icons/lib/fa";
 import {
   WALKING,
   DRIVING,
   TRANSIT,
   DEFAULT_TRAVEL_MODE
-} from '../../helpers/globalConstants';
-import './TravelModeSelect.css';
+} from "../../helpers/globalConstants";
+import "./TravelModeSelect.css";
 
 const TravelModeSelect = props => (
   <div className="TravelModeSelect">
     <h3>How are you travelling?</h3>
     <div className="TravelModeSelect-list">
       <button
-        className={cx('TravelModeSelect-item', {
-          'TravelModeSelect-item--selected': props.travelModeValue === WALKING
+        className={cx("TravelModeSelect-item", {
+          "TravelModeSelect-item--selected": props.travelModeValue === WALKING
         })}
         onClick={() => props.onChange(WALKING)}
         autoFocus={props.travelModeValue === WALKING}
@@ -24,8 +24,8 @@ const TravelModeSelect = props => (
         <FaMale size={38} />
       </button>
       <button
-        className={cx('TravelModeSelect-item', {
-          'TravelModeSelect-item--selected': props.travelModeValue === DRIVING
+        className={cx("TravelModeSelect-item", {
+          "TravelModeSelect-item--selected": props.travelModeValue === DRIVING
         })}
         onClick={() => props.onChange(DRIVING)}
         autoFocus={props.travelModeValue === DRIVING}
@@ -33,8 +33,8 @@ const TravelModeSelect = props => (
         <FaCab size={40} />
       </button>
       <button
-        className={cx('TravelModeSelect-item', {
-          'TravelModeSelect-item--selected': props.travelModeValue === TRANSIT
+        className={cx("TravelModeSelect-item", {
+          "TravelModeSelect-item--selected": props.travelModeValue === TRANSIT
         })}
         onClick={() => props.onChange(TRANSIT)}
         autoFocus={props.travelModeValue === TRANSIT}
@@ -43,8 +43,8 @@ const TravelModeSelect = props => (
       </button>
     </div>
     <div
-      className={cx('TravelModeSelect-bar', {
-        'TravelModeSelect-loading': props.isLoading
+      className={cx("TravelModeSelect-bar", {
+        "TravelModeSelect-loading": props.isLoading
       })}
     />
   </div>

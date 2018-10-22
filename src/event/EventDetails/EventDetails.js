@@ -6,10 +6,14 @@ import "./EventDetails.css";
 const EventDetails = props => {
   return (
     <div className="EventDetails">
-      <div className="EventDetails-title">{props.location.split(",")[0]}</div>
+      <div className="EventDetails-title">
+        {props.name && props.name.split(",")[0]}
+      </div>
       {!!props.numAttendees && (
         <div className="EventDetails-subtitle">
-          <a className="EventDetails-scheduledTime" onClick={props.onTimeClick}>{props.scheduledTimeString}</a>
+          <a className="EventDetails-scheduledTime" onClick={props.onTimeClick}>
+            {props.scheduledTimeString}
+          </a>
           <span>{`${props.numAttendees} going`}</span>
         </div>
       )}
@@ -22,8 +26,8 @@ const EventDetails = props => {
 };
 
 EventDetails.propTypes = {
-  eventId: PropTypes.string,
-  location: PropTypes.string,
+  name: PropTypes.string,
+  numAttendees: PropTypes.number,
   scheduledTimeString: PropTypes.string,
   showCopyClipboard: PropTypes.bool.isRequired,
   showCopyCheck: PropTypes.bool.isRequired,
@@ -34,8 +38,7 @@ EventDetails.propTypes = {
 };
 
 EventDetails.defaultProps = {
-  location: "",
-  scheduledTime: null
+  numAttendees: null
 };
 
 export default EventDetails;

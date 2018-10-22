@@ -5,8 +5,8 @@ import Button from "../../components/Button/Button";
 import "./TimeSelect.css";
 import "../../components/Input/Input.css";
 import { to } from "../../helpers/moment";
-import { editEventScheduledTime } from "../eventActions";
-import { selectEventScheduledTime } from "../activeEventSelectors";
+import { editEventScheduledTime } from "../eventActions_old";
+import { selectEventScheduledTime } from "../activeEventSelectors_old";
 
 class TimeSelect extends Component {
   static propTypes = {

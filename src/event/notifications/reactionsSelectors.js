@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { selectUserName } from '../activeEventSelectors';
+import { selectUserName } from '../activeEventSelectors_old';
 import { moduleName } from './reactionsReducer';
 
 export const selectReactionsById = state => state.entities[moduleName];

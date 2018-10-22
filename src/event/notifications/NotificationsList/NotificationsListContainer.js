@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { selectNotifications } from '../../activeEventSelectors';
+import { selectNotifications } from '../../activeEventSelectors_old';
 import NotificationsList from './NotificationsList';
 
 class NotificationsListContainer extends Component {

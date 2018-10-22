@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { formatCalendar, fromNow } from '../../../helpers/moment';
-import { changeTravelMode, refreshEvent } from '../../eventUserActions';
+import { changeTravelMode, refreshEvent } from '../../eventUserActions_old';
 import AttendeesListItem, { AttendeePropTypes } from './AttendeesListItem';
 import {
   selectUserName,
   selectIsRefreshing,
   selectEventId
-} from '../../activeEventSelectors';
+} from '../../activeEventSelectors_old';
 
 class AttendeesListItemContainer extends Component {
   static propTypes = {

@@ -1,8 +1,8 @@
 import logger from '../helpers/logger';
 import { getItem } from '../helpers/localStorage';
 import { selectPlaceId, selectPlaceName } from './createEventFormSelectors';
-import { selectActiveEventId } from '../event/activeEventSelectors';
-import { createEventApi, editEventPlaceApi } from '../event/eventApi';
+import { selectActiveEventId } from '../event/activeEventSelectors_old';
+import { createEventApi, editEventPlaceApi } from '../event/eventApi_old';
 
 export const types = {
   selectPlace: 'SELECT_PLACE',

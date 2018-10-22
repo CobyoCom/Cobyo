@@ -1,5 +1,5 @@
 import { AttendeeDefaultProps } from './AttendeesListItem/AttendeesListItem';
-import { types } from '../eventUserActions';
+import { types } from '../eventUserActions_old';
 
 export const moduleName = 'attendees';
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FaHome, FaCalendarCheckO, FaList } from 'react-icons/lib/fa';
 import Tab from '../../components/Tab/Tab';
-import { selectActiveEventId } from '../../event/activeEventSelectors';
+import { selectActiveEventId } from '../../event/activeEventSelectors_old';
 import './NavBar.css';
 
 const NavBar = props => (

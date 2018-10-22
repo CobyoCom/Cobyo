@@ -1,71 +1,48 @@
-import { createSelector } from 'reselect';
+import { moduleName as activeEventModuleName } from "./activeEventReducer";
 import {
-  moduleName as eventsModuleName,
-  eventInitialState
-} from '../reducers/entities/eventsReducer';
-import { moduleName as attendeesModuleName } from './attendees/attendeesReducer';
-import { moduleName as uiEventModuleName } from '../reducers/ui/uiEventReducer';
-import { moduleName as activeEventModuleName } from './activeEventReducer';
-import { selectNotificationsById } from './notifications/notificationsSelectors';
+  makeSelectEvent,
+  makeSelectEventName,
+  makeSelectEventScheduledTime,
+  makeSelectEventNumAttendees,
+  makeSelectEventMe,
+  makeSelectEventMyTravelMode
+} from "./eventSelectors";
 
-/****** EVENT ENTITIES ******/
+function selectActiveEvent(state) {
+  return makeSelectEvent(state)(state[activeEventModuleName].code) || null;
+}
 
-export const selectActiveEventId = state => state[activeEventModuleName].eventId;
-const selectSelectedAttendeeUserName = state => state[activeEventModuleName].selectedAttendee;
-const selectEventsById = state => state.entities[eventsModuleName];
-const selectEventAttendeesById = state => state.entities[attendeesModuleName];
-const selectActiveEvent = createSelector(
-  selectActiveEventId,
-  selectEventsById,
-  (eventId, eventsById) => eventsById[eventId] || eventInitialState
-);
-export const selectEventId = state => selectActiveEvent(state).eventId;
-export const selectPlaceId = state => selectActiveEvent(state).placeId;
-export const selectEventLocation = state => selectActiveEvent(state).location;
-export const selectEventScheduledTime = state => !isNaN(selectActiveEvent(state).scheduledTime) ? parseInt(selectActiveEvent(state).scheduledTime, 10) : null;
-export const selectEventPhotoReference = state => selectActiveEvent(state).photoReference;
-export const selectDateEnded = state => selectActiveEvent(state).dateEnded;
-export const selectHasEventEnded = state => !!selectDateEnded(state);
-export const selectMe = state => selectActiveEvent(state).me;
-export const selectNotificationIds = state => selectActiveEvent(state).notificationIds;
-const selectEventAttendeeIds = state => selectActiveEvent(state).attendeeIds;
+export function selectActiveEventHasLoaded(state) {
+  return !!selectActiveEvent(state);
+}
 
-export const selectIsLoggedIn = state => !!selectMe(state).userName;
-export const selectUserName = state => selectMe(state).userName;
-export const selectDuration = state => selectMe(state).duration;
-export const selectLastUpdated = state => selectMe(state).lastUpdated;
-export const selectTravelMode = state => selectMe(state).travelMode;
-export const selectHasLeft = state => selectMe(state).hasLeft;
+export function selectActiveEventCode(state) {
+  if (!selectActiveEventHasLoaded(state)) {
+    return null;
+  }
+  return selectActiveEvent(state).code;
+}
 
-/****** EVENT UI ******/
+export function selectActiveEventName(state) {
+  return makeSelectEventName(state)(selectActiveEventCode(state));
+}
 
-const selectEventUI = state => state.ui[uiEventModuleName];
-export const selectIsRefreshing = state => selectEventUI(state).isRefreshing;
-export const selectZoomLevel = state => selectEventUI(state).zoomLevel;
+export function selectActiveEventScheduledTime(state) {
+  return makeSelectEventScheduledTime(state)(selectActiveEventCode(state));
+}
 
-/****** EVENT NOTIFICATIONS ENTITIES ******/
+export function selectActiveEventNumAttendees(state) {
+  return makeSelectEventNumAttendees(state)(selectActiveEventCode(state));
+}
 
-export const selectNotifications = createSelector(
-  selectNotificationIds,
-  selectNotificationsById,
-  (ids, byId) => ids.map(id => byId[id])
-);
+function selectActiveEventMe(state) {
+  return makeSelectEventMe(state)(selectActiveEventCode(state));
+}
 
-/****** EVENT ATTENDEES ENTITIES ******/
+export function selectActiveEventHasJoined(state) {
+  return !!selectActiveEventMe(state);
+}
 
-export const selectEventAttendees = createSelector(
-  selectEventAttendeeIds,
-  selectEventAttendeesById,
-  selectUserName,
-  (ids, byId, userName) => ids.filter(id => id !== userName).map(id => byId[id])
-);
-export const selectNumEventAttendees = createSelector(
-  selectEventAttendees,
-  eventAttendees => (eventAttendees.length || 0) + 1
-);
-
-export const selectSelectedAttendee = createSelector(
-  selectSelectedAttendeeUserName,
-  selectEventAttendees,
-  (userName, attendees) => attendees.find(attendee => attendee.userName === userName)
-);
+export function selectActiveEventMyTravelMode(state) {
+  return makeSelectEventMyTravelMode(state)(selectActiveEventCode(state));
+}

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import {
   selectEventScheduledTime,
   selectIsRefreshing
-} from "../activeEventSelectors";
+} from "../activeEventSelectors_old";
 import { getDistance } from "./VisualizationHelpers";
 import { to } from "../../helpers/moment";
 import BaseNode from "./BaseNode/BaseNode";

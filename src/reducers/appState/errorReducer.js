@@ -1,4 +1,4 @@
-import { types as eventActionTypes } from '../../event/eventUserActions';
+import { types as eventActionTypes } from '../../event/eventUserActions_old';
 import { types as notificationActionTypes } from '../../event/notifications/notificationsActions';
 import { types as errorBannerActionTypes } from '../../error/errorBannerActions';
 import { types as createActionTypes } from '../../create/createActions';

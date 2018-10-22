@@ -5,8 +5,8 @@ import {
   selectEventAttendees,
   selectMe,
   selectSelectedAttendee
-} from "../../activeEventSelectors";
-import { refreshEvent } from "../../eventUserActions";
+} from "../../activeEventSelectors_old";
+import { refreshEvent } from "../../eventUserActions_old";
 import { AttendeePropTypes } from "../AttendeesListItem/AttendeesListItem";
 import { deselectAttendee } from "../../EventVisualization/visualizationActions";
 import AttendeesList from "./AttendeesList";

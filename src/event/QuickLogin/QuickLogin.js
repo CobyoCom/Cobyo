@@ -11,7 +11,10 @@ const QuickLogin = props => (
         <TravelModeSelect onChange={props.onChangeTravelMode} />
       </div>
     ) : (
-      <Button onClick={props.onSubmit} autoFocus>
+      <Button
+        onClick={props.onSubmit}
+        autoFocus
+      >
         {`Login as ${props.userName}?`}
       </Button>
     )}

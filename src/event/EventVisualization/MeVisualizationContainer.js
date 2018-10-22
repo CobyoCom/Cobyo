@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { AttendeePropTypes } from "../attendees/AttendeesListItem/AttendeesListItem";
-import { refreshEvent } from "../eventUserActions";
+import { refreshEvent } from "../eventUserActions_old";
 import { selectAttendee } from "./visualizationActions";
-import { selectIsRefreshing } from "../activeEventSelectors";
+import { selectIsRefreshing } from "../activeEventSelectors_old";
 import { getDistance } from "./VisualizationHelpers";
 import BaseNode from "./BaseNode/BaseNode";
 

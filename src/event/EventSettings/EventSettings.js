@@ -1,8 +1,8 @@
-import React  from 'react';
-import PropTypes from 'prop-types';
-import { FaEllipsisH } from 'react-icons/lib/fa';
-import Modal from 'react-responsive-modal';
-import './EventSettings.css';
+import React from "react";
+import PropTypes from "prop-types";
+import { FaEllipsisH } from "react-icons/lib/fa";
+import Modal from "react-responsive-modal";
+import "./EventSettings.css";
 
 const EventSettings = props => (
   <div className="EventSettings">
@@ -10,7 +10,7 @@ const EventSettings = props => (
     {props.isOpen && (
       <Modal
         classNames={{
-          modal: 'EventSettings-modal'
+          modal: "EventSettings-modal"
         }}
         showCloseIcon={false}
         closeOnOverlayClick
@@ -30,8 +30,8 @@ const EventSettings = props => (
 );
 
 EventSettings.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
   tabs: PropTypes.arrayOf(PropTypes.node),
+  isOpen: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired
 };

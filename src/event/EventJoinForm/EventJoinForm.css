@@ -1,9 +1,9 @@
-.EventLoginForm {
+.EventJoinForm {
   display: flex;
   flex-direction: column;
   padding: 10px 30px;
 }
 
-.EventLoginForm > Input {
+.EventJoinForm > Input {
   margin-bottom: 15px;
 }

@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { moduleName } from './notificationsReducer';
-import { selectNotificationIds } from '../activeEventSelectors';
+import { selectNotificationIds } from '../activeEventSelectors_old';
 
 export const selectNotificationsById = state => state.entities[moduleName];
 

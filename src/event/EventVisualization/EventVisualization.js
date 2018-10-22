@@ -8,7 +8,7 @@ import {
   selectMe,
   selectPlaceId,
   selectZoomLevel
-} from "../activeEventSelectors";
+} from "../activeEventSelectors_old";
 import { AttendeePropTypes } from "../attendees/AttendeesListItem/AttendeesListItem";
 import AttendeeVisualizationContainer from "./AttendeeVisualizationContainer";
 import { initGoogleMapsAPI } from "../../actions/googleMapsActions";

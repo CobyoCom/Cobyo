@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {FaEdit} from 'react-icons/lib/fa';
 import {Link} from 'react-router-dom';
-import {selectEventId} from '../activeEventSelectors';
+import {selectEventId} from '../activeEventSelectors_old';
 import Button from '../../components/Button/Button';
 
 const EventSettingEditPlace = props => (

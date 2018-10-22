@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { endEventApi } from '../eventApi';
-import { selectEventId } from '../activeEventSelectors';
+import { endEventApi } from '../eventApi_old';
+import { selectEventId } from '../activeEventSelectors_old';
 import { FaSignOut } from 'react-icons/lib/fa';
 import Modal from 'react-responsive-modal';
 import Button from '../../components/Button/Button';

@@ -1,132 +1,57 @@
-import { types as eventTypes } from '../../event/eventActions';
-import { types as createTypes } from '../../create/createActions';
-import { types as eventUserTypes } from '../../event/eventUserActions';
-import { types as notificationTypes } from '../../event/notifications/notificationsActions';
-import { AttendeeDefaultProps } from '../../event/attendees/AttendeesListItem/AttendeesListItem';
+import { types as eventTypes } from "../../event/eventActions";
+import { types as eventUserTypes } from "../../event/eventUserActions";
 
-export const moduleName = 'events';
-
-const initialState = {};
-
+export const moduleName = "events";
 export const eventInitialState = {
-  eventId: null,
-  placeId: null,
-  location: '',
+  code: null,
+  name: null,
+  endedTime: null,
   scheduledTime: null,
-  attendeeIds: [],
-  notificationIds: [],
-  me: AttendeeDefaultProps,
-  isRefreshing: false
+  me: null,
+  place: null,
+  numAttendees: null,
+  eventUsers: [],
+  notifications: []
 };
 
-export default function events(state = initialState, { type, payload }) {
+export default function events(state = {}, { type, payload }) {
   switch (type) {
-    case eventTypes.fetchEventRequest: {
-      const { eventId } = payload;
-      return {
-        ...state,
-        [eventId]: {
-          ...eventInitialState,
-          ...state[eventId]
-        }
-      };
-    }
+    case eventTypes.fetchEventRequest:
     case eventTypes.fetchEventSuccess: {
-      const { eventId } = payload;
+      const { code } = payload;
       return {
         ...state,
-        [eventId]: {
-          ...state[eventId],
+        [code]: {
+          ...eventInitialState,
+          ...state[code],
           ...payload
         }
       };
     }
-    case eventUserTypes.loginEventSuccess: {
-      const { eventId, userName, travelMode } = payload;
+    case eventTypes.joinEventSuccess: {
+      const { eventUser, code } = payload;
       return {
         ...state,
-        [eventId]: {
-          ...state[eventId],
+        [code]: {
+          ...eventInitialState,
+          ...state[code],
+          me: eventUser
+        }
+      };
+    }
+    case eventUserTypes.fetchDurationSuccess: {
+      const {code, eventUser} = payload;
+      return {
+        ...state,
+        [code]: {
+          ...eventInitialState,
+          ...state[code],
           me: {
-            ...state[eventId].me,
-            userName,
-            travelMode
+            ...state[code].me,
+            ...eventUser
           }
         }
-      };
-    }
-    case eventUserTypes.refreshEventSuccess:
-    case eventUserTypes.refreshEventFailure: {
-      const { eventId, duration, lastUpdated, hasLeft } = payload;
-      return {
-        ...state,
-        [eventId]: {
-          ...state[eventId],
-          me: {
-            ...state[eventId].me,
-            duration,
-            lastUpdated,
-            hasLeft
-          }
-        }
-      };
-    }
-    case eventUserTypes.getAttendeesSuccess: {
-      const { eventId, attendees } = payload;
-      return {
-        ...state,
-        [eventId]: {
-          ...state[eventId],
-          attendeeIds: attendees.map(attendee => attendee.userName)
-        }
-      };
-    }
-    case eventUserTypes.leaveForEventRequest:
-    case eventUserTypes.leaveForEventFailure: {
-      const { eventId, hasLeft } = payload;
-      return {
-        ...state,
-        [eventId]: {
-          ...state[eventId],
-          me: {
-            ...state[eventId].me,
-            hasLeft
-          }
-        }
-      };
-    }
-    case eventUserTypes.changeTravelModeSuccess: {
-      const { eventId, travelMode } = payload;
-      return {
-        ...state,
-        [eventId]: {
-          ...state[eventId],
-          me: {
-            ...state[eventId].me,
-            travelMode
-          }
-        }
-      };
-    }
-    case notificationTypes.fetchNotificationsSuccess: {
-      const { eventId, notifications } = payload;
-      return {
-        ...state,
-        [eventId]: {
-          ...state[eventId],
-          notificationIds: notifications.map(({ createdAt }) => createdAt)
-        }
-      };
-    }
-    case createTypes.editEventSuccess: {
-      const { eventId } = payload;
-      return {
-        ...state,
-        [eventId]: {
-          ...state[eventId],
-          ...payload
-        }
-      };
+      }
     }
     default:
       return state;

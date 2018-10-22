@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { selectPlaceId } from '../activeEventSelectors';
+import { selectPlaceId } from '../activeEventSelectors_old';
 import { selectUserCoordinates } from '../../reducers/appState/appStateSelectors';
 import { initGoogleMapsAPI } from '../../actions/googleMapsActions';
 

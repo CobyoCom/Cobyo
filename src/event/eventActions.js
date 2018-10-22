@@ -1,103 +1,62 @@
-import { fetchEventApi, editEventScheduledTimeApi } from "./eventApi";
-import { getItem } from "../helpers/localStorage";
-import { selectEventId } from "./activeEventSelectors";
+import { fetchEventApi, joinEventApi } from "./eventApi";
 
 export const types = {
   fetchEventRequest: "FETCH_EVENT_REQUEST",
   fetchEventSuccess: "FETCH_EVENT_SUCCESS",
-  editEventScheduledTimeSuccess: "EDIT_EVENT_SCHEDULED_TIME_SUCCESS"
+  fetchEventFailure: "FETCH_EVENT_FAILURE",
+  joinEventSuccess: "JOIN_EVENT_SUCCESS"
 };
 
-/************ FETCH EVENT ************/
-
-const fetchEventRequest = eventId => ({
+const fetchEventRequest = code => ({
   type: types.fetchEventRequest,
-  payload: { eventId }
+  payload: { code }
 });
 
-const fetchEventSuccess = payload => ({
+const fetchEventSuccess = event => ({
   type: types.fetchEventSuccess,
-  payload: payload
+  payload: event
 });
 
-export function fetchEvent(eventId) {
+const fetchEventFailure = () => ({
+  type: types.fetchEventFailure
+});
+
+const joinEventSuccess = ({ eventUser, code }) => ({
+  type: types.joinEventSuccess,
+  payload: {
+    eventUser,
+    code
+  }
+});
+
+export function fetchEvent(code) {
   return async dispatch => {
-    dispatch(fetchEventRequest(eventId));
+    dispatch(fetchEventRequest(code));
+    const response = await fetchEventApi(code);
+    const event = response.data.event;
 
-    try {
-      const response = await fetchEventApi(eventId.toString());
-      if (
-        response &&
-        !response.errors &&
-        response.data &&
-        response.data.event
-      ) {
-        const {
-          code,
-          name,
-          scheduledTime,
-          dateEnded,
-          place: { googlePlaceId, photoUrl }
-        } = response.data.event;
-        dispatch(
-          fetchEventSuccess({
-            eventId: code,
-            location: name,
-            placeId: googlePlaceId,
-            scheduledTime,
-            dateEnded,
-            photoReference: photoUrl
-          })
-        );
-
-        const localStorageData = {};
-        const localStorageEvents = getItem("events", true);
-        const localStorageUserName = getItem("userName");
-
-        const localStorageEvent =
-          !!localStorageEvents && localStorageEvents[eventId];
-        if (
-          !!localStorageEvent &&
-          localStorageEvent.userName === localStorageUserName
-        ) {
-          localStorageData.localStorageEvent = localStorageEvent;
-        }
-        if (!!localStorageUserName) {
-          localStorageData.localStorageUserName = localStorageUserName;
-        }
-
-        return Promise.resolve(localStorageData);
-      }
-
-      return Promise.reject({});
-    } catch (error) {
-      return Promise.reject(error);
+    if (event) {
+      dispatch(fetchEventSuccess(event));
+    } else {
+      dispatch(fetchEventFailure());
     }
+
+    return Promise.resolve(event);
   };
 }
 
-export function editEventScheduledTime(scheduledTime) {
-  return async (dispatch, getState) => {
-    const state = getState();
-    const eventId = selectEventId(state);
+export function joinEvent(code) {
+  return async dispatch => {
+    const response = await joinEventApi(code);
+    const eventUser = response.data.joinEvent;
 
-    try {
-      const response = await editEventScheduledTimeApi({
-        eventId,
-        scheduledTime
-      });
-
-      if (response && response.data && response.data.editEvent) {
-        const { code, scheduledTime } = response.data.editEvent;
-        dispatch(
-          fetchEventSuccess({
-            eventId: code,
-            scheduledTime
-          })
-        );
-      }
-    } catch (error) {
-      return Promise.reject(error);
+    if (eventUser) {
+      dispatch(
+        joinEventSuccess({
+          eventUser,
+          code
+        })
+      );
     }
   };
 }

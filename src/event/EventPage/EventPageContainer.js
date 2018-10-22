@@ -1,107 +1,72 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { fetchEvent } from '../eventActions';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { fetchEvent } from "../eventActions";
+import { fetchMe } from "../../me/meActions";
+import { changeTravelMode } from "../eventUserActions";
 import {
-  selectEventId,
-  selectHasEventEnded,
-  selectIsLoggedIn,
-  selectEventPhotoReference
-} from '../activeEventSelectors';
-import EventPage from './EventPage';
+  selectActiveEventHasLoaded,
+  selectActiveEventHasJoined,
+  selectActiveEventMyTravelMode
+} from "../activeEventSelectors";
+import { selectHasLoggedIn, selectMeLoaded } from "../../me/meSelectors";
+import { DRIVING, TRANSIT, WALKING } from "../../helpers/globalConstants";
+import EventPage from "./EventPage";
 
 class EventPageContainer extends Component {
   static propTypes = {
-    eventId: PropTypes.string.isRequired,
-    isEventLoaded: PropTypes.bool.isRequired,
-    isLoggedIn: PropTypes.bool.isRequired,
-    hasEnded: PropTypes.bool.isRequired,
-    photoReference: PropTypes.string,
-    fetchEvent: PropTypes.func.isRequired
-  };
-
-  state = {
-    isQuickLoginModalOpen: false,
-    localStorageLogin: null
+    code: PropTypes.string.isRequired,
+    hasLoggedIn: PropTypes.bool.isRequired,
+    hasMeLoaded: PropTypes.bool.isRequired,
+    hasEventLoaded: PropTypes.bool.isRequired,
+    hasJoined: PropTypes.bool.isRequired,
+    travelMode: PropTypes.oneOf([WALKING, DRIVING, TRANSIT]),
+    fetchEvent: PropTypes.func.isRequired,
+    changeTravelMode: PropTypes.func.isRequired
   };
 
   async componentDidMount() {
-    try {
-      const {
-        localStorageEvent,
-        localStorageUserName
-      } = await this.props.fetchEvent(this.props.eventId);
-      if (!!localStorageEvent) {
-        this.setState({
-          isQuickLoginModalOpen: true,
-          localStorageLogin: {
-            ...localStorageEvent
-          }
-        });
-      } else if (!!localStorageUserName) {
-        this.setState({
-          isQuickLoginModalOpen: true,
-          localStorageLogin: {
-            userName: localStorageUserName
-          }
-        });
-      }
-    } catch (error) {
-      this.props.history.replace('/404.html');
-    }
+    await this.props.fetchEvent(this.props.code);
+    await this.props.fetchMe();
   }
 
-  getShowEventEnded = () => this.props.hasEnded;
+  getShouldShowLoginInput = () =>
+    this.props.hasEventLoaded &&
+    this.props.hasMeLoaded &&
+    !this.props.hasJoined &&
+    !this.props.hasLoggedIn;
 
-  getShowLogin = () =>
-    !this.getShowEventEnded() &&
-    this.props.isEventLoaded &&
-    !this.props.isLoggedIn;
+  getShouldShowJoinButton = () =>
+    this.props.hasEventLoaded &&
+    !this.props.hasJoined &&
+    this.props.hasLoggedIn;
 
-  getShowQuickLogin = () =>
-    !this.getShowEventEnded() &&
-    this.props.isEventLoaded &&
-    !this.props.isLoggedIn &&
-    !!this.state.localStorageLogin;
-
-  getShowEventCarousel = () => !this.getShowEventEnded() && this.props.isLoggedIn && this.props.isEventLoaded;
-
-  getShowAttendeesList = () =>
-    !this.getShowEventEnded() && this.props.isLoggedIn;
-
-  getShowNotifications = () =>
-    !this.getShowEventEnded() && this.props.isLoggedIn;
-
-  handleCloseQuickLoginModal = () =>
-    this.setState({ isQuickLoginModalOpen: false });
+  getShouldShowTravelModeSelect = () =>
+    this.props.hasEventLoaded && this.props.hasJoined && !this.props.travelMode;
 
   render() {
     return (
       <EventPage
-        eventId={this.props.eventId}
-        photoReference={this.props.photoReference}
-        showLogin={this.getShowLogin()}
-        showQuickLogin={this.getShowQuickLogin()}
-        showEventCarousel={this.getShowEventCarousel()}
-        showAttendeesList={this.getShowAttendeesList()}
-        showNotifications={this.getShowNotifications()}
-        showEventEnded={this.getShowEventEnded()}
-        {...this.state}
-        onCloseQuickLoginModal={this.handleCloseQuickLoginModal}
+        shouldShowLoginInput={this.getShouldShowLoginInput()}
+        shouldShowJoinButton={this.getShouldShowJoinButton()}
+        shouldShowTravelModeSelect={this.getShouldShowTravelModeSelect()}
       />
     );
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  isLoggedIn: selectIsLoggedIn(state),
-  isEventLoaded: selectEventId(state) !== null && selectEventId(state) === ownProps.eventId,
-  hasEnded: selectHasEventEnded(state),
-  photoReference: selectEventPhotoReference(state)
+const mapStateToProps = state => ({
+  hasLoggedIn: selectHasLoggedIn(state),
+  hasEventLoaded: selectActiveEventHasLoaded(state),
+  hasMeLoaded: selectMeLoaded(state),
+  hasJoined: selectActiveEventHasJoined(state),
+  travelMode: selectActiveEventMyTravelMode(state)
 });
 
 const mapDispatchToProps = {
-  fetchEvent
+  fetchEvent,
+  fetchMe,
+  changeTravelMode
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventPageContainer);

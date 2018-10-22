@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { refreshEvent, leaveForEvent } from '../eventUserActions';
-import { selectHasLeft, selectIsRefreshing } from '../activeEventSelectors';
+import { refreshEvent, leaveForEvent } from '../eventUserActions_old';
+import { selectHasLeft, selectIsRefreshing } from '../activeEventSelectors_old';
 import EventControls from './EventControls';
 
 class EventControlsContainer extends Component {

@@ -1,5 +1,5 @@
-import fetchDurationGoogle from "../locationServices/fetchDurationGoogle";
-import fetchCurrentCoordinates from "../locationServices/fetchCurrentCoordinates";
+import fetchDurationGoogleApi from "../locationServices/fetchDurationGoogleApi";
+import fetchCurrentCoordinatesApi from "../locationServices/fetchCurrentCoordinatesApi";
 import {
   makeSelectEventGooglePlaceId,
   makeSelectEventMe
@@ -9,7 +9,7 @@ import { updateEventUserApi } from "./eventUserApi";
 
 export const types = {
   toggleShowTravelModeSelect: "TOGGLE_SHOW_TRAVEL_MODE_SELECT",
-  changeTravelModeRequest: "CHANGE_TRAVEL_MODE_REQUEST",
+  refreshMeRequest: "REFRESH_ME_REQUEST",
   fetchCoordinatesSuccess: "FETCH_COORDINATES_SUCCESS",
   fetchDurationSuccess: "FETCH_DURATION_SUCCESS",
   updateEventUserSuccess: "UPDATE_EVENT_USER_SUCCESS"
@@ -22,53 +22,84 @@ export function toggleShowTravelModeSelect(payload) {
   };
 }
 
-function changeTravelModeRequest() {
-  return { type: types.changeTravelModeRequest };
-}
-
-function fetchCoordinatesSuccess({ latitude, longitude, timestamp }) {
-  return {
-    type: types.fetchCoordinatesSuccess,
-    payload: {
-      latitude,
-      longitude,
-      timestamp
+function fetchCoordinates() {
+  return async dispatch => {
+    try {
+      const position = await fetchCurrentCoordinatesApi();
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      const timestamp = position.timestamp.toString();
+      dispatch({
+        type: types.fetchCoordinatesSuccess,
+        payload: {
+          latitude,
+          longitude,
+          timestamp
+        }
+      });
+      return Promise.resolve({ latitude, longitude, timestamp });
+    } catch (error) {
+      return Promise.reject();
     }
   };
 }
 
-function fetchDurationSuccess({ code, eventUser }) {
-  return {
-    type: types.fetchDurationSuccess,
-    payload: { code, eventUser }
-  };
-}
-
-function updateEventUserSuccess({ code, eventUser }) {
-  return {
-    type: types.updateEventUserSuccess,
-    payload: { code, eventUser }
-  };
-}
-
-export function changeTravelMode({ code, travelMode }) {
+function fetchDuration({ code, travelMode, latitude, longitude, timestamp }) {
   return async (dispatch, getState) => {
-    dispatch(changeTravelModeRequest());
+    try {
+      const state = getState();
+      const placeId = makeSelectEventGooglePlaceId(state)(code);
+      const duration = await fetchDurationGoogleApi({
+        latitude,
+        longitude,
+        placeId,
+        travelMode
+      });
+      dispatch({
+        type: types.fetchDurationSuccess,
+        payload: {
+          code,
+          eventUser: {
+            duration,
+            travelMode,
+            updatedTime: timestamp,
+            hasLeft: false
+          }
+        }
+      });
+    } catch (error) {}
+  };
+}
+
+function updateEventUser(code) {
+  return async (dispatch, getState) => {
+    try {
+      const state = getState();
+      const me = makeSelectEventMe(state)(code);
+      const { user, ...eventUser } = me;
+      const response = await updateEventUserApi({
+        code,
+        eventUser
+      });
+      dispatch({
+        type: types.updateEventUserSuccess,
+        payload: { code, eventUser: response.data.updateEventUser }
+      });
+    } catch (error) {}
+  };
+}
+
+export function refreshMe({ code, travelMode }) {
+  return async dispatch => {
+    dispatch({ type: types.refreshMeRequest });
     let latitude, longitude, timestamp;
 
     // Step 1: Find my current position
     try {
-      const position = await fetchCurrentCoordinates();
-      latitude = position.coords.latitude;
-      longitude = position.coords.longitude;
-      timestamp = position.timestamp.toString();
-      dispatch(
-        fetchCoordinatesSuccess({
-          latitude,
-          longitude,
-          timestamp
-        })
-      );
+      const response = await dispatch(fetchCoordinates());
+      latitude = response.latitude;
+      longitude = response.longitude;
+      timestamp = response.timestamp;
     } catch (error) {}
 
     // Step 2: Load Google Maps API
@@ -78,42 +109,14 @@ export function changeTravelMode({ code, travelMode }) {
 
     // Step 3: Find the time duration between my position and the destination
     try {
-      const state = getState();
-      const placeId = makeSelectEventGooglePlaceId(state)(code);
-      const duration = await fetchDurationGoogle({
-        latitude,
-        longitude,
-        placeId,
-        travelMode
-      });
-      dispatch(
-        fetchDurationSuccess({
-          code,
-          eventUser: {
-            duration,
-            travelMode,
-            updatedTime: timestamp,
-            hasLeft: false
-          }
-        })
+      await dispatch(
+        fetchDuration({ code, travelMode, latitude, longitude, timestamp })
       );
     } catch (error) {}
 
     // Step 4: Send the update to the backend
     try {
-      const state = getState();
-      const me = makeSelectEventMe(state)(code);
-      const { user, ...eventUser } = me;
-      const response = await updateEventUserApi({
-        code,
-        eventUser
-      });
-      dispatch(
-        updateEventUserSuccess({
-          code,
-          eventUser: response.data.updateEventUser
-        })
-      );
+      await dispatch(updateEventUser(code));
     } catch (error) {}
   };
 }

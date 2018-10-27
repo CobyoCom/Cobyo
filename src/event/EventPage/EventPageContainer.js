@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchEvent } from "../eventActions";
 import { fetchMe } from "../../me/meActions";
-import { changeTravelMode } from "../eventUserActions";
 import {
   selectActiveEventHasLoaded,
   selectActiveEventHasJoined,
@@ -23,13 +22,16 @@ class EventPageContainer extends Component {
     hasJoined: PropTypes.bool.isRequired,
     travelMode: PropTypes.oneOf([WALKING, DRIVING, TRANSIT]),
     fetchEvent: PropTypes.func.isRequired,
-    changeTravelMode: PropTypes.func.isRequired,
     shouldShowTravelModeSelect: PropTypes.bool.isRequired
   };
 
   async componentDidMount() {
-    await this.props.fetchEvent(this.props.code);
-    await this.props.fetchMe();
+    if (!this.props.hasEventLoaded) {
+      await this.props.fetchEvent(this.props.code);
+    }
+    if (!this.props.hasMeLoaded) {
+      await this.props.fetchMe();
+    }
   }
 
   getShouldShowLoginInput = () =>
@@ -77,8 +79,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   fetchEvent,
-  fetchMe,
-  changeTravelMode
+  fetchMe
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventPageContainer);

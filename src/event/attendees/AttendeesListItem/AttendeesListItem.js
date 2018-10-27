@@ -11,22 +11,22 @@ import AttendeesListItemLoading from "./AttendeesListItemLoading";
 import "./AttendeesListItem.css";
 
 const AttendeesListItem = props => (
-  <div className="AttendeesListItem">
+  <div className="AttendeesListItem" onClick={props.onClick}>
     <AttendeesListItemIcon
       travelMode={props.travelMode}
       isClickable={props.isMe && !props.hasProbablyArrived}
-      onClick={props.onClick}
+      onClick={props.onIconClick}
     />
     <div className="AttendeesListItem-content">
       <div className="AttendeesListItem-user">
         <h2 className="AttendeesListItem-name">{props.user.name}</h2>
-        {props.isRefreshing ? (
-          <AttendeesListItemLoading travelMode={props.travelMode} />
-        ) : (
-          <span className="AttendeesListItem-lut">
-            {props.updatedTimeStatus}
-          </span>
-        )}
+        <span className="AttendeesListItem-lut">
+          {props.isRefreshing ? (
+            <AttendeesListItemLoading travelMode={props.travelMode} />
+          ) : (
+            props.updatedTimeStatus
+          )}
+        </span>
       </div>
     </div>
     <div className="AttendeesListItem-eta">{props.durationStatus}</div>
@@ -60,7 +60,8 @@ AttendeesListItem.propTypes = {
   hasProbablyArrived: PropTypes.bool,
   durationStatus: PropTypes.string.isRequired,
   updatedTimeStatus: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  onIconClick: PropTypes.func.isRequired
 };
 
 AttendeesListItem.defaultProps = {

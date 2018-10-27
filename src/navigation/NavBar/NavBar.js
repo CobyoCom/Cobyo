@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { FaHome, FaCalendarCheckO, FaList } from 'react-icons/lib/fa';
-import Tab from '../../components/Tab/Tab';
-import { selectActiveEventId } from '../../event/activeEventSelectors_old';
-import './NavBar.css';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { selectActiveEventCode } from "../../event/activeEventSelectors";
+import { FaHome, FaCalendarCheckO, FaList } from "react-icons/lib/fa";
+import Tab from "../../components/Tab/Tab";
+import "./NavBar.css";
 
 const NavBar = props => (
   <div className="NavBar">
@@ -12,35 +12,35 @@ const NavBar = props => (
       link="/"
       icon={<FaHome color="#808080" size={24} />}
       text="Home"
-      isActive={props.activeTab === 'Home'}
+      isActive={props.activeTab === "Home"}
     />
     <Tab
-      link={props.activeEventId ? `/events/${props.activeEventId}` : '/events'}
+      link={props.code ? `/${props.code}` : "/events"}
       icon={<FaCalendarCheckO color="#808080" size={22} />}
       text="Events"
-      isActive={props.activeTab === 'Events'}
+      isActive={props.activeTab === "Events"}
     />
     <Tab
       link="/settings"
       icon={<FaList color="#808080" size={22} />}
       text="Settings"
-      isActive={props.activeTab === 'Settings'}
+      isActive={props.activeTab === "Settings"}
     />
   </div>
 );
 
 NavBar.propTypes = {
-  activeEventId: PropTypes.number,
-  activeTab: PropTypes.oneOf(['Home', 'Events', 'Create', 'Settings'])
+  code: PropTypes.string,
+  activeTab: PropTypes.oneOf(["Home", "Events", "Create", "Settings"])
 };
 
 NavBar.defaultProps = {
-  activeEventId: null,
+  code: null,
   activeTab: null
 };
 
 const mapStateToProps = state => ({
-  activeEventId: selectActiveEventId(state)
+  code: selectActiveEventCode(state)
 });
 
 export default connect(mapStateToProps)(NavBar);

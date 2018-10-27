@@ -1,3 +1,4 @@
+import { createSelector } from "reselect";
 import { moduleName as activeEventModuleName } from "./activeEventReducer";
 import {
   makeSelectEvent,
@@ -38,6 +39,17 @@ export function selectActiveEventNumAttendees(state) {
 
 export function selectActiveEventUsers(state) {
   return makeSelectEventUsers(state)(selectActiveEventCode(state));
+}
+
+export function selectActiveEventAttendeesList(state) {
+  return createSelector(
+    selectActiveEventUsers,
+    selectActiveEventMe,
+    (eventUsers, me) => [
+      me,
+      ...eventUsers.filter(eventUser => eventUser.user.name !== me.user.name)
+    ]
+  )(state);
 }
 
 function selectActiveEventMe(state) {

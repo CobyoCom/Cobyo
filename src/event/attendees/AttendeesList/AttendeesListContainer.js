@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import AttendeesList from "./AttendeesList";
 import {
   selectActiveEventCode,
-  selectActiveEventUsers
+  selectActiveEventAttendeesList
 } from "../../activeEventSelectors";
 import { fetchEventUsers } from "../../eventActions";
 
@@ -40,7 +40,7 @@ class AttendeesListContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  attendees: selectActiveEventUsers(state),
+  attendees: selectActiveEventAttendeesList(state),
   code: selectActiveEventCode(state)
 });
 

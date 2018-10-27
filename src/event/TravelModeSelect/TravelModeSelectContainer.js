@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
-  changeTravelMode,
+  refreshMe,
   toggleShowTravelModeSelect
 } from "../eventUserActions";
 import TravelModeSelect from "./TravelModeSelect";
@@ -50,18 +50,18 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   dispatch,
-  changeTravelMode,
+  refreshMe,
   toggleShowTravelModeSelect
 });
 
 const mergeProps = (stateProps, dispatchProps) => {
   const { code } = stateProps;
-  const { dispatch, changeTravelMode } = dispatchProps;
+  const { dispatch, refreshMe } = dispatchProps;
   return {
     toggleShowTravelModeSelect: payload =>
       dispatch(toggleShowTravelModeSelect(payload)),
     changeTravelMode: travelMode =>
-      dispatch(changeTravelMode({ code, travelMode }))
+      dispatch(refreshMe({ code, travelMode }))
   };
 };
 

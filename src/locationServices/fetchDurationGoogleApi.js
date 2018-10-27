@@ -1,6 +1,6 @@
 /*global google*/
 
-const fetchDurationGoogle = ({ latitude, longitude, placeId, travelMode }) =>
+const fetchDurationGoogleApi = ({ latitude, longitude, placeId, travelMode }) =>
   new Promise(async (resolve, reject) => {
     const service = new google.maps.DistanceMatrixService();
     service.getDistanceMatrix(
@@ -32,4 +32,4 @@ const fetchDurationGoogle = ({ latitude, longitude, placeId, travelMode }) =>
     );
   });
 
-export default fetchDurationGoogle;
+export default fetchDurationGoogleApi;

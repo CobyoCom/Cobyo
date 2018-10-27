@@ -6,7 +6,7 @@ export const moduleName = "event";
 
 function isCalculatingDuration(state = false, { type }) {
   switch (type) {
-    case eventUserActionTypes.changeTravelModeRequest:
+    case eventUserActionTypes.refreshMeRequest:
       return true;
     case eventUserActionTypes.updateEventUserSuccess:
       return false;

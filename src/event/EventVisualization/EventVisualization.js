@@ -3,16 +3,18 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import {
-  selectEventAttendees,
-  selectMe,
-  selectPlaceId,
-  selectZoomLevel
-} from "../activeEventSelectors_old";
 import { AttendeePropTypes } from "../attendees/AttendeesListItem/AttendeesListItem";
 import AttendeeVisualizationContainer from "./AttendeeVisualizationContainer";
 import { initGoogleMapsAPI } from "../../actions/googleMapsActions";
-import { selectUserCoordinates } from "../../reducers/appState/appStateSelectors";
+import {
+  selectUserCoordinates,
+  selectZoomLevel
+} from "../../reducers/appState/appStateSelectors";
+import {
+  selectActiveEventOtherAttendeesList,
+  selectActiveEventMe,
+  selectActiveEventGooglePlaceId
+} from "../activeEventSelectors";
 import MeVisualizationContainer from "./MeVisualizationContainer";
 import DestinationVisualizationContainer from "./DestinationVisualizationContainer";
 import ZoomControls from "./ZoomControls/ZoomControls";
@@ -67,7 +69,8 @@ class EventVisualization extends Component {
       );
     });
 
-  getBoundingWidth = () => this.el ? this.el.getBoundingClientRect().width : 0;
+  getBoundingWidth = () =>
+    this.el ? this.el.getBoundingClientRect().width : 0;
 
   getBoundingHeight = () => 400;
 
@@ -88,7 +91,7 @@ class EventVisualization extends Component {
               />
               {this.props.attendees.map(attendee => (
                 <AttendeeVisualizationContainer
-                  key={attendee.userName}
+                  key={attendee.user.name}
                   boundingWidth={this.getBoundingWidth()}
                   boundingHeight={this.getBoundingHeight()}
                   zoomLevel={this.props.zoomLevel}
@@ -111,9 +114,9 @@ class EventVisualization extends Component {
 }
 
 const mapStateToProps = state => ({
-  attendees: selectEventAttendees(state),
-  me: selectMe(state),
-  placeId: selectPlaceId(state),
+  attendees: selectActiveEventOtherAttendeesList(state),
+  me: selectActiveEventMe(state),
+  placeId: selectActiveEventGooglePlaceId(state),
   userCoordinates: selectUserCoordinates(state),
   zoomLevel: selectZoomLevel(state)
 });

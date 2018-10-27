@@ -1,12 +1,12 @@
 /*global google*/
 
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import { selectPlaceId } from '../activeEventSelectors_old';
-import { selectUserCoordinates } from '../../reducers/appState/appStateSelectors';
-import { initGoogleMapsAPI } from '../../actions/googleMapsActions';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
+import { selectActiveEventGooglePlaceId } from "../activeEventSelectors";
+import { selectUserCoordinates } from "../../reducers/appState/appStateSelectors";
+import { initGoogleMapsAPI } from "../../actions/googleMapsActions";
 
 class EventMap extends Component {
   static propTypes = {
@@ -14,14 +14,14 @@ class EventMap extends Component {
     userCoordinates: PropTypes.shape({
       latitude: PropTypes.number,
       longitude: PropTypes.number,
-      lastUpdated: PropTypes.number
+      timestamp: PropTypes.string
     }).isRequired,
-    variation: PropTypes.oneOf(['light', 'dark']),
+    variation: PropTypes.oneOf(["light", "dark"]),
     initGoogleMapsAPI: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    variation: Math.random() < 0.5 ? 'light' : 'dark'
+    variation: Math.random() < 0.5 ? "light" : "dark"
   };
 
   async componentDidMount() {
@@ -40,9 +40,10 @@ class EventMap extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (
-      this.props.userCoordinates.lastUpdated !==
-      nextProps.userCoordinates.lastUpdated
+      this.props.userCoordinates.timestamp !==
+      nextProps.userCoordinates.timestamp
     ) {
+      console.log('hifeaijfewfjieawopfj');
       this.setState({ isMapBounded: false });
     }
   }
@@ -50,7 +51,7 @@ class EventMap extends Component {
   componentDidUpdate() {
     if (
       !this.state.isMapBounded &&
-      !!this.props.userCoordinates.lastUpdated &&
+      !!this.props.userCoordinates.timestamp &&
       !!this.state.eventCoordinates
     ) {
       this.boundMap(
@@ -78,28 +79,35 @@ class EventMap extends Component {
       scaleControl: false,
       streetViewControl: false,
       rotateControl: false,
-      styles: this.props.variation === 'dark' && [{
-        elementType: 'geometry',
-        stylers: [{color: '#000000'}]
-      }, {
-        elementType: 'labels.text.stroke',
-        stylers: [{color: '#000000'}]
-      }, {
-        elementType: 'labels.text.fill',
-        stylers: [{color: '#7ADA7C'}]
-      }, {
-        featureType: 'road',
-        elementType: 'geometry',
-        stylers: [{color: '#38414e'}]
-      }, {
-        featureType: 'road',
-        elementType: 'geometry.stroke',
-        stylers: [{color: '#212a37'}]
-      },{
-        featureType: 'road',
-        elementType: 'labels.text.fill',
-        stylers: [{color: '#9ca5b3'}]
-      }]
+      styles: this.props.variation === "dark" && [
+        {
+          elementType: "geometry",
+          stylers: [{ color: "#000000" }]
+        },
+        {
+          elementType: "labels.text.stroke",
+          stylers: [{ color: "#000000" }]
+        },
+        {
+          elementType: "labels.text.fill",
+          stylers: [{ color: "#7ADA7C" }]
+        },
+        {
+          featureType: "road",
+          elementType: "geometry",
+          stylers: [{ color: "#38414e" }]
+        },
+        {
+          featureType: "road",
+          elementType: "geometry.stroke",
+          stylers: [{ color: "#212a37" }]
+        },
+        {
+          featureType: "road",
+          elementType: "labels.text.fill",
+          stylers: [{ color: "#9ca5b3" }]
+        }
+      ]
     };
     return new maps.Map(node, mapConfig);
   };
@@ -109,7 +117,7 @@ class EventMap extends Component {
       const geocoder = new google.maps.Geocoder();
 
       return geocoder.geocode({ placeId: placeId }, (results, status) => {
-        if (status === 'OK') {
+        if (status === "OK") {
           if (results[0]) {
             map.setZoom(15);
             map.setCenter(results[0].geometry.location);
@@ -121,11 +129,11 @@ class EventMap extends Component {
               longitude: position.lng()
             });
           } else {
-            window.alert('No results found');
+            window.alert("No results found");
             return reject();
           }
         } else {
-          window.alert('Geocoder failed due to: ' + status);
+          window.alert("Geocoder failed due to: " + status);
           return reject();
         }
       });
@@ -148,9 +156,9 @@ class EventMap extends Component {
 
   render() {
     const style = {
-      height: '400px',
-      position: 'relative',
-      overflow: 'hidden'
+      height: "400px",
+      position: "relative",
+      overflow: "hidden"
     };
     const skeletonStyle = { ...style };
 
@@ -165,7 +173,7 @@ class EventMap extends Component {
 }
 
 const mapStateToProps = state => ({
-  placeId: selectPlaceId(state),
+  placeId: selectActiveEventGooglePlaceId(state),
   userCoordinates: selectUserCoordinates(state)
 });
 

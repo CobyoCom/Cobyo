@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { AttendeePropTypes } from "../attendees/AttendeesListItem/AttendeesListItem";
 import { refreshEvent } from "../eventUserActions_old";
 import { selectAttendee } from "./visualizationActions";
-import { selectIsRefreshing } from "../activeEventSelectors_old";
+import { selectIsCalculatingDuration } from "../../reducers/ui/uiEventSelectors";
 import { getDistance } from "./VisualizationHelpers";
 import BaseNode from "./BaseNode/BaseNode";
 
@@ -50,7 +50,7 @@ class MeVisualizationContainer extends Component {
   getR = () => 15;
 
   handleClick = () => {
-    this.props.selectAttendee(this.props.userName);
+    this.props.selectAttendee(this.props.user.name);
     this.props.refreshEvent();
   };
 
@@ -61,7 +61,7 @@ class MeVisualizationContainer extends Component {
         cy={this.getCy()}
         r={this.getR()}
         fill="rgb(67,111,189)"
-        text={this.props.userName.substring(0, 1)}
+        text={this.props.user.name.substring(0, 1)}
         textStroke="white"
         onClick={this.handleClick}
         ring={{
@@ -83,7 +83,7 @@ class MeVisualizationContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  isRefreshing: selectIsRefreshing(state)
+  isRefreshing: selectIsCalculatingDuration(state)
 });
 
 const mapDispatchToProps = {

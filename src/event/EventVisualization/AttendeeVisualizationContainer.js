@@ -93,7 +93,7 @@ class AttendeeVisualizationContainer extends Component {
 
   getR = () => 15;
 
-  handleClick = () => this.props.selectAttendee(this.props.userName);
+  handleClick = () => this.props.selectAttendee(this.props.user.name);
 
   render() {
     return (
@@ -102,7 +102,7 @@ class AttendeeVisualizationContainer extends Component {
         cy={this.getCy()}
         r={this.getR()}
         fill="rgb(67,111,189)"
-        text={this.props.userName.substring(0, 1)}
+        text={this.props.user.name.substring(0, 1)}
         textStroke="white"
         onClick={this.handleClick}
         orbitalRing={{

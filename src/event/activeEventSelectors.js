@@ -5,6 +5,7 @@ import {
   makeSelectEventName,
   makeSelectEventScheduledTime,
   makeSelectEventNumAttendees,
+  makeSelectEventGooglePlaceId,
   makeSelectEventMe,
   makeSelectEventMyTravelMode,
   makeSelectEventUsers
@@ -41,18 +42,28 @@ export function selectActiveEventUsers(state) {
   return makeSelectEventUsers(state)(selectActiveEventCode(state));
 }
 
-export function selectActiveEventAttendeesList(state) {
+export function selectActiveEventOtherAttendeesList(state) {
   return createSelector(
     selectActiveEventUsers,
     selectActiveEventMe,
-    (eventUsers, me) => [
-      me,
-      ...eventUsers.filter(eventUser => eventUser.user.name !== me.user.name)
-    ]
+    (eventUsers, me) =>
+      eventUsers.filter(eventUser => eventUser.user.name !== me.user.name)
   )(state);
 }
 
-function selectActiveEventMe(state) {
+export function selectActiveEventAttendeesList(state) {
+  return createSelector(
+    selectActiveEventOtherAttendeesList,
+    selectActiveEventMe,
+    (attendeesList, me) => [me, ...attendeesList]
+  )(state);
+}
+
+export function selectActiveEventGooglePlaceId(state) {
+  return makeSelectEventGooglePlaceId(state)(selectActiveEventCode(state));
+}
+
+export function selectActiveEventMe(state) {
   return makeSelectEventMe(state)(selectActiveEventCode(state));
 }
 

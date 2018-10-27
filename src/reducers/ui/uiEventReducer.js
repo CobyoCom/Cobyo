@@ -26,29 +26,7 @@ function shouldShowTravelModeSelect(state = false, { type, payload }) {
   }
 }
 
-function zoomLevel(state = 3, { type, payload }) {
-  switch (type) {
-    // case types.getAttendeesSuccess: {
-    //   const {attendees} = payload;
-    //   if (!attendees.length) {
-    //     return state;
-    //   }
-    //
-    //   const max = attendees.reduce((acc, {duration}) => {
-    //     return Math.max(acc, duration);
-    //   }, 0);
-    // }
-    case visulizationTypes.incrementZoomLevel:
-      return state + 1;
-    case visulizationTypes.decrementZoomLevel:
-      return Math.max(1, state - 1);
-    default:
-      return state;
-  }
-}
-
 export default combineReducers({
   isCalculatingDuration,
-  shouldShowTravelModeSelect,
-  zoomLevel
+  shouldShowTravelModeSelect
 });

@@ -2,9 +2,9 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
-  selectEventScheduledTime,
-  selectIsRefreshing
+  selectEventScheduledTime
 } from "../activeEventSelectors_old";
+import {selectIsCalculatingDuration} from "../../reducers/ui/uiEventSelectors";
 import { getDistance } from "./VisualizationHelpers";
 import { to } from "../../helpers/moment";
 import BaseNode from "./BaseNode/BaseNode";
@@ -77,7 +77,7 @@ class DestinationVisualizationContainer extends Component {
 
 const mapStateToProps = state => ({
   scheduledTime: selectEventScheduledTime(state),
-  isRefreshing: selectIsRefreshing(state)
+  isRefreshing: selectIsCalculatingDuration(state)
 });
 
 export default connect(mapStateToProps)(DestinationVisualizationContainer);

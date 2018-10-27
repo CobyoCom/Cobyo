@@ -2,16 +2,17 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchEvent } from "../eventActions";
+import { refreshMe } from "../eventUserActions";
 import { fetchMe } from "../../me/meActions";
 import {
   selectActiveEventHasLoaded,
   selectActiveEventHasJoined,
   selectActiveEventMyTravelMode
 } from "../activeEventSelectors";
+import { selectShouldShowTravelModeSelect } from "../../reducers/ui/uiEventSelectors";
 import { selectHasLoggedIn, selectMeLoaded } from "../../me/meSelectors";
 import { DRIVING, TRANSIT, WALKING } from "../../helpers/globalConstants";
 import EventPage from "./EventPage";
-import { selectShouldShowTravelModeSelect } from "../../reducers/ui/uiEventSelectors";
 
 class EventPageContainer extends Component {
   static propTypes = {
@@ -22,12 +23,17 @@ class EventPageContainer extends Component {
     hasJoined: PropTypes.bool.isRequired,
     travelMode: PropTypes.oneOf([WALKING, DRIVING, TRANSIT]),
     fetchEvent: PropTypes.func.isRequired,
+    refreshMe: PropTypes.func.isRequired,
     shouldShowTravelModeSelect: PropTypes.bool.isRequired
   };
 
   async componentDidMount() {
     if (!this.props.hasEventLoaded) {
       await this.props.fetchEvent(this.props.code);
+      await this.props.refreshMe({
+        code: this.props.code,
+        travelMode: this.props.travelMode
+      });
     }
     if (!this.props.hasMeLoaded) {
       await this.props.fetchMe();
@@ -56,6 +62,9 @@ class EventPageContainer extends Component {
     this.props.hasJoined &&
     !!this.props.travelMode;
 
+  getShouldShowCarousel = () =>
+    this.props.hasEventLoaded && this.props.hasJoined;
+
   render() {
     return (
       <EventPage
@@ -63,6 +72,7 @@ class EventPageContainer extends Component {
         shouldShowJoinButton={this.getShouldShowJoinButton()}
         shouldShowTravelModeSelect={this.getShouldShowTravelModeSelect()}
         shouldShowAttendeesList={this.getShouldShowAttendeesList()}
+        shouldShowCarousel={this.getShouldShowCarousel()}
       />
     );
   }
@@ -79,7 +89,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   fetchEvent,
-  fetchMe
+  fetchMe,
+  refreshMe
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventPageContainer);

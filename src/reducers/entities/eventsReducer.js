@@ -17,7 +17,6 @@ export const eventInitialState = {
 
 export default function events(state = {}, { type, payload }) {
   switch (type) {
-    case eventTypes.fetchEventRequest:
     case eventTypes.fetchEventSuccess:
     case eventTypes.fetchEventUsersSuccess: {
       const { code } = payload;

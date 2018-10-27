@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import cx from 'classnames';
-import { selectPlace } from '../createActions';
+import { selectPlace } from '../createEventActions';
 import { initGoogleMapsAPI } from '../../actions/googleMapsActions';
 import { selectPlaceName } from '../createEventFormSelectors';
 

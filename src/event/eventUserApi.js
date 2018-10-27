@@ -1,11 +1,11 @@
 import fetchGraphQL from "../helpers/fetchGraphQL";
-import { udpateEventUser } from "../graphqlMutations";
+import { updateEventUserMutation } from "../graphqlMutations";
 import logger from "../helpers/logger";
 
 export async function updateEventUserApi({ code, eventUser }) {
   try {
     const { data } = await fetchGraphQL({
-      query: udpateEventUser,
+      query: updateEventUserMutation,
       variables: {
         code,
         eventUser

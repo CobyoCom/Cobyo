@@ -1,7 +1,9 @@
-import { combineReducers } from 'redux';
-import { types } from './createActions';
+import { combineReducers } from "redux";
+import { types } from "./createEventActions";
 
-const placeId = (state = null, { type, payload }) => {
+export const moduleName = "createEventForm";
+
+function placeId(state = null, { type, payload }) {
   switch (type) {
     case types.selectPlace: {
       return payload.placeId;
@@ -15,25 +17,33 @@ const placeId = (state = null, { type, payload }) => {
     default:
       return state;
   }
-};
+}
 
-const placeName = (state = '', { type, payload }) => {
+function name(state = "", { type, payload }) {
   switch (type) {
     case types.selectPlace: {
-      return payload.placeName;
+      return payload.name;
     }
     case types.createEventSuccess:
     case types.createEventFailure:
     case types.editEventSuccess:
     case types.editEventFailure: {
-      return '';
+      return "";
     }
     default:
       return state;
   }
-};
+}
+
+function scheduledTime(state = null, { type }) {
+  switch (type) {
+    default:
+      return state;
+  }
+}
 
 export default combineReducers({
   placeId,
-  placeName
+  name,
+  scheduledTime
 });

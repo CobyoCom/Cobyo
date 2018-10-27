@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import { types } from "./eventActions_old";
-import { types as createActionTypes } from "../create/createActions";
+import { types as createActionTypes } from "../create/createActions_old";
 import { types as visualizationActionTypes } from "./EventVisualization/visualizationActions";
 
 export const moduleName = "activeEvent";

@@ -10,8 +10,8 @@ import {
 import ErrorBannerContainer from '../error/ErrorBanner/ErrorBannerContainer';
 import HomePageContainer from '../home/HomePage/HomePageContainer';
 import EventsPageContainer from '../events/EventsPage/EventsPageContainer';
-import CreatePageContainer from '../create/CreatePage/CreatePageContainer';
-import EditEventPageContainer from '../create/CreatePage/EditEventPageContainer';
+import CreateEventPageContainer from '../create/CreateEventPage/CreateEventPageContainer';
+import EditEventPageContainer from '../create/CreateEventPage/EditEventPageContainer';
 import EventPageContainer from '../event/EventPage/EventPageContainer';
 import SettingsPageContainer from '../settings/SettingsPage/SettingsPageContainer';
 import NotFoundPage from '../pages/NotFoundPage';
@@ -46,7 +46,7 @@ class App extends Component {
               <Route
                 exact
                 path="/create"
-                render={props => <CreatePageContainer {...props} />}
+                render={props => <CreateEventPageContainer {...props} />}
               />
               <Route
                 path="/events/:code"

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Button from '../../components/Button/Button';
-import { selectPlace } from '../createActions';
+import { selectPlace } from '../createEventActions';
 
 const getFormattedName = name => name && name.split(',')[0];
 

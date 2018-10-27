@@ -1,5 +1,5 @@
 import { types as eventTypes } from '../../event/eventActions_old';
-import { types as createTypes } from '../../create/createActions';
+import { types as createTypes } from '../../create/createActions_old';
 import { types as eventUserTypes } from '../../event/eventUserActions_old';
 import { types as notificationTypes } from '../../event/notifications/notificationsActions';
 import { AttendeeDefaultProps } from '../../event/attendees/AttendeesListItem/AttendeesListItem';

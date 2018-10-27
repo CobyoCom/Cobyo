@@ -7,6 +7,7 @@ import EventJoinForm from "../EventJoinForm/EventJoinForm";
 import EventJoinButton from "../EventJoinButton/EventJoinButton";
 import TravelModeSelectContainer from "../TravelModeSelect/TravelModeSelectContainer";
 import AttendeesListContainer from "../attendees/AttendeesList/AttendeesListContainer";
+import NavBar from "../../navigation/NavBar/NavBar";
 import "./EventPage.css";
 
 const EventPage = props => (
@@ -18,6 +19,7 @@ const EventPage = props => (
     {props.shouldShowTravelModeSelect && <TravelModeSelectContainer />}
     {props.shouldShowLoginInput && <EventJoinForm />}
     {props.shouldShowAttendeesList && <AttendeesListContainer />}
+    <NavBar activeTab="Events" />
   </div>
 );
 

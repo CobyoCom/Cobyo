@@ -1,7 +1,7 @@
 import { types as eventActionTypes } from '../../event/eventUserActions_old';
 import { types as notificationActionTypes } from '../../event/notifications/notificationsActions';
 import { types as errorBannerActionTypes } from '../../error/errorBannerActions';
-import { types as createActionTypes } from '../../create/createActions';
+import { types as createActionTypes } from '../../create/createActions_old';
 import { types as googleMapsActionTypes } from '../../actions/googleMapsActions';
 
 export default function error(state = null, { type }) {

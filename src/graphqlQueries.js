@@ -15,13 +15,9 @@ export const baseEventQuery = gql`
   query eventQuery($code: String!) {
     event(code: $code) {
       ...baseEvent
-      me {
-        ...eventUser
-      }
     }
   }
   ${baseEventFragment}
-  ${eventUserFragment}
 `;
 
 /**

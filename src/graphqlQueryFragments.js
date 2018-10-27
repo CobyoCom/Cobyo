@@ -64,6 +64,10 @@ export const baseEventFragment = gql`
     place {
       ...place
     }
+    me {
+      ...eventUser
+    }
   }
   ${placeFragment}
+  ${eventUserFragment}
 `;

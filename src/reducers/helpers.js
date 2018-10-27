@@ -11,7 +11,13 @@ export function concatUnique(a, b, key = null) {
     });
   } else {
     arrB.forEach(b => {
-      if (arrA.findIndex(a => a[key] === b[key]) === -1) {
+      const keys = key.split(".");
+      function getValue(el, keys) {
+        return keys.reduce((value, key) => {
+          return value[key];
+        }, el);
+      }
+      if (arrA.findIndex(a => getValue(a, keys) === getValue(b, keys)) === -1) {
         arrA.push(b);
       }
     });

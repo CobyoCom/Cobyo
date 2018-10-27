@@ -5,7 +5,8 @@ import {
   makeSelectEventScheduledTime,
   makeSelectEventNumAttendees,
   makeSelectEventMe,
-  makeSelectEventMyTravelMode
+  makeSelectEventMyTravelMode,
+  makeSelectEventUsers
 } from "./eventSelectors";
 
 function selectActiveEvent(state) {
@@ -33,6 +34,10 @@ export function selectActiveEventScheduledTime(state) {
 
 export function selectActiveEventNumAttendees(state) {
   return makeSelectEventNumAttendees(state)(selectActiveEventCode(state));
+}
+
+export function selectActiveEventUsers(state) {
+  return makeSelectEventUsers(state)(selectActiveEventCode(state));
 }
 
 function selectActiveEventMe(state) {

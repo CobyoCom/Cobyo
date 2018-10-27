@@ -18,7 +18,8 @@ export const eventInitialState = {
 export default function events(state = {}, { type, payload }) {
   switch (type) {
     case eventTypes.fetchEventRequest:
-    case eventTypes.fetchEventSuccess: {
+    case eventTypes.fetchEventSuccess:
+    case eventTypes.fetchEventUsersSuccess: {
       const { code } = payload;
       return {
         ...state,
@@ -51,7 +52,11 @@ export default function events(state = {}, { type, payload }) {
         [code]: {
           ...eventInitialState,
           ...state[code],
-          eventUsers: concatUnique(state[code].eventUsers, [eventUser])
+          eventUsers: concatUnique(
+            [eventUser],
+            state[code].eventUsers,
+            "user.name"
+          )
         }
       };
     }

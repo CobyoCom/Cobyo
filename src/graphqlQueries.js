@@ -41,6 +41,7 @@ export const meQuery = gql`
 export const eventUsersQuery = gql`
   query eventUsersQuery($code: String!) {
     event(code: $code) {
+      code
       eventUsers {
         ...eventUser
       }
@@ -52,6 +53,7 @@ export const eventUsersQuery = gql`
 export const eventNotificationsQuery = gql`
   query eventNotificationsQuery($code: String!) {
     event(code: $code) {
+      code
       notifications {
         ...eventNotification
       }

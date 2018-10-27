@@ -1,5 +1,5 @@
 import fetchGraphQL from "../helpers/fetchGraphQL";
-import { baseEventQuery } from "../graphqlQueries";
+import { baseEventQuery, eventUsersQuery } from "../graphqlQueries";
 import { joinEventMutation } from "../graphqlMutations";
 import logger from "../helpers/logger";
 
@@ -25,6 +25,19 @@ export async function joinEventApi(code) {
     return data;
   } catch (error) {
     logger(`joinEventApi ${error.response.status}: ${error.message}`);
+    throw new Error();
+  }
+}
+
+export async function fetchEventUsersApi(code) {
+  try {
+    const { data } = await fetchGraphQL({
+      query: eventUsersQuery,
+      variables: { code }
+    });
+    return data;
+  } catch (error) {
+    logger(`fetchEventUsersApi ${error.response.status}: ${error.message}`);
     throw new Error();
   }
 }

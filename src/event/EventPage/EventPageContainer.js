@@ -12,6 +12,7 @@ import {
 import { selectHasLoggedIn, selectMeLoaded } from "../../me/meSelectors";
 import { DRIVING, TRANSIT, WALKING } from "../../helpers/globalConstants";
 import EventPage from "./EventPage";
+import { selectShouldShowTravelModeSelect } from "../../reducers/ui/uiEventSelectors";
 
 class EventPageContainer extends Component {
   static propTypes = {
@@ -22,7 +23,8 @@ class EventPageContainer extends Component {
     hasJoined: PropTypes.bool.isRequired,
     travelMode: PropTypes.oneOf([WALKING, DRIVING, TRANSIT]),
     fetchEvent: PropTypes.func.isRequired,
-    changeTravelMode: PropTypes.func.isRequired
+    changeTravelMode: PropTypes.func.isRequired,
+    shouldShowTravelModeSelect: PropTypes.bool.isRequired
   };
 
   async componentDidMount() {
@@ -42,7 +44,15 @@ class EventPageContainer extends Component {
     this.props.hasLoggedIn;
 
   getShouldShowTravelModeSelect = () =>
-    this.props.hasEventLoaded && this.props.hasJoined && !this.props.travelMode;
+    (this.props.hasEventLoaded &&
+      this.props.hasJoined &&
+      !this.props.travelMode) ||
+    this.props.shouldShowTravelModeSelect;
+
+  getShouldShowAttendeesList = () =>
+    this.props.hasEventLoaded &&
+    this.props.hasJoined &&
+    !!this.props.travelMode;
 
   render() {
     return (
@@ -50,6 +60,7 @@ class EventPageContainer extends Component {
         shouldShowLoginInput={this.getShouldShowLoginInput()}
         shouldShowJoinButton={this.getShouldShowJoinButton()}
         shouldShowTravelModeSelect={this.getShouldShowTravelModeSelect()}
+        shouldShowAttendeesList={this.getShouldShowAttendeesList()}
       />
     );
   }
@@ -60,7 +71,8 @@ const mapStateToProps = state => ({
   hasEventLoaded: selectActiveEventHasLoaded(state),
   hasMeLoaded: selectMeLoaded(state),
   hasJoined: selectActiveEventHasJoined(state),
-  travelMode: selectActiveEventMyTravelMode(state)
+  travelMode: selectActiveEventMyTravelMode(state),
+  shouldShowTravelModeSelect: selectShouldShowTravelModeSelect(state)
 });
 
 const mapDispatchToProps = {

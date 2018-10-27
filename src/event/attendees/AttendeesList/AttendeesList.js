@@ -1,6 +1,5 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { AttendeePropTypes } from "../AttendeesListItem/AttendeesListItem";
 import AttendeesListItemContainer from "../AttendeesListItem/AttendeesListItemContainer";
 import Modal from "react-responsive-modal";
 import "./AttendeesList.css";
@@ -10,8 +9,8 @@ const AttendeesList = props => (
     {props.selectedAttendee ? (
       <Modal
         classNames={{
-          modal: 'AttendeesList-modal',
-          overlay: 'AttendeesList-modal-overlay'
+          modal: "AttendeesList-modal",
+          overlay: "AttendeesList-modal-overlay"
         }}
         showCloseIcon={false}
         open={!!props.selectedAttendee}
@@ -25,18 +24,14 @@ const AttendeesList = props => (
         </div>
       </Modal>
     ) : (
-      <Fragment>
-        <AttendeesListItemContainer key={props.me.userName} {...props.me} />
-        {props.attendees.map(attendee => (
-          <AttendeesListItemContainer key={attendee.userName} {...attendee} />
-        ))}
-      </Fragment>
+      props.attendees.map(attendee => (
+        <AttendeesListItemContainer key={attendee.user.name} {...attendee} />
+      ))
     )}
   </div>
 );
 
 AttendeesList.propTypes = {
-  me: PropTypes.shape(AttendeePropTypes).isRequired,
   attendees: PropTypes.array,
   selectedAttendee: PropTypes.object,
   onModalClose: PropTypes.func.isRequired

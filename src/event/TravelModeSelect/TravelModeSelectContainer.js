@@ -1,22 +1,25 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { changeTravelMode } from "../eventUserActions";
+import {
+  changeTravelMode,
+  toggleShowTravelModeSelect
+} from "../eventUserActions";
 import TravelModeSelect from "./TravelModeSelect";
 import Modal from "react-responsive-modal";
 import { selectActiveEventCode } from "../activeEventSelectors";
 
-class EventJoinTravelModeSelect extends Component {
+class TravelModeSelectContainer extends Component {
   static propTypes = {
-    changeTravelMode: PropTypes.func.isRequired
+    changeTravelMode: PropTypes.func.isRequired,
+    toggleShowTravelModeSelect: PropTypes.func.isRequired
   };
 
   state = {
-    shouldShowTravelModeSelect: true,
     isLoading: false
   };
 
-  handleClose = () => this.setState({ shouldShowTravelModeSelect: false });
+  handleClose = () => this.props.toggleShowTravelModeSelect(false);
 
   handleChange = travelMode => {
     this.setState({ isLoading: true });
@@ -26,12 +29,16 @@ class EventJoinTravelModeSelect extends Component {
   render() {
     return (
       <Modal
-        open={this.state.shouldShowTravelModeSelect}
+        open
         center
         showCloseIcon={false}
         onClose={this.handleClose}
+        closeOnOverlayClick
       >
-        <TravelModeSelect onChange={this.handleChange} isLoading={this.state.isLoading} />
+        <TravelModeSelect
+          onChange={this.handleChange}
+          isLoading={this.state.isLoading}
+        />
       </Modal>
     );
   }
@@ -43,18 +50,21 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   dispatch,
-  changeTravelMode
+  changeTravelMode,
+  toggleShowTravelModeSelect
 });
 
 const mergeProps = (stateProps, dispatchProps) => {
   const { code } = stateProps;
   const { dispatch, changeTravelMode } = dispatchProps;
   return {
+    toggleShowTravelModeSelect: payload =>
+      dispatch(toggleShowTravelModeSelect(payload)),
     changeTravelMode: travelMode =>
       dispatch(changeTravelMode({ code, travelMode }))
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(
-  EventJoinTravelModeSelect
+  TravelModeSelectContainer
 );

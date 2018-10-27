@@ -8,10 +8,23 @@ import { initGoogleMapsAPI } from "../actions/googleMapsActions";
 import { updateEventUserApi } from "./eventUserApi";
 
 export const types = {
+  toggleShowTravelModeSelect: "TOGGLE_SHOW_TRAVEL_MODE_SELECT",
+  changeTravelModeRequest: "CHANGE_TRAVEL_MODE_REQUEST",
   fetchCoordinatesSuccess: "FETCH_COORDINATES_SUCCESS",
   fetchDurationSuccess: "FETCH_DURATION_SUCCESS",
   updateEventUserSuccess: "UPDATE_EVENT_USER_SUCCESS"
 };
+
+export function toggleShowTravelModeSelect(payload) {
+  return {
+    type: types.toggleShowTravelModeSelect,
+    payload
+  };
+}
+
+function changeTravelModeRequest() {
+  return { type: types.changeTravelModeRequest };
+}
 
 function fetchCoordinatesSuccess({ latitude, longitude, timestamp }) {
   return {
@@ -40,6 +53,7 @@ function updateEventUserSuccess({ code, eventUser }) {
 
 export function changeTravelMode({ code, travelMode }) {
   return async (dispatch, getState) => {
+    dispatch(changeTravelModeRequest());
     let latitude, longitude, timestamp;
 
     // Step 1: Find my current position

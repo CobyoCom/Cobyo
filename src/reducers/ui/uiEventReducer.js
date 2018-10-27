@@ -1,18 +1,26 @@
-import { types } from "../../event/eventUserActions_old";
+import { types as eventUserActionTypes } from "../../event/eventUserActions";
 import { types as visulizationTypes } from "../../event/EventVisualization/visualizationActions";
 import { combineReducers } from "redux";
 
-export const moduleName = "uiEvent";
+export const moduleName = "event";
 
-function isRefreshing(state = false, { type, payload }) {
+function isCalculatingDuration(state = false, { type }) {
   switch (type) {
-    case types.refreshEventRequest: {
+    case eventUserActionTypes.changeTravelModeRequest:
       return true;
-    }
-    case types.refreshEventSuccess:
-    case types.refreshEventFailure: {
+    case eventUserActionTypes.updateEventUserSuccess:
       return false;
-    }
+    default:
+      return state;
+  }
+}
+
+function shouldShowTravelModeSelect(state = false, { type, payload }) {
+  switch (type) {
+    case eventUserActionTypes.toggleShowTravelModeSelect:
+      return payload;
+    case eventUserActionTypes.updateEventUserSuccess:
+      return false;
     default:
       return state;
   }
@@ -40,6 +48,7 @@ function zoomLevel(state = 3, { type, payload }) {
 }
 
 export default combineReducers({
-  isRefreshing,
+  isCalculatingDuration,
+  shouldShowTravelModeSelect,
   zoomLevel
 });

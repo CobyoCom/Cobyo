@@ -31,6 +31,13 @@ export function makeSelectEventNumAttendees(state) {
   };
 }
 
+export function makeSelectEventUsers(state) {
+  return code => {
+    const event = makeSelectEvent(state)(code);
+    return event ? event.eventUsers : null;
+  };
+}
+
 export function makeSelectEventPlace(state) {
   return code => {
     const event = makeSelectEvent(state)(code);

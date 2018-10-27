@@ -25,3 +25,7 @@ export function selectMyName(state) {
   }
   return selectMe(state).name;
 }
+
+export function makeSelectIsMe(state) {
+  return name => selectMyName(state) === name;
+}

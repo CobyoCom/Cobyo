@@ -9,7 +9,8 @@ import { updateEventUserApi } from "./eventUserApi";
 
 export const types = {
   fetchCoordinatesSuccess: "FETCH_COORDINATES_SUCCESS",
-  fetchDurationSuccess: "FETCH_DURATION_SUCCESS"
+  fetchDurationSuccess: "FETCH_DURATION_SUCCESS",
+  updateEventUserSuccess: "UPDATE_EVENT_USER_SUCCESS"
 };
 
 function fetchCoordinatesSuccess({ latitude, longitude, timestamp }) {
@@ -26,6 +27,13 @@ function fetchCoordinatesSuccess({ latitude, longitude, timestamp }) {
 function fetchDurationSuccess({ code, eventUser }) {
   return {
     type: types.fetchDurationSuccess,
+    payload: { code, eventUser }
+  };
+}
+
+function updateEventUserSuccess({ code, eventUser }) {
+  return {
+    type: types.updateEventUserSuccess,
     payload: { code, eventUser }
   };
 }
@@ -81,9 +89,17 @@ export function changeTravelMode({ code, travelMode }) {
     try {
       const state = getState();
       const me = makeSelectEventMe(state)(code);
-      const { user, ...meEventUser } = me;
-      const eventUser = await updateEventUserApi({ code, eventUser: meEventUser });
-      console.log(eventUser);
+      const { user, ...eventUser } = me;
+      const response = await updateEventUserApi({
+        code,
+        eventUser
+      });
+      dispatch(
+        updateEventUserSuccess({
+          code,
+          eventUser: response.data.updateEventUser
+        })
+      );
     } catch (error) {}
   };
 }

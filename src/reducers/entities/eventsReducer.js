@@ -1,5 +1,6 @@
 import { types as eventTypes } from "../../event/eventActions";
 import { types as eventUserTypes } from "../../event/eventUserActions";
+import { concatUnique } from "../helpers";
 
 export const moduleName = "events";
 export const eventInitialState = {
@@ -28,19 +29,9 @@ export default function events(state = {}, { type, payload }) {
         }
       };
     }
-    case eventTypes.joinEventSuccess: {
-      const { eventUser, code } = payload;
-      return {
-        ...state,
-        [code]: {
-          ...eventInitialState,
-          ...state[code],
-          me: eventUser
-        }
-      };
-    }
+    case eventTypes.joinEventSuccess:
     case eventUserTypes.fetchDurationSuccess: {
-      const {code, eventUser} = payload;
+      const { eventUser, code } = payload;
       return {
         ...state,
         [code]: {
@@ -51,7 +42,18 @@ export default function events(state = {}, { type, payload }) {
             ...eventUser
           }
         }
-      }
+      };
+    }
+    case eventUserTypes.updateEventUserSuccess: {
+      const { eventUser, code } = payload;
+      return {
+        ...state,
+        [code]: {
+          ...eventInitialState,
+          ...state[code],
+          eventUsers: concatUnique(state[code].eventUsers, [eventUser])
+        }
+      };
     }
     default:
       return state;

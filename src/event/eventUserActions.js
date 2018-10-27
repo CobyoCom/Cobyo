@@ -1,7 +1,11 @@
 import fetchDurationGoogle from "../locationServices/fetchDurationGoogle";
 import fetchCurrentCoordinates from "../locationServices/fetchCurrentCoordinates";
-import { makeSelectEventGooglePlaceId } from "./eventSelectors";
+import {
+  makeSelectEventGooglePlaceId,
+  makeSelectEventMe
+} from "./eventSelectors";
 import { initGoogleMapsAPI } from "../actions/googleMapsActions";
+import { updateEventUserApi } from "./eventUserApi";
 
 export const types = {
   fetchCoordinatesSuccess: "FETCH_COORDINATES_SUCCESS",
@@ -35,7 +39,7 @@ export function changeTravelMode({ code, travelMode }) {
       const position = await fetchCurrentCoordinates();
       latitude = position.coords.latitude;
       longitude = position.coords.longitude;
-      timestamp = position.timestamp;
+      timestamp = position.timestamp.toString();
       dispatch(
         fetchCoordinatesSuccess({
           latitude,
@@ -66,10 +70,20 @@ export function changeTravelMode({ code, travelMode }) {
           eventUser: {
             duration,
             travelMode,
-            updatedTime: timestamp
+            updatedTime: timestamp,
+            hasLeft: false
           }
         })
       );
+    } catch (error) {}
+
+    // Step 4: Send the update to the backend
+    try {
+      const state = getState();
+      const me = makeSelectEventMe(state)(code);
+      const { user, ...meEventUser } = me;
+      const eventUser = await updateEventUserApi({ code, eventUser: meEventUser });
+      console.log(eventUser);
     } catch (error) {}
   };
 }

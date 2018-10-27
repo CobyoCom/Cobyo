@@ -21,3 +21,12 @@ export const joinEventMutation = gql`
   }
   ${eventUserFragment}
 `;
+
+export const udpateEventUser = gql`
+  mutation updateEventUser($code: String!, $eventUser: EventUserInput!) {
+    updateEventUser(eventCode: $code, eventUser: $eventUser) {
+      ...eventUser
+    }
+  }
+  ${eventUserFragment}
+`;

@@ -38,7 +38,7 @@ class EventJoinForm extends Component {
           onChange={this.handleChangeName}
           autoFocus
         />
-        <Button disabled={this.getIsDisabled} size="small">
+        <Button disabled={this.getIsDisabled()} size="small">
           Join
         </Button>
       </form>

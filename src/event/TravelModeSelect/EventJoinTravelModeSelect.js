@@ -12,10 +12,16 @@ class EventJoinTravelModeSelect extends Component {
   };
 
   state = {
-    shouldShowTravelModeSelect: true
+    shouldShowTravelModeSelect: true,
+    isLoading: false
   };
 
   handleClose = () => this.setState({ shouldShowTravelModeSelect: false });
+
+  handleChange = travelMode => {
+    this.setState({ isLoading: true });
+    this.props.changeTravelMode(travelMode);
+  };
 
   render() {
     return (
@@ -25,7 +31,7 @@ class EventJoinTravelModeSelect extends Component {
         showCloseIcon={false}
         onClose={this.handleClose}
       >
-        <TravelModeSelect onChange={this.props.changeTravelMode} />
+        <TravelModeSelect onChange={this.handleChange} isLoading={this.state.isLoading} />
       </Modal>
     );
   }

@@ -51,6 +51,7 @@ class EventDetailsContainer extends Component {
     return (
       <EventDetails
         name={this.props.name}
+        numAttendees={this.props.numAttendees}
         scheduledTimeString={this.getScheduledTimeString()}
         showCopyClipboard={!!this.props.code && !this.state.hasCopied}
         showCopyCheck={!!this.props.code && this.state.hasCopied}

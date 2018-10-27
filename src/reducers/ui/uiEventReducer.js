@@ -1,5 +1,4 @@
 import { types as eventUserActionTypes } from "../../event/eventUserActions";
-import { types as visulizationTypes } from "../../event/EventVisualization/visualizationActions";
 import { combineReducers } from "redux";
 
 export const moduleName = "event";

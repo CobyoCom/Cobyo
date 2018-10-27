@@ -5,8 +5,7 @@ import Button from "../../components/Button/Button";
 import "./TimeSelect.css";
 import "../../components/Input/Input.css";
 import { to } from "../../helpers/moment";
-import { editEventScheduledTime } from "../eventActions_old";
-import { selectEventScheduledTime } from "../activeEventSelectors_old";
+import { selectActiveEventScheduledTime } from "../activeEventSelectors";
 
 class TimeSelect extends Component {
   static propTypes = {
@@ -36,15 +35,21 @@ class TimeSelect extends Component {
 
   getMessage = () => {
     if (this.props.scheduledTime && !this.state.isUpdating) {
-      const scheduledInFuture = `This event happens ${to(new Date(this.props.scheduledTime))}.`;
-      const scheduledInPast = `This event happened ${to(new Date(this.props.scheduledTime))}.`;
+      const scheduledInFuture = `This event happens ${to(
+        new Date(this.props.scheduledTime)
+      )}.`;
+      const scheduledInPast = `This event happened ${to(
+        new Date(this.props.scheduledTime)
+      )}.`;
 
-      return this.getIsConfirmDisabled() ? scheduledInPast : scheduledInFuture
+      return this.getIsConfirmDisabled() ? scheduledInPast : scheduledInFuture;
     } else {
-      const notScheduled = 'No time has been set.';
-      const updatingSchedule = `This event will now happen ${to(this.getDate())}.`;
+      const notScheduled = "No time has been set.";
+      const updatingSchedule = `This event will now happen ${to(
+        this.getDate()
+      )}.`;
 
-      return this.state.isUpdating ? updatingSchedule : notScheduled
+      return this.state.isUpdating ? updatingSchedule : notScheduled;
     }
   };
 
@@ -152,11 +157,11 @@ class TimeSelect extends Component {
 }
 
 const mapStateToProps = state => ({
-  scheduledTime: selectEventScheduledTime(state)
+  scheduledTime: selectActiveEventScheduledTime(state)
 });
 
 const mapDispatchToProps = {
-  editEventScheduledTime
+  editEventScheduledTime: () => {}
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimeSelect);

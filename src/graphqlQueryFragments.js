@@ -61,6 +61,7 @@ export const baseEventFragment = gql`
     name
     scheduledTime
     endedTime
+    numAttendees
     place {
       ...place
     }

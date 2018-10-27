@@ -1,16 +1,16 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { endEventApi } from '../eventApi_old';
-import { selectEventId } from '../activeEventSelectors_old';
-import { FaSignOut } from 'react-icons/lib/fa';
-import Modal from 'react-responsive-modal';
-import Button from '../../components/Button/Button';
-import './EventSettingEndEvent.css';
+import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { endEventApi } from "../eventApi_old";
+import { FaSignOut } from "react-icons/lib/fa";
+import Modal from "react-responsive-modal";
+import Button from "../../components/Button/Button";
+import "./EventSettingEndEvent.css";
+import { selectActiveEventCode } from "../activeEventSelectors";
 
 class EventSettingEndEvent extends Component {
   static propTypes = {
-    eventId: PropTypes.string.isRequired,
+    code: PropTypes.string.isRequired,
     onSuccess: PropTypes.func.isRequired
   };
 
@@ -22,7 +22,7 @@ class EventSettingEndEvent extends Component {
   handleEndEvent = () => {
     this.setState({ isLoading: true }, async () => {
       try {
-        await endEventApi(this.props.eventId);
+        await endEventApi(this.props.code);
         this.setState({ isLoading: false });
         this.props.onSuccess();
       } catch (error) {
@@ -64,6 +64,6 @@ class EventSettingEndEvent extends Component {
 }
 
 const mapStateToProps = state => ({
-  eventId: selectEventId(state)
+  code: selectActiveEventCode(state)
 });
 export default connect(mapStateToProps)(EventSettingEndEvent);

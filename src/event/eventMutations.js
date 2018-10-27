@@ -20,7 +20,7 @@ export const createEventMutation = gql`
 `;
 
 export const editEventMutation = gql`
-  mutation editEvent($code: String!, $event: EventInput!) {
+  mutation editEventX($code: String!, $event: EventInput!) {
     editEvent(code: $code, event: $event) {
       ...event
     }

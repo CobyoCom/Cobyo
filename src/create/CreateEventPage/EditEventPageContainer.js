@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import CreateEventPage from "./CreateEventPage";
-import { editEventPlace } from "../createActions_old";
+import { editEvent } from "../createEventActions";
+import { selectCreateEventForm } from "../createEventFormSelectors";
 
 class EditEventPageContainer extends Component {
   static propTypes = {
-    eventId: PropTypes.string.isRequired,
-    editEventPlace: PropTypes.func.isRequired,
+    code: PropTypes.string.isRequired,
+    editEvent: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired
   };
 
@@ -15,9 +16,8 @@ class EditEventPageContainer extends Component {
     e.preventDefault();
 
     try {
-      const response = await this.props.editEventPlace(this.props.eventId);
-      const eventId = response.data.editEvent.code;
-      this.props.history.push(`/${eventId}`);
+      const code = await this.props.editEvent();
+      this.props.history.push(`/${code}`);
     } catch (error) {}
   };
 
@@ -26,8 +26,35 @@ class EditEventPageContainer extends Component {
   }
 }
 
-const mapDispatchToProps = {
-  editEventPlace
+const mapStateToProps = state => ({
+  createEventForm: selectCreateEventForm(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  dispatch,
+  editEvent
+});
+
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { code } = ownProps;
+  const { createEventForm } = stateProps;
+  const { dispatch, editEvent } = dispatchProps;
+  const { placeId, ...event } = createEventForm;
+  return {
+    ...ownProps,
+    editEvent: () =>
+      dispatch(
+        editEvent({
+          ...event,
+          place: {
+            googlePlaceId: placeId
+          },
+          code
+        })
+      )
+  };
 };
 
-export default connect(null, mapDispatchToProps)(EditEventPageContainer);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(
+  EditEventPageContainer
+);

@@ -64,7 +64,7 @@ class App extends Component {
               />
               <Route
                 exact
-                path="/:eventId/edit"
+                path="/:code/edit"
                 render={props => <EditEventPageContainer {...props} {...extractParams(props)} />}
               />
             </Switch>

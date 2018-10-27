@@ -2,11 +2,7 @@
  * GraphQL mutations
  */
 import gql from "graphql-tag";
-import {
-  baseEventFragment,
-  userFragment,
-  eventUserFragment
-} from "./graphqlQueryFragments";
+import { userFragment, eventUserFragment } from "./graphqlQueryFragments";
 
 export const editMeMutation = gql`
   mutation editMeMutation($user: UserInput!) {
@@ -41,8 +37,15 @@ export const updateEventUserMutation = gql`
 export const createEventMutation = gql`
   mutation createEventMutation($event: EventInput!) {
     createEvent(event: $event) {
-      ...baseEvent
+      code
     }
   }
-  ${baseEventFragment}
+`;
+
+export const editEventMutation = gql`
+  mutation editEventMutation($code: String!, $event: EventInput!) {
+    editEvent(code: $code, event: $event) {
+      code
+    }
+  }
 `;

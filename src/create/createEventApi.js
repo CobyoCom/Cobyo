@@ -1,9 +1,8 @@
 import fetchGraphQL from "../helpers/fetchGraphQL";
-import { createEventMutation } from "../graphqlMutations";
+import { createEventMutation, editEventMutation } from "../graphqlMutations";
 import logger from "../helpers/logger";
 
 export async function createEventApi(event) {
-  console.log(event);
   try {
     const { data } = await fetchGraphQL({
       query: createEventMutation,
@@ -12,6 +11,19 @@ export async function createEventApi(event) {
     return data;
   } catch (error) {
     logger(`createEventApi ${error.response.status}: ${error.message}`);
+    throw new Error();
+  }
+}
+
+export async function editEventApi({code, event}) {
+  try {
+    const { data } = await fetchGraphQL({
+      query: editEventMutation,
+      variables: { code, event }
+    });
+    return data;
+  } catch (error) {
+    logger(`editEventApi ${error.response.status}: ${error.message}`);
     throw new Error();
   }
 }

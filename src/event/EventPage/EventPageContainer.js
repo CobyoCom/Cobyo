@@ -30,10 +30,6 @@ class EventPageContainer extends Component {
   async componentDidMount() {
     if (!this.props.hasEventLoaded) {
       await this.props.fetchEvent(this.props.code);
-      await this.props.refreshMe({
-        code: this.props.code,
-        travelMode: this.props.travelMode
-      });
     }
     if (!this.props.hasMeLoaded) {
       await this.props.fetchMe();

@@ -17,6 +17,13 @@ export function makeSelectEventName(state) {
   };
 }
 
+export function makeSelectEventEndedTime(state) {
+  return code => {
+    const event = makeSelectEvent(state)(code);
+    return event ? event.endedTime : null;
+  }
+}
+
 export function makeSelectEventScheduledTime(state) {
   return code => {
     const event = makeSelectEvent(state)(code);

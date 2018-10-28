@@ -3,6 +3,7 @@ import { moduleName as activeEventModuleName } from "./activeEventReducer";
 import {
   makeSelectEvent,
   makeSelectEventName,
+  makeSelectEventEndedTime,
   makeSelectEventScheduledTime,
   makeSelectEventNumAttendees,
   makeSelectEventGooglePlaceId,
@@ -28,6 +29,10 @@ export function selectActiveEventCode(state) {
 
 export function selectActiveEventName(state) {
   return makeSelectEventName(state)(selectActiveEventCode(state));
+}
+
+export function selectActiveEventEndedTime(state) {
+  return makeSelectEventEndedTime(state)(selectActiveEventCode(state));
 }
 
 export function selectActiveEventScheduledTime(state) {

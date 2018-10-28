@@ -1,7 +1,7 @@
 /**
  * Moment helper functions
  */
-import moment from 'moment';
+import moment from "moment";
 
 /**
  * Given a timestamp, output a formatted date string.
@@ -12,7 +12,9 @@ import moment from 'moment';
  * @returns {string}
  */
 export function formatDate(timestamp, format) {
-  return !!timestamp ? moment(new Date(timestamp)).format(format) : '';
+  return !!timestamp
+    ? moment(new Date(parseInt(timestamp, 10))).format(format)
+    : "";
 }
 
 /**
@@ -24,12 +26,12 @@ export function formatDate(timestamp, format) {
  */
 export function formatCalendar(time) {
   return moment(time).calendar(null, {
-    sameDay: 'h:mm a',
-    nextDay: '[Tomorrow at ] h:mm a',
-    nextWeek: 'dddd h:mm a',
-    lastDay: '[Yesterday]',
-    lastWeek: '[Last] dddd',
-    sameElse: '[-]'
+    sameDay: "h:mm a",
+    nextDay: "[Tomorrow at ] h:mm a",
+    nextWeek: "dddd h:mm a",
+    lastDay: "[Yesterday]",
+    lastWeek: "[Last] dddd",
+    sameElse: "[-]"
   });
 }
 
@@ -42,16 +44,16 @@ export function formatCalendar(time) {
  */
 export function fromNow(time) {
   if (!time) {
-    return '-';
+    return "-";
   }
 
   const now = new Date().getTime();
   const seconds = (now - time) / 1000;
 
   if (seconds < 60) {
-    return 'Just now';
+    return "Just now";
   } else if (seconds < 120) {
-    return '1 minute ago';
+    return "1 minute ago";
   } else if (seconds < 3600) {
     return `${Math.floor(seconds / 60)} minutes ago`;
   }
@@ -70,7 +72,7 @@ export function to(time, withoutSuffix) {
  * @param key
  * @returns {number}
  */
-export function add(startTime = 0, change = 0, key = 'd') {
+export function add(startTime = 0, change = 0, key = "d") {
   const start = startTime ? moment(startTime) : moment();
 
   return start.add(change, key).valueOf();

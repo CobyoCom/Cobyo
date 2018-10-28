@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createEvent } from "../createEventActions";
-import CreateEventPage from "./CreateEventPage";
 import { selectCreateEventForm } from "../createEventFormSelectors";
+import CreateEventPage from "./CreateEventPage";
 
 class CreateEventPageContainer extends Component {
   state = {
@@ -42,18 +42,22 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const { createEventForm } = stateProps;
-  const { dispatch, createEvent } = dispatchProps;
-  const { placeId, ...event } = createEventForm;
+  const {
+    createEventForm: { placeId, ...event },
+    ...restStateProps
+  } = stateProps;
+  const { dispatch, createEvent, ...restDispatchProps } = dispatchProps;
   return {
     ...ownProps,
+    ...restStateProps,
+    ...restDispatchProps,
     createEvent: () =>
       dispatch(
         createEvent({
-          ...event,
           place: {
             googlePlaceId: placeId
-          }
+          },
+          ...event
         })
       )
   };

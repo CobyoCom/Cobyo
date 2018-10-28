@@ -9,14 +9,25 @@ const EventDetails = props => {
       <div className="EventDetails-title">
         {props.name && props.name.split(",")[0]}
       </div>
-      {!!props.numAttendees && (
-        <div className="EventDetails-subtitle">
-          <a className="EventDetails-scheduledTime" onClick={props.onTimeClick}>
-            {props.scheduledTimeString}
-          </a>
+      <div className="EventDetails-subtitle">
+        {(() => {
+          if (!!props.endedTimeString) {
+            return <h2>{`Event ended at ${props.endedTimeString}`}</h2>;
+          } else if (!!props.scheduledTimeString) {
+            return (
+              <a
+                className="EventDetails-scheduledTime"
+                onClick={props.onTimeClick}
+              >
+                {props.scheduledTimeString}
+              </a>
+            );
+          }
+        })()}
+        {props.numAttendees !== null && (
           <span>{`${props.numAttendees} going`}</span>
-        </div>
-      )}
+        )}
+      </div>
       <TimeSelectModal
         isModalOpen={props.isTimeModalOpen}
         onClose={props.onTimeModalClose}
@@ -28,6 +39,7 @@ const EventDetails = props => {
 EventDetails.propTypes = {
   name: PropTypes.string,
   numAttendees: PropTypes.number,
+  endedTimeString: PropTypes.string,
   scheduledTimeString: PropTypes.string,
   showCopyClipboard: PropTypes.bool.isRequired,
   showCopyCheck: PropTypes.bool.isRequired,
@@ -38,7 +50,10 @@ EventDetails.propTypes = {
 };
 
 EventDetails.defaultProps = {
-  numAttendees: null
+  name: null,
+  numAttendees: null,
+  endedTimeString: null,
+  scheduledTimeString: null
 };
 
 export default EventDetails;

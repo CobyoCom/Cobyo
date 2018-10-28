@@ -1,6 +1,6 @@
 import fetchGraphQL from "../helpers/fetchGraphQL";
 import { baseEventQuery, eventUsersQuery } from "../graphqlQueries";
-import { joinEventMutation } from "../graphqlMutations";
+import { joinEventMutation, endEventMutation } from "../graphqlMutations";
 import logger from "../helpers/logger";
 
 export async function fetchEventApi(code) {
@@ -38,6 +38,19 @@ export async function fetchEventUsersApi(code) {
     return data;
   } catch (error) {
     logger(`fetchEventUsersApi ${error.response.status}: ${error.message}`);
+    throw new Error();
+  }
+}
+
+export async function endEventApi(code) {
+  try {
+    const { data } = await fetchGraphQL({
+      query: endEventMutation,
+      variables: { code }
+    });
+    return data;
+  } catch (error) {
+    logger(`endEventApi ${error.response.status}: ${error.message}`);
     throw new Error();
   }
 }

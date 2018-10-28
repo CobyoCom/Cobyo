@@ -1,7 +1,6 @@
 import { types as eventActionTypes } from '../../event/eventUserActions_old';
 import { types as notificationActionTypes } from '../../event/notifications/notificationsActions';
 import { types as errorBannerActionTypes } from '../../error/errorBannerActions';
-import { types as createActionTypes } from '../../create/createActions_old';
 import { types as googleMapsActionTypes } from '../../actions/googleMapsActions';
 
 export default function error(state = null, { type }) {
@@ -26,9 +25,6 @@ export default function error(state = null, { type }) {
     }
     case notificationActionTypes.reactToNotificationFailure: {
       return 'Unable to react to notification. Please try again.';
-    }
-    case createActionTypes.createEventFailure: {
-      return 'Unable to create event. Please try again.';
     }
     case googleMapsActionTypes.initGoogleMapsAPIFailure: {
       return 'Unable to load Google Maps API. Please try again.';

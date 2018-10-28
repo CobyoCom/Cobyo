@@ -1,8 +1,4 @@
 import { createSelector } from 'reselect';
-import {
-  moduleName as eventsModuleName,
-  eventInitialState
-} from '../reducers/entities/eventsReducer_old';
 import { moduleName as attendeesModuleName } from './attendees/attendeesReducer';
 import { moduleName as uiEventModuleName } from '../reducers/ui/uiEventReducer';
 import { moduleName as activeEventModuleName } from './activeEventReducer';
@@ -12,12 +8,12 @@ import { selectNotificationsById } from './notifications/notificationsSelectors'
 
 export const selectActiveEventId = state => state[activeEventModuleName].eventId;
 const selectSelectedAttendeeUserName = state => state[activeEventModuleName].selectedAttendee;
-const selectEventsById = state => state.entities[eventsModuleName];
+const selectEventsById = state => state.entities.events;
 const selectEventAttendeesById = state => state.entities[attendeesModuleName];
 const selectActiveEvent = createSelector(
   selectActiveEventId,
   selectEventsById,
-  (eventId, eventsById) => eventsById[eventId] || eventInitialState
+  (eventId, eventsById) => eventsById[eventId] || {}
 );
 export const selectEventId = state => selectActiveEvent(state).eventId;
 export const selectPlaceId = state => selectActiveEvent(state).placeId;

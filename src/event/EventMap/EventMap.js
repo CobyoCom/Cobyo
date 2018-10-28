@@ -43,7 +43,6 @@ class EventMap extends Component {
       this.props.userCoordinates.timestamp !==
       nextProps.userCoordinates.timestamp
     ) {
-      console.log('hifeaijfewfjieawopfj');
       this.setState({ isMapBounded: false });
     }
   }

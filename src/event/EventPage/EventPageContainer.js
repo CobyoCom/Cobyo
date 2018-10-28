@@ -7,7 +7,8 @@ import { fetchMe } from "../../me/meActions";
 import {
   selectActiveEventHasLoaded,
   selectActiveEventHasJoined,
-  selectActiveEventMyTravelMode
+  selectActiveEventMyTravelMode,
+  selectActiveEventCode
 } from "../activeEventSelectors";
 import { selectShouldShowTravelModeSelect } from "../../reducers/ui/uiEventSelectors";
 import { selectHasLoggedIn, selectMeLoaded } from "../../me/meSelectors";
@@ -16,6 +17,7 @@ import EventPage from "./EventPage";
 
 class EventPageContainer extends Component {
   static propTypes = {
+    activeCode: PropTypes.string,
     code: PropTypes.string.isRequired,
     hasLoggedIn: PropTypes.bool.isRequired,
     hasMeLoaded: PropTypes.bool.isRequired,
@@ -28,11 +30,24 @@ class EventPageContainer extends Component {
   };
 
   async componentDidMount() {
-    if (!this.props.hasEventLoaded) {
-      await this.props.fetchEvent(this.props.code);
+    const promises = [];
+    // When we push a new Event page on the React Router history, we will have a mismatch
+    // between the active event code in Redux versus the code from the route. We check the
+    // mismatch here as opposed to updating the Redux active code on every router push.
+    const hasEventChanged = this.props.activeCode !== this.props.code;
+    if (!this.props.hasEventLoaded || hasEventChanged) {
+      promises.push(this.props.fetchEvent(this.props.code));
     }
     if (!this.props.hasMeLoaded) {
-      await this.props.fetchMe();
+      promises.push(this.props.fetchMe());
+    }
+    await Promise.all(promises);
+
+    if (this.props.hasJoined && this.props.hasLoggedIn) {
+      await this.props.refreshMe({
+        code: this.props.code,
+        travelMode: this.props.travelMode
+      });
     }
   }
 
@@ -75,6 +90,7 @@ class EventPageContainer extends Component {
 }
 
 const mapStateToProps = state => ({
+  activeCode: selectActiveEventCode(state),
   hasLoggedIn: selectHasLoggedIn(state),
   hasEventLoaded: selectActiveEventHasLoaded(state),
   hasMeLoaded: selectMeLoaded(state),

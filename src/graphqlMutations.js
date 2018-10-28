@@ -49,3 +49,12 @@ export const editEventMutation = gql`
     }
   }
 `;
+
+export const endEventMutation = gql`
+  mutation endEventMutation($code: String!) {
+    endEvent(code: $code) {
+      code
+      endedTime
+    }
+  }
+`;

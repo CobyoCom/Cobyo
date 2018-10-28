@@ -5,10 +5,13 @@ import { connect } from "react-redux";
 import {
   selectActiveEventCode,
   selectActiveEventName,
+  selectActiveEventEndedTime,
   selectActiveEventScheduledTime,
   selectActiveEventNumAttendees
 } from "../activeEventSelectors";
 import { formatDate } from "../../helpers/moment";
+
+const TIME_FORMAT = "hh:mm A";
 
 class EventDetailsContainer extends Component {
   static propTypes = {
@@ -32,8 +35,11 @@ class EventDetailsContainer extends Component {
       return "Unscheduled";
     }
 
-    return formatDate(this.props.scheduledTime, "hh:mm A");
+    return formatDate(this.props.scheduledTime, TIME_FORMAT);
   };
+
+  getEndedTimeString = () =>
+    this.props.endedTime ? formatDate(this.props.endedTime, TIME_FORMAT) : null;
 
   handleCopy = () => {
     this.setState({ hasCopied: true }, () => {
@@ -52,6 +58,7 @@ class EventDetailsContainer extends Component {
       <EventDetails
         name={this.props.name}
         numAttendees={this.props.numAttendees}
+        endedTimeString={this.getEndedTimeString()}
         scheduledTimeString={this.getScheduledTimeString()}
         showCopyClipboard={!!this.props.code && !this.state.hasCopied}
         showCopyCheck={!!this.props.code && this.state.hasCopied}
@@ -68,6 +75,7 @@ const mapStateToProps = state => ({
   code: selectActiveEventCode(state),
   name: selectActiveEventName(state),
   numAttendees: selectActiveEventNumAttendees(state),
+  endedTime: selectActiveEventEndedTime(state),
   scheduledTime: selectActiveEventScheduledTime(state)
 });
 

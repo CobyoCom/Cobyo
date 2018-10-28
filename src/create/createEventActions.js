@@ -15,26 +15,25 @@ export function selectPlace(name, placeId) {
   };
 }
 
-function createEventSuccess() {
-  return { type: types.createEventSuccess };
+function createEventSuccess(code) {
+  return {
+    type: types.createEventSuccess,
+    payload: { code }
+  };
 }
 
 function createEventFailure() {
   return { type: types.createEventFailure };
 }
 
-export function createEvent({ place, name, scheduledTime }) {
+export function createEvent(event) {
   return async dispatch => {
     try {
-      const response = await createEventApi({
-        place,
-        name,
-        scheduledTime
-      });
-      const event = response.data.createEvent;
-      if (event && event.code) {
-        dispatch(createEventSuccess());
-        return Promise.resolve(event.code);
+      const response = await createEventApi(event);
+      if (response.data.createEvent) {
+        const code = response.data.createEvent.code;
+        dispatch(createEventSuccess(code));
+        return Promise.resolve(code);
       }
 
       dispatch(createEventFailure());

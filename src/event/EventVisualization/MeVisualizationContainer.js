@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { AttendeePropTypes } from "../attendees/AttendeesListItem/AttendeesListItem";
-import { refreshEvent } from "../eventUserActions_old";
+import { refreshMe } from "../eventUserActions";
 import { selectAttendee } from "./visualizationActions";
 import { selectIsCalculatingDuration } from "../../reducers/ui/uiEventSelectors";
 import { getDistance } from "./VisualizationHelpers";
 import BaseNode from "./BaseNode/BaseNode";
+import { selectActiveEventCode } from "../activeEventSelectors";
 
 class MeVisualizationContainer extends Component {
   static propTypes = {
@@ -14,9 +15,8 @@ class MeVisualizationContainer extends Component {
     boundingWidth: PropTypes.number.isRequired,
     boundingHeight: PropTypes.number.isRequired,
     isRefreshing: PropTypes.bool.isRequired,
-    refreshEvent: PropTypes.func.isRequired,
-    selectAttendee: PropTypes.func.isRequired,
-    zoomLevel: PropTypes.number.isRequired
+    zoomLevel: PropTypes.number.isRequired,
+    onClick: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -49,11 +49,6 @@ class MeVisualizationContainer extends Component {
 
   getR = () => 15;
 
-  handleClick = () => {
-    this.props.selectAttendee(this.props.user.name);
-    this.props.refreshEvent();
-  };
-
   render() {
     return (
       <BaseNode
@@ -63,7 +58,7 @@ class MeVisualizationContainer extends Component {
         fill="rgb(67,111,189)"
         text={this.props.user.name.substring(0, 1)}
         textStroke="white"
-        onClick={this.handleClick}
+        onClick={this.props.onClick}
         ring={{
           r: this.getR() + 5,
           cx: this.getCx(),
@@ -83,14 +78,31 @@ class MeVisualizationContainer extends Component {
 }
 
 const mapStateToProps = state => ({
+  code: selectActiveEventCode(state),
   isRefreshing: selectIsCalculatingDuration(state)
 });
 
-const mapDispatchToProps = {
-  refreshEvent,
+const mapDispatchToProps = dispatch => ({
+  dispatch,
+  refreshMe,
   selectAttendee
+});
+
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { code, ...restStateProps } = stateProps;
+  const { dispatch, refreshMe, ...restDispatchProps } = dispatchProps;
+  const { travelMode, user: { name } } = ownProps;
+  return {
+    ...ownProps,
+    ...restStateProps,
+    ...restDispatchProps,
+    onClick: () => {
+      dispatch(selectAttendee(name));
+      dispatch(refreshMe({ code, travelMode }));
+    }
+  };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(
   MeVisualizationContainer
 );

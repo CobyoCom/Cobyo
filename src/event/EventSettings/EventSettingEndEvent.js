@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { endEventApi } from "../eventApi_old";
+import { selectActiveEventCode } from "../activeEventSelectors";
+import { endEventApi } from "../eventApi";
 import { FaSignOut } from "react-icons/lib/fa";
 import Modal from "react-responsive-modal";
 import Button from "../../components/Button/Button";
 import "./EventSettingEndEvent.css";
-import { selectActiveEventCode } from "../activeEventSelectors";
 
 class EventSettingEndEvent extends Component {
   static propTypes = {

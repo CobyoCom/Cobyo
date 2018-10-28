@@ -55,7 +55,18 @@ const BaseNode = ({
   orbitalRing
 }) => (
   <Fragment>
+    {!!orbitalRing && (
+      <circle
+        cx={orbitalRing.cx || "50%"}
+        cy={orbitalRing.cy || "50%"}
+        r={orbitalRing.r || 0}
+        fill="none"
+        strokeWidth={0.5}
+        stroke={orbitalRing.fill || fill}
+      />
+    )}
     <circle cx={cx} cy={cy} r={r} fill={fill} onClick={onClick} />
+    {!!ring && (ring.hasMask ? <MaskedRing {...ring} /> : <Ring {...ring} />)}
     {text && (
       <text
         x={cx}
@@ -68,17 +79,6 @@ const BaseNode = ({
       >
         {text}
       </text>
-    )}
-    {!!ring && (ring.hasMask ? <MaskedRing {...ring} /> : <Ring {...ring} />)}
-    {!!orbitalRing && (
-      <circle
-        cx={orbitalRing.cx || "50%"}
-        cy={orbitalRing.cy || "50%"}
-        r={orbitalRing.r || 0}
-        fill="none"
-        strokeWidth={0.5}
-        stroke={orbitalRing.fill || fill}
-      />
     )}
   </Fragment>
 );

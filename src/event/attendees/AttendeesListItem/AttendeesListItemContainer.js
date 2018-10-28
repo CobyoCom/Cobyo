@@ -52,7 +52,7 @@ class AttendeesListItemContainer extends Component {
     return fromNow(this.props.updatedTime);
   };
 
-  handleClick = () => console.log("refresh") || this.props.refreshMe();
+  handleClick = this.props.refreshMe;
 
   handleIconClick = e => {
     e.stopPropagation();

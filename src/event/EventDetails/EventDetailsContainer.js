@@ -18,7 +18,7 @@ class EventDetailsContainer extends Component {
     code: PropTypes.string,
     name: PropTypes.string,
     numAttendees: PropTypes.number,
-    scheduledTime: PropTypes.string
+    scheduledTime: PropTypes.number
   };
 
   componentWillUnmount() {

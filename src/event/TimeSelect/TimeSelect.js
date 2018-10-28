@@ -1,16 +1,21 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import {
+  selectActiveEventCode,
+  selectActiveEventScheduledTime
+} from "../activeEventSelectors";
+import { editEvent } from "../../create/createEventActions";
 import Button from "../../components/Button/Button";
 import "./TimeSelect.css";
 import "../../components/Input/Input.css";
 import { to } from "../../helpers/moment";
-import { selectActiveEventScheduledTime } from "../activeEventSelectors";
 
 class TimeSelect extends Component {
   static propTypes = {
+    code: PropTypes.string.isRequired,
     scheduledTime: PropTypes.number,
-    editEventScheduledTime: PropTypes.func.isRequired,
+    editEvent: PropTypes.func.isRequired,
     onConfirmTime: PropTypes.func.isRequired
   };
 
@@ -116,7 +121,10 @@ class TimeSelect extends Component {
 
   handleConfirmTime = async () => {
     try {
-      await this.props.editEventScheduledTime(this.getDate().getTime());
+      await this.props.editEvent({
+        code: this.props.code,
+        scheduledTime: this.getDate().getTime().toString()
+      });
       this.props.onConfirmTime();
     } catch (error) {}
   };
@@ -157,11 +165,12 @@ class TimeSelect extends Component {
 }
 
 const mapStateToProps = state => ({
+  code: selectActiveEventCode(state),
   scheduledTime: selectActiveEventScheduledTime(state)
 });
 
 const mapDispatchToProps = {
-  editEventScheduledTime: () => {}
+  editEvent
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimeSelect);

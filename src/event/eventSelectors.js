@@ -27,7 +27,7 @@ export function makeSelectEventEndedTime(state) {
 export function makeSelectEventScheduledTime(state) {
   return code => {
     const event = makeSelectEvent(state)(code);
-    return event ? event.scheduledTime : null;
+    return event ? parseInt(event.scheduledTime, 10) : null;
   };
 }
 

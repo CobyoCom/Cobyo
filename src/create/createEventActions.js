@@ -15,42 +15,26 @@ export function selectPlace(name, placeId) {
   };
 }
 
-function createEventSuccess(code) {
-  return {
-    type: types.createEventSuccess,
-    payload: { code }
-  };
-}
-
-function createEventFailure() {
-  return { type: types.createEventFailure };
-}
-
 export function createEvent(event) {
   return async dispatch => {
     try {
       const response = await createEventApi(event);
       if (response.data.createEvent) {
         const code = response.data.createEvent.code;
-        dispatch(createEventSuccess(code));
+        dispatch({
+          type: types.createEventSuccess,
+          payload: { code }
+        });
         return Promise.resolve(code);
       }
 
-      dispatch(createEventFailure());
+      dispatch({ type: types.createEventFailure });
       return Promise.reject();
     } catch (error) {
-      dispatch(createEventFailure());
+      dispatch({ type: types.createEventFailure });
       return Promise.reject();
     }
   };
-}
-
-function editEventSuccess() {
-  return { type: types.editEventSuccess };
-}
-
-function editEventFailure() {
-  return { type: types.editEventFailure };
 }
 
 export function editEvent({ code, place, name, scheduledTime }) {
@@ -62,11 +46,14 @@ export function editEvent({ code, place, name, scheduledTime }) {
       });
       const event = response.data.editEvent;
       if (event && event.code) {
-        dispatch(editEventSuccess());
+        dispatch({
+          type: types.editEventSuccess,
+          payload: event
+        });
         return Promise.resolve(event.code);
       }
 
-      dispatch(editEventFailure());
+      dispatch({ type: types.editEventFailure });
       return Promise.reject();
     } catch (error) {
       return Promise.reject();

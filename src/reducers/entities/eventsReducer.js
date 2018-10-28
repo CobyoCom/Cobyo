@@ -1,5 +1,6 @@
 import { types as eventTypes } from "../../event/eventActions";
 import { types as eventUserTypes } from "../../event/eventUserActions";
+import { types as createEventTypes} from "../../create/createEventActions";
 import { concatUnique } from "../helpers";
 
 export const moduleName = "events";
@@ -18,7 +19,8 @@ export const eventInitialState = {
 export default function events(state = {}, { type, payload }) {
   switch (type) {
     case eventTypes.fetchEventSuccess:
-    case eventTypes.fetchEventUsersSuccess: {
+    case eventTypes.fetchEventUsersSuccess:
+    case createEventTypes.editEventSuccess: {
       const { code } = payload;
       return {
         ...state,

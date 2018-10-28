@@ -22,8 +22,23 @@ class AttendeesListContainer extends Component {
     deselectAttendee() {}
   };
 
+  state = {
+    seconds: 0
+  };
+
   componentDidMount() {
     this.props.fetchEventUsers();
+
+    const seconds = 10;
+    this.timer = setInterval(() => {
+      this.setState(prevState => ({
+        seconds: prevState.seconds + seconds
+      }));
+    }, seconds * 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
   }
 
   handleModalClose = () => this.props.deselectAttendee();
@@ -34,6 +49,7 @@ class AttendeesListContainer extends Component {
         attendees={this.props.attendees}
         selectedAttendee={this.props.selectedAttendee}
         onModalClose={this.handleModalClose}
+        seconds={this.state.seconds}
       />
     );
   }

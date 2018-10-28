@@ -6,6 +6,7 @@ import "./AttendeesList.css";
 
 const AttendeesList = props => (
   <div className="AttendeesList">
+    <span>TIMER: {props.seconds} seconds</span>
     {props.selectedAttendee ? (
       <Modal
         classNames={{
@@ -32,6 +33,7 @@ const AttendeesList = props => (
 );
 
 AttendeesList.propTypes = {
+  seconds: PropTypes.number.isRequired,
   attendees: PropTypes.array,
   selectedAttendee: PropTypes.object,
   onModalClose: PropTypes.func.isRequired

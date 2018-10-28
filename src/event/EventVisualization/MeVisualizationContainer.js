@@ -7,7 +7,6 @@ import { selectAttendee } from "./visualizationActions";
 import { selectIsCalculatingDuration } from "../../reducers/ui/uiEventSelectors";
 import { getDistance } from "./VisualizationHelpers";
 import BaseNode from "./BaseNode/BaseNode";
-import { selectActiveEventCode } from "../activeEventSelectors";
 
 class MeVisualizationContainer extends Component {
   static propTypes = {
@@ -78,7 +77,6 @@ class MeVisualizationContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  code: selectActiveEventCode(state),
   isRefreshing: selectIsCalculatingDuration(state)
 });
 
@@ -89,16 +87,15 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const { code, ...restStateProps } = stateProps;
   const { dispatch, refreshMe, ...restDispatchProps } = dispatchProps;
-  const { travelMode, user: { name } } = ownProps;
+  const { user: { name } } = ownProps;
   return {
     ...ownProps,
-    ...restStateProps,
+    ...stateProps,
     ...restDispatchProps,
     onClick: () => {
       dispatch(selectAttendee(name));
-      dispatch(refreshMe({ code, travelMode }));
+      dispatch(refreshMe());
     }
   };
 };

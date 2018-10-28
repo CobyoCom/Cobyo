@@ -9,6 +9,7 @@ import {
   makeSelectEventGooglePlaceId,
   makeSelectEventMe,
   makeSelectEventMyTravelMode,
+  makeSelectEventMyUpdatedTime,
   makeSelectEventUsers
 } from "./eventSelectors";
 
@@ -78,4 +79,8 @@ export function selectActiveEventHasJoined(state) {
 
 export function selectActiveEventMyTravelMode(state) {
   return makeSelectEventMyTravelMode(state)(selectActiveEventCode(state));
+}
+
+export function selectActiveEventMyUpdatedTime(state) {
+  return makeSelectEventMyUpdatedTime(state)(selectActiveEventCode(state));
 }

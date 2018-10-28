@@ -6,6 +6,10 @@ import {
 } from "./eventSelectors";
 import { initGoogleMapsAPI } from "../actions/googleMapsActions";
 import { updateEventUserApi } from "./eventUserApi";
+import {
+  selectActiveEventCode,
+  selectActiveEventMyTravelMode
+} from "./activeEventSelectors";
 
 export const types = {
   toggleShowTravelModeSelect: "TOGGLE_SHOW_TRAVEL_MODE_SELECT",
@@ -89,8 +93,13 @@ function updateEventUser(code) {
   };
 }
 
-export function refreshMe({ code, travelMode }) {
-  return async dispatch => {
+export function refreshMe(initialCode = null, initialTravelMode = null) {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const code = initialCode || selectActiveEventCode(state);
+    const travelMode =
+      initialTravelMode || selectActiveEventMyTravelMode(state);
+
     dispatch({ type: types.refreshMeRequest });
     let latitude, longitude, timestamp;
 

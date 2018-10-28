@@ -61,7 +61,7 @@ const mergeProps = (stateProps, dispatchProps) => {
     toggleShowTravelModeSelect: payload =>
       dispatch(toggleShowTravelModeSelect(payload)),
     changeTravelMode: travelMode =>
-      dispatch(refreshMe({ code, travelMode }))
+      dispatch(refreshMe(code, travelMode))
   };
 };
 

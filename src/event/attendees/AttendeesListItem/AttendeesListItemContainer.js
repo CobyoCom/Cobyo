@@ -6,17 +6,13 @@ import AttendeesListItem, { AttendeePropTypes } from "./AttendeesListItem";
 import { makeSelectIsMe } from "../../../me/meSelectors";
 import { selectIsCalculatingDuration } from "../../../reducers/ui/uiEventSelectors";
 import { toggleShowTravelModeSelect, refreshMe } from "../../eventUserActions";
-import {
-  selectActiveEventCode,
-  selectActiveEventMyTravelMode
-} from "../../activeEventSelectors";
 
 class AttendeesListItemContainer extends Component {
   static propTypes = {
     ...AttendeePropTypes,
     isMe: PropTypes.bool.isRequired,
     isRefreshing: PropTypes.bool.isRequired,
-    showTravelModeSelect: PropTypes.func.isRequired
+    toggleShowTravelModeSelect: PropTypes.func.isRequired
   };
 
   getHasProbablyArrived = () => this.props.duration < 60;
@@ -52,11 +48,11 @@ class AttendeesListItemContainer extends Component {
     return fromNow(this.props.updatedTime);
   };
 
-  handleClick = this.props.refreshMe;
+  handleClick = () => this.props.refreshMe();
 
   handleIconClick = e => {
     e.stopPropagation();
-    this.props.showTravelModeSelect();
+    this.props.toggleShowTravelModeSelect(true);
   };
 
   render() {
@@ -75,35 +71,15 @@ class AttendeesListItemContainer extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  code: selectActiveEventCode(state),
-  travelMode: selectActiveEventMyTravelMode(state),
   isMe: makeSelectIsMe(state)(ownProps.user.name),
   isRefreshing: selectIsCalculatingDuration(state)
 });
 
-const mapDispatchToProps = dispatch => ({
-  dispatch,
+const mapDispatchToProps = {
   toggleShowTravelModeSelect,
   refreshMe
-});
-
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const { code, travelMode, ...restState } = stateProps;
-  const {
-    dispatch,
-    toggleShowTravelModeSelect,
-    refreshMe,
-    ...restDispatch
-  } = dispatchProps;
-  return {
-    ...ownProps,
-    ...restState,
-    ...restDispatch,
-    showTravelModeSelect: () => dispatch(toggleShowTravelModeSelect(true)),
-    refreshMe: () => dispatch(refreshMe({ code, travelMode }))
-  };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(
+export default connect(mapStateToProps, mapDispatchToProps)(
   AttendeesListItemContainer
 );

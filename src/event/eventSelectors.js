@@ -72,3 +72,10 @@ export function makeSelectEventMyTravelMode(state) {
     return me ? me.travelMode : null;
   };
 }
+
+export function makeSelectEventMyUpdatedTime(state) {
+  return code => {
+    const me = makeSelectEventMe(state)(code);
+    return me ? parseInt(me.updatedTime, 10) : null
+  }
+}

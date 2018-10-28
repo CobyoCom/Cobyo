@@ -44,10 +44,7 @@ class EventPageContainer extends Component {
     await Promise.all(promises);
 
     if (this.props.hasJoined && this.props.hasLoggedIn) {
-      await this.props.refreshMe({
-        code: this.props.code,
-        travelMode: this.props.travelMode
-      });
+      await this.props.refreshMe();
     }
   }
 

@@ -50,8 +50,6 @@ export function fromNow(time) {
   const now = new Date().getTime();
   const seconds = (now - time) / 1000;
 
-  return formatDate(time, "hh:mm:ss A");
-
   if (seconds < 60) {
     return "Just now";
   } else if (seconds < 120) {

@@ -1,4 +1,5 @@
 import { fetchEventApi, fetchEventUsersApi, joinEventApi } from "./eventApi";
+import {selectActiveEventCode} from "./activeEventSelectors";
 
 export const types = {
   fetchEventRequest: "FETCH_EVENT_REQUEST",
@@ -67,8 +68,9 @@ const fetchEventUsersSuccess = event => ({
   payload: event
 });
 
-export function fetchEventUsers(code) {
-  return async dispatch => {
+export function fetchEventUsers(initialCode = null) {
+  return async (dispatch, getState) => {
+    const code = initialCode || selectActiveEventCode(getState());
     const response = await fetchEventUsersApi(code);
     const event = response.data.event;
 

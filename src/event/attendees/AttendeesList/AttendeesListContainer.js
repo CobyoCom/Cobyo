@@ -6,7 +6,7 @@ import { selectActiveEventAttendeesList } from "../../activeEventSelectors";
 import { fetchEventUsers } from "../../eventActions";
 import { refreshMe } from "../../eventUserActions";
 
-const REFRESH_THRESHOLD_MS = 30 * 1000;
+const REFRESH_THRESHOLD_MS = 60 * 1000;
 const CHECK_FOR_REFRESH_INTERVAL_MS = 5 * 1000;
 
 class AttendeesListContainer extends Component {

@@ -9,7 +9,7 @@ export default function fetchCurrentCoordinatesApi() {
       const geoOptions = {
         enableHighAccuracy: true,
         timeout: Infinity,
-        maximumAge: 0,
+        maximumAge: 60 * 1000,
       };
       return navigator.geolocation.getCurrentPosition(success, failure, geoOptions);
     } else {

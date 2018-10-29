@@ -6,7 +6,12 @@ export default function fetchCurrentCoordinatesApi() {
     if (navigator.geolocation) {
       const success = (position) => resolve(position);
       const failure = () => reject();
-      navigator.geolocation.getCurrentPosition(success, failure)
+      const geoOptions = {
+        enableHighAccuracy: true,
+        timeout: Infinity,
+        maximumAge: 0,
+      };
+      return navigator.geolocation.getCurrentPosition(success, failure, geoOptions);
     } else {
       return reject();
     }

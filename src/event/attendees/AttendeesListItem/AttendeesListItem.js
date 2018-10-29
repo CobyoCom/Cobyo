@@ -7,8 +7,8 @@ import {
   DEFAULT_TRAVEL_MODE
 } from "../../../helpers/globalConstants";
 import AttendeesListItemIcon from "./AttendeesListItemIcon";
-import AttendeesListItemLoading from "./AttendeesListItemLoading";
 import "./AttendeesListItem.css";
+import LastUpdatedTime from "./LastUpdatedTime";
 
 const AttendeesListItem = props => (
   <div className="AttendeesListItem" onClick={props.onClick}>
@@ -20,13 +20,7 @@ const AttendeesListItem = props => (
     <div className="AttendeesListItem-content">
       <div className="AttendeesListItem-user">
         <h2 className="AttendeesListItem-name">{props.user.name}</h2>
-        <span className="AttendeesListItem-lut">
-          {props.isRefreshing ? (
-            <AttendeesListItemLoading travelMode={props.travelMode} />
-          ) : (
-            props.updatedTimeStatus
-          )}
-        </span>
+        <LastUpdatedTime updatedTimeStatus={props.updatedTimeStatus} travelMode={props.travelMode} isRefreshing={props.isRefreshing}/>
       </div>
     </div>
     <div className="AttendeesListItem-eta">{props.durationStatus}</div>

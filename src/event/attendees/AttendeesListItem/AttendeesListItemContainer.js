@@ -37,10 +37,6 @@ class AttendeesListItemContainer extends Component {
   };
 
   getUpdatedTimeStatus = () => {
-    if (this.props.isRefreshing && this.props.isMe) {
-      return "calculating...";
-    }
-
     if (!this.props.updatedTime && this.props.isMe) {
       return "invalid";
     }

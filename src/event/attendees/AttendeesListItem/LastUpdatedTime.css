@@ -1,20 +1,32 @@
-.AttendeesListItemLoading > * {
+.LastUpdatedTime {
+  font-size: 9pt;
+  height: 20px;
+  color: #bfbfbf;
+  display: flex;
+}
+
+.LastUpdatedTime-refreshing {
+  flex-grow: 1;
+  padding: 0 10px;
+}
+
+.LastUpdatedTime-refreshing > * {
   position: relative;
   height: 100%;
   display: inline-block;
   word-spacing: -8px;
-  transform: scaleX(-1)
+  transform: scaleX(-1);
 }
 
-.AttendeesListItemLoading--driving {
+.LastUpdatedTime-refreshing--driving {
   animation: travelling 2.2s linear infinite;
 }
 
-.AttendeesListItemLoading--transit {
+.LastUpdatedTime-refreshing--transit {
   animation: travelling-transit 1.6s linear infinite;
 }
 
-.AttendeesListItemLoading--walking {
+.LastUpdatedTime-refreshing--walking {
   animation: travelling 5.5s linear infinite;
 }
 

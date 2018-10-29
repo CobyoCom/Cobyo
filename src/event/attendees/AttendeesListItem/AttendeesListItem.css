@@ -24,17 +24,7 @@
   padding: 2px 0;
 }
 
-.AttendeesListItem-lut {
-  font-size: 10pt;
-  color: #bfbfbf;
-}
-
 .AttendeesListItem-eta {
   align-self: center;
   font-size: 11pt;
-}
-
-.AttendeesListItem-lut,
-.AttendeesListItemLoading {
-  height: 20px;
 }

@@ -12,8 +12,8 @@ import "./LastUpdatedTime.css";
 const LastUpdatedTime = props => (
   <div className="LastUpdatedTime">
     <span>{props.updatedTimeStatus}</span>
-    {(true || props.isRefreshing) && (
-      <div className="LastUpdatedTime-refreshing">
+    {(props.isRefreshing) && (
+      <div className="refreshing">
         <span
           className={cx({
             "LastUpdatedTime-refreshing--walking": props.travelMode === WALKING,

@@ -61,23 +61,23 @@ export function joinEvent(code) {
         })
       );
 
-      const localStorageEvents = JSON.parse(localStorage.getItem("recentEvents")) || {};
-      const byId = localStorageEvents.byId || {};
-      const allIds = localStorageEvents.allIds || [];
+      const localStorageEvents =
+        JSON.parse(localStorage.getItem("recentEvents")) || {};
+      let byId = localStorageEvents.byId || {};
+      let allIds = localStorageEvents.allIds || [];
 
-      localStorage.setItem(
-        "recentEvents",
-        JSON.stringify({
-          byId: {
-            ...byId,
-            [code]: {
-              code,
-              name: makeSelectEventName(getState())(code)
-            }
-          },
-          allIds: [code, ...allIds]
-        })
-      );
+      if (!byId[code]) {
+        allIds = [code, ...allIds];
+      }
+      byId = {
+        ...byId,
+        [code]: {
+          code,
+          name: makeSelectEventName(getState())(code)
+        }
+      };
+
+      localStorage.setItem("recentEvents", JSON.stringify({ byId, allIds }));
     }
   };
 }

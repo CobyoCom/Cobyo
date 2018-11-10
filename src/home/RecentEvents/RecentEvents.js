@@ -8,14 +8,14 @@ const getFormattedLocation = location => location && location.split(',')[0];
 const RecentEvents = props => (
   <div className="RecentEvents">
     {!!props.events.length && <p>Back to</p>}
-    {props.events.map(({ eventId, location }) => (
-      <div key={eventId} className="RecentEvent">
+    {props.events.map(({ code, name }) => (
+      <div key={code} className="RecentEvent">
         <Button
-          onClick={() => props.history.push(`/${eventId}`)}
+          onClick={() => props.history.push(`/${code}`)}
           size="small"
           variation="secondary"
         >
-          {getFormattedLocation(location)}
+          {getFormattedLocation(name)}
         </Button>
       </div>
     ))}
@@ -23,7 +23,10 @@ const RecentEvents = props => (
 );
 
 RecentEvents.propTypes = {
-  events: PropTypes.array,
+  events: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  })),
   history: PropTypes.object.isRequired
 };
 

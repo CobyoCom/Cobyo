@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { getItem } from '../../helpers/localStorage';
-import RecentEvents from './RecentEvents';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { getItem } from "../../helpers/localStorage";
+import RecentEvents from "./RecentEvents";
 
 class RecentEventsContainer extends Component {
   static propTypes = {
@@ -13,11 +13,12 @@ class RecentEventsContainer extends Component {
   };
 
   componentDidMount() {
-    const localStorageEvents = getItem('events', true);
-    const localStorageEventIds = getItem('eventIds', true);
-    if (localStorageEvents && localStorageEventIds) {
+    const localStorageEvents = getItem("recentEvents", true) || {};
+    const { byId, allIds } = localStorageEvents;
+
+    if (byId && allIds) {
       this.setState({
-        events: localStorageEventIds.map(eventId => localStorageEvents[eventId])
+        events: allIds.map(id => byId[id])
       });
     }
   }

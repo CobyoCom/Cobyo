@@ -1,5 +1,6 @@
 import { fetchEventApi, fetchEventUsersApi, joinEventApi } from "./eventApi";
-import {selectActiveEventCode} from "./activeEventSelectors";
+import { selectActiveEventCode } from "./activeEventSelectors";
+import { makeSelectEventName } from "./eventSelectors";
 
 export const types = {
   fetchEventRequest: "FETCH_EVENT_REQUEST",
@@ -48,7 +49,7 @@ const joinEventSuccess = ({ eventUser, code }) => ({
 });
 
 export function joinEvent(code) {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     const response = await joinEventApi(code);
     const eventUser = response.data.joinEvent;
 
@@ -57,6 +58,24 @@ export function joinEvent(code) {
         joinEventSuccess({
           eventUser,
           code
+        })
+      );
+
+      const localStorageEvents = JSON.parse(localStorage.getItem("recentEvents")) || {};
+      const byId = localStorageEvents.byId || {};
+      const allIds = localStorageEvents.allIds || [];
+
+      localStorage.setItem(
+        "recentEvents",
+        JSON.stringify({
+          byId: {
+            ...byId,
+            [code]: {
+              code,
+              name: makeSelectEventName(getState())(code)
+            }
+          },
+          allIds: [code, ...allIds]
         })
       );
     }

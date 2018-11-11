@@ -1,0 +1,9 @@
+{
+  "devToolsPort": 19002,
+  "expoServerPort": 19000,
+  "expoServerNgrokUrl": "https://at-qah.anonymous.frontend.exp.direct",
+  "packagerNgrokUrl": "https://packager.at-qah.anonymous.frontend.exp.direct",
+  "ngrokPid": 96869,
+  "packagerPort": 19001,
+  "packagerPid": 96848
+}

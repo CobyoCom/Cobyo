@@ -24,6 +24,7 @@
     "eslint-plugin-import": "2.8.0",
     "eslint-plugin-jsx-a11y": "5.1.1",
     "eslint-plugin-react": "7.4.0",
+    "expo": "^25.1.2",
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "1.1.5",
     "fs-extra": "3.0.1",
@@ -45,6 +46,9 @@
     "react-dom": "^16.2.0",
     "react-google-login": "^3.2.1",
     "react-icons": "^2.2.7",
+    "react-native": "^0.52.0",
+    "react-native-scripts": "^2.0.1",
+    "react-native-web": "^0.9.6",
     "react-places-autocomplete": "^7.1.2",
     "react-redux": "^5.0.6",
     "react-responsive-modal": "^3.0.0",
@@ -68,8 +72,16 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "serve": "node node_modules/serve/bin/serve.js -p 3000 build",
-    "test": "node scripts/test.js --env=jsdom",
-    "deploy": "aws s3 sync build/ s3://cobyo.frontend --delete"
+    "test-web": "node scripts/test.js --env=jsdom",
+    "deploy": "aws s3 sync build/ s3://cobyo.frontend --delete",
+
+    "start-native": "expo start",
+    "eject-native": "expo eject",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "test-native": "jest",
+
+    "test": "npm run test-web && npm run test-native"
   },
   "jest": {
     "collectCoverageFrom": [

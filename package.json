@@ -44,5 +44,11 @@
     "ios": "expo start --ios",
     "eject-native": "expo eject",
     "test": "npm run test-web && npm run test-native"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

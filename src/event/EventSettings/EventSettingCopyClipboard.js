@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FaClipboard } from 'react-icons/lib/fa';
+import { FaClipboard } from 'react-icons/fa';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import Button from '../../components/Button/Button';
 

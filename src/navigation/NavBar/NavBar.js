@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { selectActiveEventCode } from "../../event/activeEventSelectors";
-import { FaHome, FaCalendarCheckO, FaList } from "react-icons/lib/fa";
+import { FaHome, FaCalendarCheck, FaList } from "react-icons/fa";
 import Tab from "../../components/Tab/Tab";
 import "./NavBar.css";
 
@@ -16,7 +16,7 @@ const NavBar = props => (
     />
     <Tab
       link={props.code ? `/${props.code}` : "/events"}
-      icon={<FaCalendarCheckO color="#808080" size={22} />}
+      icon={<FaCalendarCheck color="#808080" size={22} />}
       text="Events"
       isActive={props.activeTab === "Events"}
     />

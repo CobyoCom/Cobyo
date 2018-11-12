@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { FaEllipsisH } from "react-icons/lib/fa";
+import { FaEllipsisH } from "react-icons/fa";
 import Modal from "react-responsive-modal";
 import "./EventSettings.css";
 

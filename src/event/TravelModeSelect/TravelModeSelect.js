@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import cx from "classnames";
-import { FaMale, FaCab, FaSubway } from "react-icons/lib/fa";
+import { FaMale, FaCar, FaSubway } from "react-icons/fa";
 import {
   WALKING,
   DRIVING,
@@ -32,7 +32,7 @@ const TravelModeSelect = props => (
         autoFocus={props.travelModeValue === DRIVING}
         disabled={props.isLoading}
       >
-        <FaCab size={40} />
+        <FaCar size={40} />
       </button>
       <button
         className={cx("TravelModeSelect-item", {
